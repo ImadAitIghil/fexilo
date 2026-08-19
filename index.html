@@ -4,12 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>HEICX — HEIC to JPG</title>
+<title>HEICX — HEIC to JPG Converter</title>
 
 <meta
   name="description"
-  content="Convert HEIC and HEIF images to high-quality JPG directly in your browser."
+  content="Convert HEIC images to JPG instantly. Private, fast and completely in your browser."
 >
+
+<meta name="theme-color" content="#06070b">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,41 +21,12 @@
   rel="stylesheet"
 >
 
+<!-- HEIC decoder -->
 <script
   src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"
-  defer
 ></script>
 
 <style>
-
-/* =========================================================
-   ZERO-BLUR DESIGN SYSTEM
-========================================================= */
-
-:root {
-  --bg: #05060a;
-  --panel: #0a0c11;
-  --panel-2: #0e1017;
-
-  --white: #ffffff;
-  --text: #e9e7ef;
-
-  --muted: #737682;
-  --muted-2: #4c4f5b;
-
-  --line: #1b1e28;
-  --line-2: #292d3a;
-
-  --purple: #8267ff;
-  --purple-dark: #5943df;
-
-  --cyan: #62e5ff;
-  --green: #39dfa5;
-  --red: #ff5478;
-
-  --radius: 20px;
-}
-
 
 /* =========================================================
    RESET
@@ -64,22 +37,20 @@
 }
 
 html {
-  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  padding: 0;
   min-height: 100vh;
 
-  color: var(--white);
+  background: #06070b;
+  color: #ffffff;
 
-  background:
-    #05060a;
-
-  font-family:
-    Inter,
-    Arial,
-    sans-serif;
+  font-family: "Inter", Arial, sans-serif;
 
   overflow-x: hidden;
 }
@@ -94,150 +65,88 @@ button {
 }
 
 ::selection {
-  background: #765cff;
+  background: #7c5cff;
   color: white;
 }
 
 
 /* =========================================================
-   SHARP BACKGROUND
-   NO FILTER
-   NO BLUR
+   BACKGROUND
 ========================================================= */
 
-.background {
+.page-background {
   position: fixed;
   inset: 0;
   z-index: -10;
-
   pointer-events: none;
-
   overflow: hidden;
 
   background:
-    linear-gradient(
-      180deg,
-      #06070c 0%,
-      #05060a 50%,
-      #06070b 100%
-    );
-}
-
-
-/* Sharp perspective grid */
-
-.grid {
-  position: absolute;
-
-  left: -20%;
-  right: -20%;
-  bottom: -18%;
-
-  height: 55%;
-
-  opacity: 0.18;
-
-  transform:
-    perspective(650px)
-    rotateX(62deg);
-
-  transform-origin:
-    center bottom;
-
-  background-image:
-    linear-gradient(
-      rgba(121, 94, 255, 0.32) 1px,
-      transparent 1px
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(91, 65, 255, 0.14),
+      transparent 28%
     ),
-    linear-gradient(
-      90deg,
-      rgba(121, 94, 255, 0.32) 1px,
-      transparent 1px
-    );
-
-  background-size:
-    70px 70px;
-
-  mask-image:
-    linear-gradient(
-      to top,
-      black,
-      transparent
-    );
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(0, 205, 255, 0.08),
+      transparent 25%
+    ),
+    #06070b;
 }
-
-
-/* Tiny stars */
 
 .stars {
   position: absolute;
   inset: 0;
 
-  opacity: 0.35;
-
   background-image:
     radial-gradient(
-      circle at 10% 20%,
-      #ffffff 1px,
-      transparent 1.5px
-    ),
-    radial-gradient(
-      circle at 30% 65%,
-      #7f72ff 1px,
-      transparent 1.5px
-    ),
-    radial-gradient(
-      circle at 70% 25%,
-      #ffffff 1px,
-      transparent 1.5px
-    ),
-    radial-gradient(
-      circle at 84% 70%,
-      #62e5ff 1px,
-      transparent 1.5px
-    ),
-    radial-gradient(
-      circle at 52% 45%,
-      #ffffff 1px,
-      transparent 1.5px
+      circle,
+      rgba(255,255,255,0.7) 1px,
+      transparent 1px
     );
 
-  background-size:
-    230px 230px,
-    310px 310px,
-    270px 270px,
-    350px 350px,
-    420px 420px;
+  background-size: 90px 90px;
+  opacity: 0.22;
 }
 
-
-/* Sharp decorative corners */
-
-.corner {
+.glow {
   position: absolute;
-
-  width: 240px;
-  height: 240px;
-
-  border: 1px solid
-    rgba(120, 95, 255, 0.10);
-
-  transform: rotate(45deg);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.corner.one {
+.glow-purple {
+  width: 400px;
+  height: 400px;
+
   left: -180px;
-  top: 100px;
+  top: -150px;
+
+  background: rgba(104, 73, 255, 0.13);
+  filter: blur(70px);
 }
 
-.corner.two {
-  right: -180px;
-  top: 330px;
+.glow-blue {
+  width: 350px;
+  height: 350px;
+
+  right: -170px;
+  top: 180px;
+
+  background: rgba(0, 190, 255, 0.09);
+  filter: blur(70px);
 }
 
-.corner.three {
-  left: 45%;
-  bottom: -190px;
+.glow-pink {
+  width: 300px;
+  height: 300px;
+
+  left: 40%;
+  bottom: -220px;
+
+  background: rgba(255, 0, 145, 0.07);
+  filter: blur(70px);
 }
 
 
@@ -246,43 +155,31 @@ button {
 ========================================================= */
 
 .header {
-  width:
-    min(
-      1180px,
-      calc(100% - 40px)
-    );
-
-  height: 82px;
+  width: min(1180px, calc(100% - 40px));
 
   margin: 0 auto;
 
+  height: 80px;
+
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 }
 
-
 .logo {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 
   color: white;
-
   text-decoration: none;
 }
 
-
-.logo-mark {
-  width: 40px;
-  height: 40px;
+.logo-icon {
+  width: 39px;
+  height: 39px;
 
   display: grid;
-
   place-items: center;
 
   border-radius: 12px;
@@ -290,96 +187,68 @@ button {
   background:
     linear-gradient(
       135deg,
-      #8c72ff,
-      #5743e1
+      #8a68ff,
+      #5143df
     );
 
   box-shadow:
-    0 0 30px
-    rgba(108, 82, 255, 0.22);
+    0 0 30px rgba(103, 79, 255, 0.25);
 }
 
-
-.logo-mark::before {
+.logo-icon::before {
   content: "";
 
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
 
-  border:
-    2px solid white;
-
+  border: 2px solid white;
   border-radius: 4px;
 
-  transform:
-    rotate(45deg);
+  transform: rotate(45deg);
 }
 
-
-.logo-name {
+.logo-text {
   font-size: 15px;
+  font-weight: 800;
 
-  font-weight: 900;
-
-  letter-spacing:
-    -0.05em;
+  letter-spacing: -0.03em;
 }
 
-
-.logo-name span {
-  color:
-    var(--purple);
+.logo-text span {
+  color: #8b75ff;
 }
 
-
-.engine {
+.online {
   display: flex;
-
   align-items: center;
-
   gap: 8px;
 
-  padding:
-    8px 12px;
+  padding: 8px 12px;
 
-  border:
-    1px solid var(--line-2);
-
+  border: 1px solid #1d1e27;
   border-radius: 999px;
 
-  background:
-    #080a0f;
+  background: #0b0c11;
 
-  color:
-    #777a86;
+  color: #777987;
 
-  font-family:
-    "DM Mono",
-    monospace;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
 
-  font-size:
-    9px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    .08em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-
-.engine-dot {
+.online-dot {
   width: 7px;
   height: 7px;
 
   border-radius: 50%;
 
-  background:
-    var(--green);
+  background: #32e49d;
 
   box-shadow:
-    0 0 12px
-    rgba(57,223,165,.7);
+    0 0 10px rgba(50,228,157,0.7);
 }
 
 
@@ -388,16 +257,11 @@ button {
 ========================================================= */
 
 .main {
-  width:
-    min(
-      1180px,
-      calc(100% - 40px)
-    );
+  width: min(1180px, calc(100% - 40px));
 
   margin: 0 auto;
 
-  padding-bottom:
-    100px;
+  padding-bottom: 90px;
 }
 
 
@@ -406,239 +270,166 @@ button {
 ========================================================= */
 
 .hero {
-  text-align: center;
+  padding-top: 75px;
+  padding-bottom: 45px;
 
-  padding:
-    75px 0
-    45px;
+  text-align: center;
 }
 
-
-.hero-tag {
+.hero-badge {
   display: inline-flex;
-
   align-items: center;
-
   gap: 8px;
 
-  padding:
-    8px 13px;
+  padding: 8px 13px;
 
-  border:
-    1px solid
-    #292541;
+  border: 1px solid #29243f;
+  border-radius: 999px;
 
-  border-radius:
-    999px;
+  background: #0d0b16;
 
-  background:
-    #0c0a14;
+  color: #a998ff;
 
-  color:
-    #a89bff;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
 
-  font-family:
-    "DM Mono",
-    monospace;
-
-  font-size:
-    9px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    .08em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-
-.hero-tag span {
-  color:
-    var(--cyan);
+.hero-badge strong {
+  color: #54dfff;
 }
-
 
 .hero h1 {
-  max-width:
-    1000px;
+  margin: 25px auto 0;
 
-  margin:
-    25px auto
-    0;
+  max-width: 900px;
 
-  font-size:
-    clamp(
-      52px,
-      8vw,
-      92px
-    );
+  font-size: clamp(48px, 8vw, 88px);
 
-  line-height:
-    .9;
+  line-height: 0.94;
 
-  letter-spacing:
-    -.085em;
+  letter-spacing: -0.075em;
 
-  font-weight:
-    900;
+  font-weight: 900;
 }
 
-
-.hero-title-gradient {
-  color:
-    var(--purple);
-
+.gradient-text {
   background:
     linear-gradient(
       100deg,
-      #927aff,
-      #6b5cff,
-      #67e4ff
+      #ffffff 0%,
+      #a58dff 35%,
+      #6be8ff 65%,
+      #ffffff 100%
     );
 
-  -webkit-background-clip:
-    text;
+  -webkit-background-clip: text;
+  background-clip: text;
 
-  background-clip:
-    text;
-
-  -webkit-text-fill-color:
-    transparent;
+  color: transparent;
 }
 
+.hero-description {
+  max-width: 610px;
 
-.hero p {
-  max-width:
-    630px;
+  margin: 25px auto 0;
 
-  margin:
-    27px auto 0;
+  color: #777986;
 
-  color:
-    var(--muted);
+  font-size: 15px;
 
-  font-size:
-    15px;
-
-  line-height:
-    1.75;
+  line-height: 1.7;
 }
 
-
-.hero p strong {
-  color:
-    #d8d5df;
+.hero-description strong {
+  color: #d4d2dc;
 }
 
 
 /* =========================================================
-   MAIN CONVERTER
+   CONVERTER
 ========================================================= */
 
-.converter-shell {
-  width:
-    min(
-      940px,
-      100%
-    );
+.converter-wrapper {
+  width: min(920px, 100%);
 
-  margin:
-    0 auto;
+  margin: 0 auto;
 
-  padding:
-    1px;
+  padding: 1px;
 
-  border-radius:
-    26px;
+  border-radius: 26px;
 
   background:
     linear-gradient(
       135deg,
-      #3b3062,
-      #171923 40%,
-      #243b45
+      #282039,
+      #15131d 45%,
+      #172632
     );
 
   box-shadow:
-    0 40px 90px
-    rgba(0,0,0,.48);
+    0 35px 100px rgba(0,0,0,0.5);
 }
 
-
 .converter {
-  padding:
-    11px;
+  background: #0b0c11;
 
-  border-radius:
-    25px;
+  border-radius: 25px;
 
-  background:
-    #090b10;
+  padding: 12px;
 }
 
 
 /* =========================================================
-   UPLOAD
+   DROP AREA
 ========================================================= */
 
-.upload {
-  position:
-    relative;
+.drop-zone {
+  min-height: 390px;
 
-  min-height:
-    410px;
+  border: 1px dashed #303044;
 
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  text-align:
-    center;
-
-  padding:
-    25px;
-
-  border:
-    1px dashed
-    #363a4b;
-
-  border-radius:
-    19px;
+  border-radius: 19px;
 
   background:
-    #0e1016;
+    radial-gradient(
+      circle at 50% 40%,
+      rgba(101, 75, 255, 0.10),
+      transparent 48%
+    ),
+    #0e0f15;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
 
   transition:
-    .18s ease;
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
-
-.upload:hover {
-  border-color:
-    #50496f;
+.drop-zone:hover {
+  border-color: #4d4372;
 }
 
-
-.upload.dragging {
-  border-color:
-    var(--purple);
+.drop-zone.dragging {
+  border-color: #8068ff;
 
   background:
-    #11101b;
+    radial-gradient(
+      circle at center,
+      rgba(103, 77, 255, 0.17),
+      #0e0f15 65%
+    );
 
-  box-shadow:
-    inset 0 0 0 1px
-    rgba(130,103,255,.2),
-    0 0 45px
-    rgba(100,75,230,.12);
+  transform: scale(0.995);
 }
 
 
@@ -646,158 +437,80 @@ button {
    UPLOAD ICON
 ========================================================= */
 
-.upload-visual {
-  position:
-    relative;
+.upload-circle {
+  width: 92px;
+  height: 92px;
 
-  width:
-    108px;
+  display: grid;
+  place-items: center;
 
-  height:
-    108px;
+  margin-bottom: 24px;
 
-  margin-bottom:
-    24px;
+  border-radius: 50%;
 
-  display:
-    grid;
+  border: 1px solid #292541;
 
-  place-items:
-    center;
+  background: #11101b;
 }
 
+.upload-square {
+  width: 58px;
+  height: 58px;
 
-.upload-orbit {
-  position:
-    absolute;
+  display: grid;
+  place-items: center;
 
-  inset:
-    0;
-
-  border:
-    1px solid
-    rgba(130,103,255,.35);
-
-  border-radius:
-    50%;
-
-  border-top-color:
-    var(--purple);
-
-  transform:
-    rotate(20deg);
-}
-
-
-.upload-orbit.two {
-  inset:
-    10px;
-
-  border-color:
-    rgba(98,229,255,.25);
-
-  border-right-color:
-    var(--cyan);
-
-  transform:
-    rotate(-35deg);
-}
-
-
-.upload-icon {
-  width:
-    64px;
-
-  height:
-    64px;
-
-  display:
-    grid;
-
-  place-items:
-    center;
-
-  border-radius:
-    18px;
+  border-radius: 17px;
 
   background:
     linear-gradient(
-      135deg,
-      #8971ff,
-      #5743df
+      145deg,
+      #8064ff,
+      #5141d5
     );
 
   box-shadow:
-    0 16px 40px
-    rgba(87,67,223,.35);
+    0 15px 35px rgba(91, 68, 235, 0.3);
 }
 
+.upload-square svg {
+  width: 27px;
+  height: 27px;
 
-.upload-icon svg {
-  width:
-    30px;
+  fill: none;
+  stroke: white;
 
-  height:
-    30px;
+  stroke-width: 1.8;
 
-  fill:
-    none;
-
-  stroke:
-    white;
-
-  stroke-width:
-    1.7;
-
-  stroke-linecap:
-    round;
-
-  stroke-linejoin:
-    round;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 
 /* =========================================================
-   UPLOAD TEXT
+   DROP TEXT
 ========================================================= */
 
-.upload h2 {
-  position:
-    relative;
+.drop-title {
+  margin: 0;
 
-  margin:
-    0;
+  font-size: 22px;
 
-  font-size:
-    23px;
+  letter-spacing: -0.04em;
 
-  letter-spacing:
-    -.045em;
-
-  font-weight:
-    800;
+  font-weight: 800;
 }
 
+.drop-subtitle {
+  margin: 10px 0 23px;
 
-.upload-subtitle {
-  position:
-    relative;
+  color: #656774;
 
-  margin:
-    10px 0
-    23px;
-
-  color:
-    #686b77;
-
-  font-size:
-    12px;
+  font-size: 12px;
 }
 
-
-.upload-subtitle strong {
-  color:
-    #b7b3bf;
+.drop-subtitle strong {
+  color: #aaa7b3;
 }
 
 
@@ -806,120 +519,62 @@ button {
 ========================================================= */
 
 .choose-button {
-  position:
-    relative;
+  height: 48px;
 
-  z-index:
-    10;
+  padding: 0 21px;
 
-  min-width:
-    190px;
+  border: 0;
 
-  height:
-    51px;
-
-  padding:
-    0 22px;
-
-  border:
-    0;
-
-  border-radius:
-    13px;
+  border-radius: 12px;
 
   background:
     linear-gradient(
       135deg,
-      #896fff,
-      #5945e0
+      #8165ff,
+      #5948df
     );
 
-  color:
-    white;
+  color: white;
 
-  font-size:
-    12px;
+  font-size: 12px;
 
-  font-weight:
-    800;
+  font-weight: 700;
 
   box-shadow:
-    0 14px 35px
-    rgba(89,69,224,.32);
+    0 12px 28px rgba(87, 66, 218, 0.28);
 
   transition:
-    transform .15s ease,
-    box-shadow .15s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
-
 
 .choose-button:hover {
-  transform:
-    translateY(-2px);
+  transform: translateY(-2px);
 
   box-shadow:
-    0 20px 45px
-    rgba(89,69,224,.45);
+    0 17px 35px rgba(87, 66, 218, 0.38);
 }
-
 
 .choose-button:active {
-  transform:
-    translateY(0);
+  transform: translateY(0);
 }
 
+.file-note {
+  margin-top: 15px;
 
-.choose-button:focus-visible {
-  outline:
-    3px solid
-    rgba(98,229,255,.45);
+  color: #484956;
 
-  outline-offset:
-    4px;
+  font-family: "DM Mono", monospace;
+
+  font-size: 8px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
 }
-
-
-.upload-note {
-  margin-top:
-    15px;
-
-  color:
-    #454852;
-
-  font-family:
-    "DM Mono",
-    monospace;
-
-  font-size:
-    8px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    .08em;
-}
-
-
-/* =========================================================
-   HIDDEN INPUT
-========================================================= */
 
 #fileInput {
-  position:
-    absolute;
-
-  width:
-    1px;
-
-  height:
-    1px;
-
-  opacity:
-    0;
-
-  pointer-events:
-    none;
+  display: none;
 }
 
 
@@ -928,102 +583,64 @@ button {
 ========================================================= */
 
 .options {
-  min-height:
-    62px;
+  min-height: 58px;
 
-  display:
-    flex;
+  padding: 7px 5px 0;
 
-  align-items:
-    center;
+  display: flex;
 
-  justify-content:
-    space-between;
+  align-items: center;
 
-  gap:
-    20px;
+  justify-content: space-between;
 
-  padding:
-    8px 5px 0;
+  gap: 20px;
 }
 
+.private-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-.private {
-  display:
-    flex;
+  color: #5e606d;
 
-  align-items:
-    center;
-
-  gap:
-    8px;
-
-  color:
-    #626570;
-
-  font-size:
-    10px;
+  font-size: 10px;
 }
 
+.private-note svg {
+  width: 15px;
+  height: 15px;
 
-.private svg {
-  width:
-    15px;
+  fill: none;
 
-  height:
-    15px;
+  stroke: #35dda0;
 
-  fill:
-    none;
-
-  stroke:
-    var(--green);
-
-  stroke-width:
-    1.7;
+  stroke-width: 1.7;
 }
-
 
 .quality {
-  display:
-    flex;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
-  align-items:
-    center;
+  color: #60616d;
 
-  gap:
-    10px;
+  font-family: "DM Mono", monospace;
 
-  color:
-    #696c78;
+  font-size: 9px;
 
-  font-family:
-    "DM Mono",
-    monospace;
-
-  font-size:
-    9px;
-
-  text-transform:
-    uppercase;
+  text-transform: uppercase;
 }
-
 
 .quality input {
-  width:
-    110px;
+  width: 90px;
 
-  accent-color:
-    var(--purple);
+  accent-color: #8065ff;
 }
 
-
 .quality-value {
-  width:
-    40px;
+  width: 30px;
 
-  color:
-    #dedbe4;
+  color: #aaa6b4;
 }
 
 
@@ -1032,115 +649,71 @@ button {
 ========================================================= */
 
 .results {
-  display:
-    none;
+  display: none;
 
-  padding-top:
-    10px;
+  padding-top: 10px;
 }
-
 
 .results.visible {
-  display:
-    block;
+  display: block;
 }
 
+.results-header {
+  min-height: 46px;
 
-.results-head {
-  display:
-    flex;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  min-height:
-    48px;
-
-  padding:
-    0 4px
-    10px;
+  padding: 0 4px 10px;
 }
 
+.results-count {
+  color: #747582;
 
-.count {
-  color:
-    #70737f;
-
-  font-size:
-    11px;
+  font-size: 11px;
 }
 
-
-.count strong {
-  color:
-    white;
+.results-count strong {
+  color: white;
 }
-
 
 .download-all {
-  display:
-    inline-flex;
+  height: 36px;
 
-  align-items:
-    center;
+  padding: 0 13px;
 
-  gap:
-    7px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
 
-  height:
-    37px;
+  border: 1px solid #292a35;
 
-  padding:
-    0 14px;
+  border-radius: 9px;
 
-  border:
-    1px solid
-    #2a2d39;
+  background: #111219;
 
-  border-radius:
-    10px;
+  color: #aaa9b5;
 
-  background:
-    #11131a;
+  font-size: 10px;
 
-  color:
-    #aaa9b4;
-
-  font-size:
-    10px;
-
-  font-weight:
-    700;
+  font-weight: 600;
 }
-
 
 .download-all:hover {
-  color:
-    white;
+  border-color: #4b4271;
 
-  border-color:
-    #584d82;
+  color: white;
 }
 
-
 .download-all svg {
-  width:
-    14px;
+  width: 14px;
+  height: 14px;
 
-  height:
-    14px;
+  fill: none;
+  stroke: currentColor;
 
-  fill:
-    none;
-
-  stroke:
-    currentColor;
-
-  stroke-width:
-    1.8;
+  stroke-width: 1.8;
 }
 
 
@@ -1149,349 +722,184 @@ button {
 ========================================================= */
 
 .file-list {
-  display:
-    grid;
-
-  gap:
-    8px;
+  display: grid;
+  gap: 8px;
 }
-
 
 .file-card {
-  min-height:
-    78px;
+  min-height: 76px;
 
-  display:
-    grid;
+  display: grid;
 
-  grid-template-columns:
-    56px
-    minmax(0,1fr)
-    auto;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
 
-  align-items:
-    center;
+  align-items: center;
 
-  gap:
-    13px;
+  gap: 12px;
 
-  padding:
-    10px;
+  padding: 10px;
 
-  border:
-    1px solid
-    #1d2029;
+  border: 1px solid #1d1e26;
 
-  border-radius:
-    14px;
+  border-radius: 13px;
 
-  background:
-    #101218;
+  background: #101117;
 }
 
+.file-thumb {
+  width: 54px;
+  height: 54px;
 
-.thumbnail {
-  width:
-    56px;
+  overflow: hidden;
 
-  height:
-    56px;
+  display: grid;
+  place-items: center;
 
-  display:
-    grid;
+  border-radius: 9px;
 
-  place-items:
-    center;
+  background: #08090d;
 
-  overflow:
-    hidden;
+  color: #585366;
 
-  border-radius:
-    10px;
+  font-family: "DM Mono", monospace;
 
-  background:
-    #080a0e;
-
-  color:
-    #575b69;
-
-  font-family:
-    "DM Mono",
-    monospace;
-
-  font-size:
-    8px;
+  font-size: 8px;
 }
 
+.file-thumb img {
+  display: block;
 
-.thumbnail img {
-  display:
-    block;
+  width: 100%;
+  height: 100%;
 
-  width:
-    100%;
-
-  height:
-    100%;
-
-  object-fit:
-    cover;
+  object-fit: cover;
 }
-
 
 .file-info {
-  min-width:
-    0;
+  min-width: 0;
 }
-
 
 .file-name {
-  overflow:
-    hidden;
+  overflow: hidden;
 
-  white-space:
-    nowrap;
+  text-overflow: ellipsis;
 
-  text-overflow:
-    ellipsis;
+  white-space: nowrap;
 
-  color:
-    #dfdce5;
+  color: #d9d7df;
 
-  font-size:
-    11px;
+  font-size: 11px;
 
-  font-weight:
-    700;
+  font-weight: 600;
 }
-
 
 .file-meta {
-  display:
-    flex;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 
-  flex-wrap:
-    wrap;
+  margin-top: 6px;
 
-  align-items:
-    center;
+  color: #5d5e69;
 
-  gap:
-    6px;
+  font-family: "DM Mono", monospace;
 
-  margin-top:
-    6px;
-
-  color:
-    #626570;
-
-  font-family:
-    "DM Mono",
-    monospace;
-
-  font-size:
-    8px;
+  font-size: 8px;
 }
-
 
 .file-status {
-  display:
-    flex;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-  align-items:
-    center;
+  color: #777986;
 
-  gap:
-    8px;
-
-  color:
-    #7b7e89;
-
-  font-size:
-    10px;
+  font-size: 10px;
 }
-
 
 .spinner {
-  width:
-    15px;
+  width: 15px;
+  height: 15px;
 
-  height:
-    15px;
+  border: 2px solid #252631;
 
-  border:
-    2px solid
-    #292c37;
+  border-top-color: #8065ff;
 
-  border-top-color:
-    var(--purple);
+  border-radius: 50%;
 
-  border-radius:
-    50%;
-
-  animation:
-    spin .7s linear infinite;
+  animation: spin 0.7s linear infinite;
 }
-
 
 @keyframes spin {
   to {
-    transform:
-      rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
-
 .success {
-  width:
-    21px;
+  width: 21px;
+  height: 21px;
 
-  height:
-    21px;
+  display: grid;
+  place-items: center;
 
-  display:
-    grid;
+  border-radius: 50%;
 
-  place-items:
-    center;
+  background: #32d99a;
 
-  border-radius:
-    50%;
+  color: #07110c;
 
-  background:
-    var(--green);
+  font-size: 11px;
 
-  color:
-    #06120d;
-
-  font-size:
-    11px;
-
-  font-weight:
-    900;
+  font-weight: 900;
 }
-
 
 .error {
-  width:
-    21px;
+  width: 21px;
+  height: 21px;
 
-  height:
-    21px;
+  display: grid;
+  place-items: center;
 
-  display:
-    grid;
+  border-radius: 50%;
 
-  place-items:
-    center;
+  background: #ed5579;
 
-  border-radius:
-    50%;
+  color: white;
 
-  background:
-    var(--red);
-
-  color:
-    white;
-
-  font-size:
-    11px;
+  font-size: 11px;
 }
-
 
 .download-one {
-  width:
-    36px;
+  width: 35px;
+  height: 35px;
 
-  height:
-    36px;
+  display: grid;
+  place-items: center;
 
-  display:
-    grid;
+  border: 1px solid #292a33;
 
-  place-items:
-    center;
+  border-radius: 9px;
 
-  border:
-    1px solid
-    #292c37;
+  background: #12131a;
 
-  border-radius:
-    9px;
-
-  background:
-    #12141b;
-
-  color:
-    #999ba6;
+  color: #8d8d9a;
 }
-
 
 .download-one:hover {
-  color:
-    white;
+  border-color: #514579;
 
-  border-color:
-    #5b4f85;
+  color: white;
 }
-
 
 .download-one svg {
-  width:
-    15px;
+  width: 14px;
+  height: 14px;
 
-  height:
-    15px;
+  fill: none;
+  stroke: currentColor;
 
-  fill:
-    none;
-
-  stroke:
-    currentColor;
-
-  stroke-width:
-    1.8;
-}
-
-
-/* =========================================================
-   ENGINE ERROR
-========================================================= */
-
-.engine-error {
-  display:
-    none;
-
-  margin-top:
-    10px;
-
-  padding:
-    13px;
-
-  border:
-    1px solid
-    rgba(255,84,120,.25);
-
-  border-radius:
-    10px;
-
-  background:
-    #140b10;
-
-  color:
-    #ff8ca4;
-
-  font-size:
-    10px;
-
-  text-align:
-    center;
-}
-
-
-.engine-error.show {
-  display:
-    block;
+  stroke-width: 1.8;
 }
 
 
@@ -1500,203 +908,116 @@ button {
 ========================================================= */
 
 .features {
-  width:
-    min(
-      940px,
-      100%
-    );
+  width: min(920px, 100%);
 
-  margin:
-    60px auto 0;
+  margin: 55px auto 0;
 
-  display:
-    grid;
+  display: grid;
 
-  grid-template-columns:
-    repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
 
-  gap:
-    10px;
+  gap: 10px;
 }
-
 
 .feature {
-  min-height:
-    175px;
+  padding: 22px;
 
-  padding:
-    23px;
+  border: 1px solid #181920;
 
-  border:
-    1px solid
-    #181b23;
+  border-radius: 16px;
 
-  border-radius:
-    17px;
-
-  background:
-    #090b10;
+  background: #0b0c10;
 }
-
-
-.feature:hover {
-  border-color:
-    #292d3a;
-
-  background:
-    #0b0d13;
-}
-
 
 .feature-icon {
-  width:
-    36px;
+  width: 35px;
+  height: 35px;
 
-  height:
-    36px;
+  display: grid;
+  place-items: center;
 
-  display:
-    grid;
+  margin-bottom: 17px;
 
-  place-items:
-    center;
+  border-radius: 9px;
 
-  margin-bottom:
-    17px;
+  background: #12131c;
 
-  border:
-    1px solid
-    #242834;
-
-  border-radius:
-    10px;
-
-  background:
-    #11131a;
-
-  color:
-    var(--purple);
+  color: #8872ff;
 }
-
 
 .feature-icon svg {
-  width:
-    18px;
+  width: 17px;
+  height: 17px;
 
-  height:
-    18px;
+  fill: none;
+  stroke: currentColor;
 
-  fill:
-    none;
+  stroke-width: 1.7;
 
-  stroke:
-    currentColor;
-
-  stroke-width:
-    1.7;
-
-  stroke-linecap:
-    round;
-
-  stroke-linejoin:
-    round;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-
 
 .feature h3 {
-  margin:
-    0 0 7px;
+  margin: 0 0 7px;
 
-  color:
-    #d8d5de;
+  color: #d6d4dc;
 
-  font-size:
-    12px;
+  font-size: 12px;
+
+  letter-spacing: -0.02em;
 }
 
-
 .feature p {
-  margin:
-    0;
+  margin: 0;
 
-  color:
-    #626570;
+  color: #62636d;
 
-  font-size:
-    10px;
+  font-size: 10px;
 
-  line-height:
-    1.7;
+  line-height: 1.7;
 }
 
 
 /* =========================================================
-   FINAL
+   FINAL MESSAGE
 ========================================================= */
 
-.final {
-  padding:
-    90px 20px
-    10px;
+.final-message {
+  padding: 80px 20px 10px;
 
-  text-align:
-    center;
+  text-align: center;
 }
-
 
 .final-line {
-  width:
-    38px;
+  width: 35px;
+  height: 1px;
 
-  height:
-    1px;
+  margin: 0 auto 20px;
 
-  margin:
-    0 auto 22px;
-
-  background:
-    var(--purple);
-
-  box-shadow:
-    0 0 18px
-    rgba(130,103,255,.6);
+  background: #735cff;
 }
 
+.final-message h2 {
+  margin: 0;
 
-.final h2 {
-  margin:
-    0;
+  font-size: clamp(26px, 4vw, 38px);
 
-  font-size:
-    clamp(
-      28px,
-      4vw,
-      40px
-    );
+  line-height: 1.05;
 
-  line-height:
-    1.05;
-
-  letter-spacing:
-    -.06em;
+  letter-spacing: -0.06em;
 }
 
+.final-message p {
+  max-width: 500px;
 
-.final p {
-  max-width:
-    520px;
+  margin: 15px auto 0;
 
-  margin:
-    15px auto 0;
+  color: #60616c;
 
-  color:
-    #60636e;
+  font-size: 11px;
 
-  font-size:
-    11px;
-
-  line-height:
-    1.7;
+  line-height: 1.7;
 }
 
 
@@ -1705,47 +1026,29 @@ button {
 ========================================================= */
 
 .footer {
-  width:
-    min(
-      1180px,
-      calc(100% - 40px)
-    );
+  width: min(1180px, calc(100% - 40px));
 
-  margin:
-    0 auto;
+  margin: 0 auto;
 
-  padding:
-    27px 0
-    35px;
+  padding: 25px 0 35px;
 
-  border-top:
-    1px solid
-    #151820;
+  border-top: 1px solid #15161d;
 
-  display:
-    flex;
+  display: flex;
 
-  justify-content:
-    space-between;
+  justify-content: space-between;
 
-  gap:
-    20px;
+  gap: 20px;
 
-  color:
-    #454852;
+  color: #44454f;
 
-  font-family:
-    "DM Mono",
-    monospace;
+  font-family: "DM Mono", monospace;
 
-  font-size:
-    8px;
+  font-size: 8px;
 
-  text-transform:
-    uppercase;
+  letter-spacing: 0.06em;
 
-  letter-spacing:
-    .06em;
+  text-transform: uppercase;
 }
 
 
@@ -1754,82 +1057,53 @@ button {
 ========================================================= */
 
 .toast {
-  position:
-    fixed;
+  position: fixed;
 
-  z-index:
-    100;
+  z-index: 100;
 
-  left:
-    50%;
+  left: 50%;
+  bottom: 25px;
 
-  bottom:
-    24px;
+  transform: translate(-50%, 100px);
 
-  transform:
-    translate(-50%,80px);
+  opacity: 0;
 
-  opacity:
-    0;
+  padding: 12px 16px;
 
-  padding:
-    12px 16px;
+  border: 1px solid #292a34;
 
-  border:
-    1px solid
-    #292d39;
+  border-radius: 10px;
 
-  border-radius:
-    11px;
+  background: #101117;
 
-  background:
-    #101219;
+  color: #d7d5dd;
 
-  color:
-    #d8d6de;
-
-  font-size:
-    10px;
+  font-size: 10px;
 
   transition:
-    .22s ease;
+    transform 0.25s ease,
+    opacity 0.25s ease;
 
-  pointer-events:
-    none;
+  pointer-events: none;
 }
 
+.toast.show {
+  transform: translate(-50%, 0);
 
-.toast.visible {
-  transform:
-    translate(-50%,0);
-
-  opacity:
-    1;
+  opacity: 1;
 }
-
 
 .toast-dot {
-  display:
-    inline-block;
+  display: inline-block;
 
-  width:
-    7px;
+  width: 6px;
+  height: 6px;
 
-  height:
-    7px;
+  margin-right: 8px;
 
-  margin-right:
-    8px;
+  border-radius: 50%;
 
-  border-radius:
-    50%;
-
-  background:
-    var(--green);
-
-  box-shadow:
-    0 0 10px
-    rgba(57,223,165,.7);
+  background: #35dca0;
 }
 
 
@@ -1842,76 +1116,291 @@ button {
   .header,
   .main,
   .footer {
-    width:
-      calc(100% - 24px);
+    width: calc(100% - 24px);
   }
 
-  .engine {
-    display:
-      none;
+  .header {
+    height: 68px;
+  }
+
+  .online {
+    display: none;
   }
 
   .hero {
-    padding:
-      55px 0
-      38px;
+    padding-top: 55px;
   }
 
   .hero h1 {
-    font-size:
-      clamp(
-        47px,
-        14vw,
-        70px
-      );
+    font-size: clamp(45px, 14vw, 68px);
   }
 
-  .hero p {
-    font-size:
-      13px;
+  .hero-description {
+    font-size: 13px;
   }
 
   .converter {
-    padding:
-      8px;
+    padding: 8px;
   }
 
-  .upload {
-    min-height:
-      350px;
-
-    padding:
-      20px;
+  .drop-zone {
+    min-height: 340px;
+    padding: 20px;
   }
 
   .options {
-    flex-direction:
-      column;
+    flex-direction: column;
+    align-items: flex-start;
 
-    align-items:
-      flex-start;
-
-    padding:
-      16px 4px 5px;
+    padding-top: 15px;
+    padding-bottom: 5px;
   }
 
   .features {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
 
-    margin-top:
-      40px;
+    margin-top: 35px;
   }
 
   .feature {
-    min-height:
-      auto;
+    padding: 20px;
   }
 
   .footer {
-    flex-direction:
-      column;
+    flex-direction: column;
   }
 
   .file-card {
-    grid-t
+    grid-template-columns: 46px minmax(0, 1fr) auto;
+  }
+
+  .file-thumb {
+    width: 46px;
+    height: 46px;
+  }
+
+  .file-status span {
+    display: none;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     BACKGROUND
+======================================================== -->
+
+<div class="page-background" aria-hidden="true">
+
+  <div class="stars"></div>
+
+  <div class="glow glow-purple"></div>
+
+  <div class="glow glow-blue"></div>
+
+  <div class="glow glow-pink"></div>
+
+</div>
+
+
+<!-- =======================================================
+     HEADER
+======================================================== -->
+
+<header class="header">
+
+  <a href="#" class="logo">
+
+    <div class="logo-icon"></div>
+
+    <div class="logo-text">
+      HEIC<span>X</span>
+    </div>
+
+  </a>
+
+  <div class="online">
+
+    <span class="online-dot"></span>
+
+    Conversion engine ready
+
+  </div>
+
+</header>
+
+
+<!-- =======================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-badge">
+      <strong>✦</strong>
+      Private browser conversion
+    </div>
+
+    <h1>
+      HEIC in.<br>
+      <span class="gradient-text">
+        JPG out.
+      </span>
+    </h1>
+
+    <p class="hero-description">
+
+      Convert your HEIC and HEIF photos into
+      universally compatible <strong>JPG images</strong>
+      without uploading them to a server.
+
+    </p>
+
+  </section>
+
+
+  <!-- =====================================================
+       CONVERTER
+  ====================================================== -->
+
+  <section class="converter-wrapper">
+
+    <div class="converter">
+
+      <!-- DROP ZONE -->
+
+      <div
+        class="drop-zone"
+        id="dropZone"
+        tabindex="0"
+        role="button"
+        aria-label="Choose HEIC files"
+      >
+
+        <div class="upload-circle">
+
+          <div class="upload-square">
+
+            <svg viewBox="0 0 24 24">
+              <path d="M12 16V4"></path>
+              <path d="m7 9 5-5 5 5"></path>
+              <path d="M5 20h14"></path>
+            </svg>
+
+          </div>
+
+        </div>
+
+        <h2 class="drop-title">
+          Drop HEIC files here
+        </h2>
+
+        <p class="drop-subtitle">
+          or <strong>choose files from your device</strong>
+        </p>
+
+        <button
+          class="choose-button"
+          id="chooseButton"
+          type="button"
+        >
+          Choose HEIC files&nbsp; →
+        </button>
+
+        <div class="file-note">
+          HEIC · HEIF · Multiple files supported
+        </div>
+
+      </div>
+
+
+      <input
+        id="fileInput"
+        type="file"
+        accept=".heic,.heif,image/heic,image/heif"
+        multiple
+      >
+
+
+      <!-- OPTIONS -->
+
+      <div class="options">
+
+        <div class="private-note">
+
+          <svg viewBox="0 0 24 24">
+            <path d="M12 3 5 6v5c0 4.6 2.9 8.5 7 10 4.1-1.5 7-5.4 7-10V6l-7-3Z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+
+          Your photos stay on your device
+
+        </div>
+
+
+        <label class="quality">
+
+          JPG Quality
+
+          <input
+            id="quality"
+            type="range"
+            min="0.5"
+            max="1"
+            step="0.01"
+            value="0.92"
+          >
+
+          <span
+            class="quality-value"
+            id="qualityValue"
+          >
+            92%
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <!-- RESULTS -->
+
+      <div
+        class="results"
+        id="results"
+      >
+
+        <div class="results-header">
+
+          <div class="results-count" id="resultsCount">
+            <strong>0</strong> files
+          </div>
+
+          <button
+            class="download-all"
+            id="downloadAll"
+            type="button"
+          >
+
+            <svg viewBox="0 0 24 24">
+              <path d="M12 4v11"><
