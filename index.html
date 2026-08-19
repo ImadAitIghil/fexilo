@@ -14,8 +14,8 @@
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#4f46e5">
 
-  <!-- HEIC converter -->
-  <script src="https://cdn.jsdelivr.net/npm/heic-to@1.1.1/dist/iife/heic-to.js"></script>
+  <!-- HEIC / HEIF converter -->
+  <script src="https://cdn.jsdelivr.net/npm/heic-to@1.5.2/dist/iife/heic-to.js"></script>
 
   <!-- ZIP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -24,7 +24,7 @@
     :root {
       --primary: #4f46e5;
       --primary-hover: #4338ca;
-      --bg: #f9fafb;
+      --bg: #f8fafc;
       --card: #ffffff;
       --text: #111827;
       --muted: #6b7280;
@@ -66,46 +66,50 @@
 
     header h1 {
       color: var(--primary);
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 800;
     }
 
     header p {
       color: var(--muted);
       font-size: 14px;
-      margin-top: 4px;
+      margin-top: 5px;
     }
 
     main {
       width: 100%;
       max-width: 760px;
       margin: 0 auto;
-      padding: 24px 16px 50px;
+      padding: 25px 16px 50px;
       flex: 1;
     }
 
-    .drop-zone {
+    .upload-box {
       border: 2px dashed #c7d2fe;
       background: #eef2ff;
       border-radius: var(--radius);
-      padding: 48px 20px;
+      padding: 50px 20px;
       text-align: center;
       transition: 0.2s;
     }
 
-    .drop-zone.dragover {
+    .upload-box.dragover {
       border-color: var(--primary);
       background: #e0e7ff;
     }
 
-    .drop-zone h2 {
+    .upload-box h2 {
       font-size: 20px;
       margin-bottom: 8px;
     }
 
-    .drop-zone p {
+    .upload-box p {
       color: var(--muted);
       font-size: 14px;
+    }
+
+    .select-button {
+      margin-top: 20px;
     }
 
     input[type="file"] {
@@ -116,8 +120,10 @@
       border: 0;
       border-radius: 9px;
       padding: 12px 18px;
+
       font-size: 15px;
       font-weight: 700;
+
       cursor: pointer;
 
       display: inline-flex;
@@ -153,13 +159,9 @@
       background: #f3f4f6;
     }
 
-    .select-button {
-      margin-top: 18px;
-    }
-
     .results {
       display: none;
-      margin-top: 24px;
+      margin-top: 25px;
     }
 
     .results.visible {
@@ -168,8 +170,8 @@
 
     .results-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
       margin-bottom: 16px;
@@ -192,7 +194,7 @@
     }
 
     .file-card {
-      background: white;
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 12px;
@@ -203,17 +205,19 @@
     }
 
     .preview {
-      width: 80px;
-      height: 80px;
-      border-radius: 10px;
+      width: 82px;
+      height: 82px;
       object-fit: cover;
+
+      border-radius: 10px;
       background: #f3f4f6;
+
       flex-shrink: 0;
     }
 
     .file-info {
-      min-width: 0;
       flex: 1;
+      min-width: 0;
     }
 
     .file-name {
@@ -233,14 +237,14 @@
 
     .status {
       font-size: 12px;
-      margin-top: 4px;
+      margin-top: 5px;
     }
 
-    .success {
+    .status.success {
       color: var(--success);
     }
 
-    .error {
+    .status.error {
       color: var(--danger);
     }
 
@@ -274,8 +278,9 @@
     }
 
     .spinner {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
+
       margin: 18px auto 0;
 
       border: 3px solid #c7d2fe;
@@ -293,17 +298,42 @@
     }
 
     .error-box {
+      display: none;
+
+      margin-top: 18px;
+      padding: 12px;
+
+      border-radius: 10px;
+
       background: #fef2f2;
       border: 1px solid #fecaca;
+
       color: #991b1b;
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 16px;
+
       font-size: 13px;
-      display: none;
     }
 
     .error-box.visible {
+      display: block;
+    }
+
+    .success-box {
+      display: none;
+
+      margin-top: 18px;
+      padding: 12px;
+
+      border-radius: 10px;
+
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+
+      color: #065f46;
+
+      font-size: 13px;
+    }
+
+    .success-box.visible {
       display: block;
     }
 
@@ -313,8 +343,8 @@
         padding: 18px 12px 40px;
       }
 
-      .drop-zone {
-        padding: 38px 15px;
+      .upload-box {
+        padding: 40px 15px;
       }
 
       .file-card {
@@ -349,13 +379,14 @@
   <p>Free private HEIC → JPG converter</p>
 </header>
 
+
 <main>
 
-  <!-- UPLOAD AREA -->
+  <!-- UPLOAD -->
 
   <div
-    class="drop-zone"
-    id="dropZone"
+    class="upload-box"
+    id="uploadBox"
   >
 
     <h2>
@@ -367,8 +398,8 @@
     </p>
 
     <label
-      for="fileInput"
       class="btn btn-primary select-button"
+      for="fileInput"
     >
       Select Files
     </label>
@@ -408,10 +439,12 @@
 
     </div>
 
+
     <div
       class="file-list"
       id="fileList"
     ></div>
+
 
     <div
       style="
@@ -423,7 +456,7 @@
       <button
         type="button"
         class="btn btn-secondary"
-        id="startOverBtn"
+        id="startOver"
       >
         Start Over
       </button>
@@ -433,19 +466,17 @@
   </section>
 
 
-  <!-- PRIVACY -->
-
   <p class="privacy">
 
     <strong>100% private.</strong>
 
-    Your photos are converted directly
+    All conversion happens directly
     in your browser.
 
     <br>
 
+    Your photos never leave your device.
     No uploads. No accounts.
-    No server processing.
 
   </p>
 
@@ -459,19 +490,19 @@
 
 <script>
 
-  // =========================================
+  // ==================================================
   // SETTINGS
-  // =========================================
+  // ==================================================
 
   const QUALITY = 0.95;
 
 
-  // =========================================
+  // ==================================================
   // ELEMENTS
-  // =========================================
+  // ==================================================
 
-  const dropZone =
-    document.getElementById("dropZone");
+  const uploadBox =
+    document.getElementById("uploadBox");
 
   const fileInput =
     document.getElementById("fileInput");
@@ -488,48 +519,23 @@
   const fileList =
     document.getElementById("fileList");
 
-  const startOverBtn =
-    document.getElementById("startOverBtn");
+  const startOver =
+    document.getElementById("startOver");
 
   const errorBox =
     document.getElementById("errorBox");
 
 
-  // =========================================
+  // ==================================================
   // STATE
-  // =========================================
+  // ==================================================
 
   let convertedFiles = [];
 
 
-  // =========================================
-  // FILE NAME
-  // =========================================
-
-  function makeJpgName(name) {
-
-    let clean =
-      name
-        .split("/")
-        .pop()
-        .split("\\")
-        .pop();
-
-
-    clean =
-      clean.replace(
-        /\.(heic|heif)$/i,
-        ""
-      );
-
-
-    return clean + ".jpg";
-  }
-
-
-  // =========================================
+  // ==================================================
   // FORMAT SIZE
-  // =========================================
+  // ==================================================
 
   function formatBytes(bytes) {
 
@@ -550,43 +556,65 @@
       (bytes / (1024 * 1024)).toFixed(2)
       + " MB"
     );
-
   }
 
 
-  // =========================================
-  // CLEAN OLD URLS
-  // =========================================
+  // ==================================================
+  // JPG NAME
+  // ==================================================
 
-  function revokeUrls() {
+  function getJpgName(name) {
 
-    convertedFiles.forEach(
-      file => {
-
-        if (file.url) {
-          URL.revokeObjectURL(file.url);
-        }
-
-      }
+    return name.replace(
+      /\.(heic|heif)$/i,
+      ".jpg"
     );
 
   }
 
 
-  // =========================================
-  // FILE SELECT
-  // =========================================
+  // ==================================================
+  // SHOW ERROR
+  // ==================================================
+
+  function showError(message) {
+
+    errorBox.textContent = message;
+
+    errorBox.classList.add(
+      "visible"
+    );
+
+  }
+
+
+  function hideError() {
+
+    errorBox.textContent = "";
+
+    errorBox.classList.remove(
+      "visible"
+    );
+
+  }
+
+
+  // ==================================================
+  // FILE INPUT
+  // ==================================================
 
   fileInput.addEventListener(
     "change",
-    function () {
+    async function () {
 
       if (
         this.files &&
         this.files.length > 0
       ) {
 
-        processFiles(this.files);
+        await processFiles(
+          Array.from(this.files)
+        );
 
       }
 
@@ -594,17 +622,17 @@
   );
 
 
-  // =========================================
+  // ==================================================
   // DRAG & DROP
-  // =========================================
+  // ==================================================
 
-  dropZone.addEventListener(
+  uploadBox.addEventListener(
     "dragover",
     function (event) {
 
       event.preventDefault();
 
-      dropZone.classList.add(
+      uploadBox.classList.add(
         "dragover"
       );
 
@@ -612,11 +640,11 @@
   );
 
 
-  dropZone.addEventListener(
+  uploadBox.addEventListener(
     "dragleave",
     function () {
 
-      dropZone.classList.remove(
+      uploadBox.classList.remove(
         "dragover"
       );
 
@@ -624,13 +652,13 @@
   );
 
 
-  dropZone.addEventListener(
+  uploadBox.addEventListener(
     "drop",
-    function (event) {
+    async function (event) {
 
       event.preventDefault();
 
-      dropZone.classList.remove(
+      uploadBox.classList.remove(
         "dragover"
       );
 
@@ -640,8 +668,10 @@
         event.dataTransfer.files.length
       ) {
 
-        processFiles(
-          event.dataTransfer.files
+        await processFiles(
+          Array.from(
+            event.dataTransfer.files
+          )
         );
 
       }
@@ -650,38 +680,35 @@
   );
 
 
-  // =========================================
-  // PROCESS
-  // =========================================
+  // ==================================================
+  // PROCESS FILES
+  // ==================================================
 
-  async function processFiles(
-    fileCollection
-  ) {
+  async function processFiles(files) {
 
-    const files =
-      Array.from(fileCollection)
-        .filter(
-          file => {
-
-            const name =
-              file.name.toLowerCase();
-
-            return (
-              name.endsWith(".heic") ||
-              name.endsWith(".heif")
-            );
-
-          }
-        );
+    hideError();
 
 
-    if (files.length === 0) {
+    const heicFiles =
+      files.filter(
+        file => {
 
-      errorBox.textContent =
-        "Please select HEIC or HEIF images.";
+          const name =
+            file.name.toLowerCase();
 
-      errorBox.classList.add(
-        "visible"
+          return (
+            name.endsWith(".heic") ||
+            name.endsWith(".heif")
+          );
+
+        }
+      );
+
+
+    if (heicFiles.length === 0) {
+
+      showError(
+        "No HEIC or HEIF files were selected."
       );
 
       return;
@@ -689,14 +716,24 @@
     }
 
 
-    errorBox.classList.remove(
-      "visible"
-    );
+    // Check library
+
+    if (
+      typeof window.HeicTo !== "function"
+    ) {
+
+      showError(
+        "The HEIC converter library did not load. Please check your internet connection and reload the page."
+      );
+
+      return;
+
+    }
 
 
-    // Loading
+    // Loading screen
 
-    dropZone.innerHTML = `
+    uploadBox.innerHTML = `
 
       <div class="loading">
 
@@ -705,7 +742,7 @@
         </h2>
 
         <p>
-          Please wait.
+          Please wait while Fexilo converts your photos.
         </p>
 
         <div class="spinner"></div>
@@ -718,8 +755,10 @@
     convertedFiles = [];
 
 
+    // Convert one by one
+
     for (
-      const file of files
+      const file of heicFiles
     ) {
 
       const result =
@@ -730,44 +769,34 @@
     }
 
 
-    renderResults();
+    showResults();
 
   }
 
 
-  // =========================================
-  // CONVERT HEIC
-  // =========================================
+  // ==================================================
+  // CONVERT ONE FILE
+  // ==================================================
 
   async function convertFile(file) {
 
-    const jpgName =
-      makeJpgName(file.name);
+    console.log(
+      "Fexilo: converting",
+      file.name,
+      file.type,
+      file.size
+    );
 
 
     try {
 
-      if (
-        typeof HeicTo === "undefined"
-      ) {
+      /*
+       * The official IIFE API exposes
+       * the converter as window.HeicTo.
+       */
 
-        throw new Error(
-          "The HEIC converter could not be loaded. Check your internet connection and reload the page."
-        );
-
-      }
-
-
-      console.log(
-        "Converting:",
-        file.name,
-        file.type,
-        file.size
-      );
-
-
-      const blob =
-        await HeicTo({
+      const jpgBlob =
+        await window.HeicTo({
 
           blob: file,
 
@@ -779,19 +808,21 @@
 
 
       if (
-        !blob ||
-        blob.size === 0
+        !jpgBlob ||
+        jpgBlob.size === 0
       ) {
 
         throw new Error(
-          "The converter returned an empty image."
+          "The converter returned an empty JPG."
         );
 
       }
 
 
       const url =
-        URL.createObjectURL(blob);
+        URL.createObjectURL(
+          jpgBlob
+        );
 
 
       return {
@@ -800,16 +831,16 @@
           file.name,
 
         jpgName:
-          jpgName,
+          getJpgName(file.name),
 
         originalSize:
           file.size,
 
         convertedSize:
-          blob.size,
+          jpgBlob.size,
 
         blob:
-          blob,
+          jpgBlob,
 
         url:
           url,
@@ -834,7 +865,7 @@
           file.name,
 
         jpgName:
-          jpgName,
+          getJpgName(file.name),
 
         originalSize:
           file.size,
@@ -849,8 +880,10 @@
           null,
 
         error:
-          error.message ||
-          "Conversion failed."
+          error &&
+          error.message
+            ? error.message
+            : "Conversion failed."
 
       };
 
@@ -859,13 +892,13 @@
   }
 
 
-  // =========================================
-  // RESULTS
-  // =========================================
+  // ==================================================
+  // SHOW RESULTS
+  // ==================================================
 
-  function renderResults() {
+  function showResults() {
 
-    dropZone.style.display =
+    uploadBox.style.display =
       "none";
 
     results.classList.add(
@@ -873,27 +906,21 @@
     );
 
 
+    renderFileList();
+
+    renderActions();
+
+  }
+
+
+  // ==================================================
+  // FILE LIST
+  // ==================================================
+
+  function renderFileList() {
+
     fileList.innerHTML = "";
 
-    actions.innerHTML = "";
-
-
-    const successful =
-      convertedFiles.filter(
-        file => file.blob
-      );
-
-
-    resultsTitle.textContent =
-      successful.length === 1
-        ? "1 file converted"
-        : successful.length +
-          " files converted";
-
-
-    // =======================================
-    // FILE CARDS
-    // =======================================
 
     convertedFiles.forEach(
       (file, index) => {
@@ -907,7 +934,7 @@
           "file-card";
 
 
-        // Preview
+        // IMAGE
 
         const img =
           document.createElement(
@@ -929,7 +956,7 @@
         }
 
 
-        // Information
+        // INFO
 
         const info =
           document.createElement(
@@ -982,6 +1009,7 @@
             "div"
           );
 
+
         status.className =
           file.error
             ? "status error"
@@ -1001,7 +1029,7 @@
         info.appendChild(status);
 
 
-        // Action
+        // BUTTON
 
         const action =
           document.createElement(
@@ -1029,8 +1057,7 @@
             "Download JPG";
 
 
-          button.addEventListener(
-            "click",
+          button.onclick =
             function () {
 
               downloadFile(
@@ -1038,8 +1065,7 @@
                 file.jpgName
               );
 
-            }
-          );
+            };
 
 
           action.appendChild(
@@ -1055,15 +1081,53 @@
 
         card.appendChild(action);
 
+
         fileList.appendChild(card);
 
       }
     );
 
 
-    // =======================================
-    // TOP BUTTONS
-    // =======================================
+    const successful =
+      convertedFiles.filter(
+        file => file.blob
+      );
+
+
+    resultsTitle.textContent =
+      successful.length === 1
+        ? "1 file converted"
+        : successful.length +
+          " files converted";
+
+  }
+
+
+  // ==================================================
+  // TOP ACTIONS
+  // ==================================================
+
+  function renderActions() {
+
+    actions.innerHTML = "";
+
+
+    const successful =
+      convertedFiles.filter(
+        file => file.blob
+      );
+
+
+    if (
+      successful.length === 0
+    ) {
+
+      return;
+
+    }
+
+
+    // ONE FILE
 
     if (
       successful.length === 1
@@ -1084,8 +1148,7 @@
         "Download JPG";
 
 
-      button.addEventListener(
-        "click",
+      button.onclick =
         function () {
 
           downloadFile(
@@ -1093,94 +1156,89 @@
             successful[0].jpgName
           );
 
-        }
-      );
+        };
 
 
       actions.appendChild(
         button
       );
 
-    }
-
-
-    if (
-      successful.length > 1
-    ) {
-
-      const allButton =
-        document.createElement(
-          "button"
-        );
-
-      allButton.type =
-        "button";
-
-      allButton.className =
-        "btn btn-primary";
-
-      allButton.textContent =
-        "Download All JPGs (" +
-        successful.length +
-        ")";
-
-
-      allButton.addEventListener(
-        "click",
-        function () {
-
-          downloadAll(
-            successful
-          );
-
-        }
-      );
-
-
-      actions.appendChild(
-        allButton
-      );
-
-
-      const zipButton =
-        document.createElement(
-          "button"
-        );
-
-      zipButton.type =
-        "button";
-
-      zipButton.className =
-        "btn btn-secondary";
-
-      zipButton.textContent =
-        "Download as ZIP";
-
-
-      zipButton.addEventListener(
-        "click",
-        function () {
-
-          downloadZip(
-            successful
-          );
-
-        }
-      );
-
-
-      actions.appendChild(
-        zipButton
-      );
+      return;
 
     }
+
+
+    // MULTIPLE FILES
+
+    const allButton =
+      document.createElement(
+        "button"
+      );
+
+    allButton.type =
+      "button";
+
+    allButton.className =
+      "btn btn-primary";
+
+    allButton.textContent =
+      "Download All JPGs (" +
+      successful.length +
+      ")";
+
+
+    allButton.onclick =
+      function () {
+
+        downloadAll(
+          successful
+        );
+
+      };
+
+
+    actions.appendChild(
+      allButton
+    );
+
+
+    // ZIP
+
+    const zipButton =
+      document.createElement(
+        "button"
+      );
+
+    zipButton.type =
+      "button";
+
+    zipButton.className =
+      "btn btn-secondary";
+
+    zipButton.textContent =
+      "Download as ZIP";
+
+
+    zipButton.onclick =
+      function () {
+
+        downloadZip(
+          successful
+        );
+
+      };
+
+
+    actions.appendChild(
+      zipButton
+    );
 
   }
 
 
-  // =========================================
-  // DOWNLOAD
-  // =========================================
+  // ==================================================
+  // DOWNLOAD SINGLE
+  // ==================================================
 
   function downloadFile(
     blob,
@@ -1193,7 +1251,9 @@
 
 
     const url =
-      URL.createObjectURL(blob);
+      URL.createObjectURL(
+        blob
+      );
 
 
     const link =
@@ -1236,9 +1296,9 @@
   }
 
 
-  // =========================================
+  // ==================================================
   // DOWNLOAD ALL
-  // =========================================
+  // ==================================================
 
   async function downloadAll(
     files
@@ -1266,73 +1326,4 @@
               resolve,
               800
             )
-        );
-
-      }
-
-    }
-
-  }
-
-
-  // =========================================
-  // ZIP
-  // =========================================
-
-  async function downloadZip(
-    files
-  ) {
-
-    if (
-      typeof JSZip === "undefined"
-    ) {
-
-      alert(
-        "ZIP library could not be loaded."
-      );
-
-      return;
-
-    }
-
-
-    try {
-
-      const zip =
-        new JSZip();
-
-
-      files.forEach(
-        file => {
-
-          zip.file(
-            file.jpgName,
-            file.blob
-          );
-
-        }
-      );
-
-
-      const zipBlob =
-        await zip.generateAsync({
-          type: "blob"
-        });
-
-
-      downloadFile(
-        zipBlob,
-        "fexilo-jpgs.zip"
-      );
-
-
-    } catch (error) {
-
-      console.error(
-        "ZIP error:",
-        error
-      );
-
-      alert(
-        "Could not create ZIP."
-  
+        )
