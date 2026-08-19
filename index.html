@@ -469,8 +469,7 @@
   <script>
 
     const QUALITY = 0.95;
-
-    const DOWNLOAD_DELAY_MS = 500;
+    const DOWNLOAD_DELAY_MS = 700;
 
 
     const dropZone =
@@ -531,6 +530,7 @@
         name.split(/[/\\]/).pop()
         || "image";
 
+
       base =
         base
           .replace(
@@ -545,7 +545,6 @@
       }
 
 
-      // Correctly replace .heic / .heif
       base =
         base.replace(
           /\.(heic|heif)$/i,
@@ -666,7 +665,10 @@
       }
 
 
+      // -----------------------------
       // ONE FILE
+      // -----------------------------
+
       if (successCount === 1) {
 
         const btn =
@@ -700,7 +702,9 @@
       }
 
 
+      // -----------------------------
       // MULTIPLE FILES
+      // -----------------------------
 
       const allBtn =
         document.createElement("button");
@@ -874,7 +878,7 @@
             "file-actions";
 
 
-          if (!file.error) {
+          if (!file.error && file.blob) {
 
             const dlBtn =
               document.createElement("button");
@@ -960,6 +964,13 @@
 
       try {
 
+        if (typeof HeicTo !== "function") {
+          throw new Error(
+            "HEIC converter library not loaded."
+          );
+        }
+
+
         const blob =
           await HeicTo({
 
@@ -970,6 +981,13 @@
             quality: QUALITY
 
           });
+
+
+        if (!blob) {
+          throw new Error(
+            "No converted image returned."
+          );
+        }
 
 
         const url =
@@ -1123,6 +1141,11 @@
       filename
     ) {
 
+      if (!blob) {
+        return;
+      }
+
+
       const url =
         URL.createObjectURL(blob);
 
@@ -1141,18 +1164,21 @@
       document.body.appendChild(a);
 
 
+      // Trigger download
       a.click();
 
 
       setTimeout(
         () => {
 
-          document.body.removeChild(a);
+          if (a.parentNode) {
+            a.parentNode.removeChild(a);
+          }
 
           URL.revokeObjectURL(url);
 
         },
-        1000
+        1500
       );
 
     }
@@ -1193,6 +1219,11 @@
         );
 
 
+      if (success.length === 0) {
+        return;
+      }
+
+
       for (
         let i = 0;
         i < success.length;
@@ -1218,49 +1249,4 @@
               )
           );
 
-        }
-
-      }
-
-    }
-
-
-    async function downloadAsZip() {
-
-      const success =
-        convertedFiles.filter(
-          file =>
-            !file.error &&
-            file.blob
-        );
-
-
-      if (success.length === 0) {
-        return;
-      }
-
-
-      const zip =
-        new JSZip();
-
-
-      success.forEach(file => {
-
-        zip.file(
-          file.jpgName,
-          file.blob
-        );
-
-      });
-
-
-      try {
-
-        const content =
-          await zip.generateAsync({
-            type: "blob"
-          });
-
-
-        triggerDownload(
-          
+    
