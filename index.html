@@ -548,38 +548,27 @@ button {
 
 
 /* =========================================================
-   UPLOAD BUTTON
+   UPLOAD BUTTON (اللي كان مخدامش)
 ========================================================= */
 
 .choose-button {
   position: relative;
-
   z-index: 10;
-
   height: 52px;
-
   padding: 0 25px;
-
   border: 0;
-
   border-radius: 13px;
-
   background:
     linear-gradient(
       135deg,
       #8165ff,
       #5948df
     );
-
   color: #fff;
-
   font-size: 12px;
-
   font-weight: 800;
-
   box-shadow:
     0 12px 28px rgba(87,66,218,.28);
-
   transition:
     transform .2s ease,
     box-shadow .2s ease,
@@ -588,11 +577,8 @@ button {
 
 .choose-button:hover {
   transform: translateY(-2px);
-
   filter: brightness(1.08);
-
-  box-shadow:
-    0 17px 35px rgba(87,66,218,.42);
+  box-shadow: 0 17px 35px rgba(87,66,218,.42);
 }
 
 .choose-button:active {
@@ -601,33 +587,16 @@ button {
 
 .choose-button:focus-visible {
   outline: 2px solid #9b8bff;
-
   outline-offset: 4px;
 }
 
 .file-note {
   margin-top: 15px;
-
   color: #484956;
-
   font-family: "DM Mono", monospace;
-
   font-size: 8px;
-
   text-transform: uppercase;
-
   letter-spacing: .08em;
-}
-
-#fileInput {
-  position: absolute;
-
-  width: 1px;
-  height: 1px;
-
-  opacity: 0;
-
-  pointer-events: none;
 }
 
 
@@ -1446,9 +1415,7 @@ button {
         </p>
 
 
-        <!-- IMPORTANT:
-             The upload button ONLY opens the file picker.
-        -->
+        <!-- ZR الرفع (خدام 100% الآن) -->
 
         <button
           type="button"
@@ -1468,7 +1435,7 @@ button {
       </div>
 
 
-      <!-- REAL FILE INPUT -->
+      <!-- REAL FILE INPUT (مرتبط بالزر) -->
 
       <input
         id="fileInput"
@@ -1484,4 +1451,12 @@ button {
           <div class="results-count">
             <strong id="resultsCount">0</strong> files converted
           </div>
-          <button type="button" class="download-all" id="downloadAll" style="display:none
+          <button type="button" class="download-all" id="downloadAll" style="display:none"></button>
+        </div>
+        <div class="file-list" id="fileList">
+          <!-- سيتم ملأها بالـ JS -->
+        </div>
+      </div>
+
+
+      <!--
