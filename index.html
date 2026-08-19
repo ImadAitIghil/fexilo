@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+  >
 
   <title>Fexilo — Private HEIC to JPG Converter</title>
+
   <meta
     name="description"
     content="Convert HEIC and HEIF photos to JPG entirely in your browser. Nothing is uploaded."
@@ -14,6 +18,7 @@
     Fexilo is a client-side converter.
     Photos are processed in browser memory and are not uploaded by this page.
   -->
+
   <meta
     http-equiv="Content-Security-Policy"
     content="
@@ -23,7 +28,7 @@
       font-src https://fonts.gstatic.com;
       img-src 'self' blob: data:;
       connect-src 'none';
-      worker-src 'self';
+      worker-src 'self' blob:;
       base-uri 'none';
       form-action 'none';
       object-src 'none'
@@ -31,7 +36,11 @@
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
 
   <link
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
@@ -375,12 +384,21 @@
         border-color .18s ease,
         background .18s ease,
         transform .18s ease;
+      cursor: pointer;
+    }
+
+    .dropzone:hover {
+      border-color: rgba(91,127,255,.65);
     }
 
     .dropzone.drag {
       border-color: var(--blue);
       background: var(--blue-soft);
       transform: scale(1.005);
+    }
+
+    .dropzone.busy {
+      cursor: wait;
     }
 
     .dz-icon {
@@ -948,8 +966,10 @@
       <div
         class="dropzone"
         id="dropzone"
-        role="group"
+        role="button"
+        tabindex="0"
         aria-label="Upload HEIC or HEIF photos to convert"
+        aria-describedby="uploadHelp"
       >
 
         <div class="dz-icon" aria-hidden="true">
@@ -971,14 +991,4 @@
 
         <h2>Select your HEIC or HEIF photos</h2>
 
-        <p>
-          Choose one or several files, or drag them in.
-          Conversion starts automatically.
-        </p>
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          id="selectBtn"
-        >
-          <svg
+        <p i
