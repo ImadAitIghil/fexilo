@@ -1219,402 +1219,451 @@ button {
   <span id="toastMessage">Ready</span>
 </div>
 
-<script>
+  <script>
+(function () {
 
-"use strict";
+  "use strict";
 
-/* ================================
-   ELEMENTS
-================================ */
+  const fileInput = document.getElementById("fileInput");
+  const dropZone = document.getElementById("dropZone");
+  const results = document.getElementById("results");
+  const fileList = document.getElementById("fileList");
+  const resultsCount = document.getElementById("resultsCount");
+  const downloadAll = document.getElementById("downloadAll");
+  const toast = document.getElementById("toast");
+  const toastMessage = document.getElementById("toastMessage");
 
-const fileInput = document.getElementById("fileInput");
-const dropZone = document.getElementById("dropZone");
-const results = document.getElementById("results");
-const fileList = document.getElementById("fileList");
-const resultsCount = document.getElementById("resultsCount");
-const downloadAll = document.getElementById("downloadAll");
-const toast = document.getElementById("toast");
-const toastMessage = document.getElementById("toastMessage");
+  let convertedFiles = [];
 
-let convertedFiles = [];
+  /* =========================
+     TOAST
+  ========================= */
 
+  function showToast(message) {
 
-/* ================================
-   TOAST
-================================ */
+    if (!toast || !toastMessage) return;
 
-function showToast(message) {
+    toastMessage.textContent = message;
+    toast.classList.add("show");
 
-  toastMessage.textContent = message;
+    clearTimeout(showToast.timer);
 
-  toast.classList.add("show");
-
-  clearTimeout(window.__toastTimer);
-
-  window.__toastTimer = setTimeout(function () {
-    toast.classList.remove("show");
-  }, 2500);
-}
-
-
-/* ================================
-   FILE CHECK
-================================ */
-
-function isHEIC(file) {
-
-  const name = String(file.name || "").toLowerCase();
-
-  return (
-    name.endsWith(".heic") ||
-    name.endsWith(".heif") ||
-    file.type === "image/heic" ||
-    file.type === "image/heif"
-  );
-}
-
-
-/* ================================
-   FILE SIZE
-================================ */
-
-function formatSize(bytes) {
-
-  if (!bytes) {
-    return "0 KB";
+    showToast.timer = setTimeout(function () {
+      toast.classList.remove("show");
+    }, 2500);
   }
 
-  const mb = bytes / 1024 / 1024;
 
-  if (mb >= 1) {
-    return mb.toFixed(2) + " MB";
+  /* =========================
+     FILE HELPERS
+  ========================= */
+
+  function isHEIC(file) {
+
+    if (!file) return false;
+
+    const name = String(file.name || "").toLowerCase();
+
+    return (
+      name.endsWith(".heic") ||
+      name.endsWith(".heif") ||
+      file.type === "image/heic" ||
+      file.type === "image/heif"
+    );
   }
 
-  return Math.max(
-    1,
-    Math.round(bytes / 1024)
-  ) + " KB";
-}
 
+  function formatSize(bytes) {
 
-/* ================================
-   JPG NAME
-================================ */
+    if (!bytes) return "0 KB";
 
-function getJpgName(name) {
+    const mb = bytes / 1024 / 1024;
 
-  return String(name)
-    .replace(/\.(heic|heif)$/i, "")
-    + ".jpg";
-
-}
-
-
-/* =========================================================
-   CONVERT ONE FILE
-========================================================= */
-
-async function convertFile(file, card) {
-
-  const status = card.querySelector(".file-status");
-
-  try {
-
-    if (typeof heic2any !== "function") {
-      throw new Error("Conversion library is not loaded.");
+    if (mb >= 1) {
+      return mb.toFixed(2) + " MB";
     }
 
-    const result = await heic2any({
-      blob: file,
-      toType: "image/jpeg",
-      quality: 0.92
-    });
+    return Math.max(1, Math.round(bytes / 1024)) + " KB";
+  }
 
-    const blob = Array.isArray(result)
-      ? result[0]
-      : result;
 
-    const url = URL.createObjectURL(blob);
+  function getJpgName(name) {
 
-    /* Thumbnail */
+    return String(name)
+      .replace(/\.(heic|heif)$/i, "")
+      + ".jpg";
+  }
 
+
+  /* =========================
+     CREATE FILE CARD
+  ========================= */
+
+  function createFileCard(file) {
+
+    const card = document.createElement("div");
+
+    card.className = "file-card";
+
+    card.innerHTML = `
+      <div class="file-thumb">HEIC</div>
+
+      <div class="file-info">
+
+        <div class="file-name"></div>
+
+        <div class="file-meta">
+          ${formatSize(file.size)}
+          <span>·</span>
+          HEIC
+        </div>
+
+      </div>
+
+      <div class="file-status">
+        <div class="spinner"></div>
+        <span>Converting...</span>
+      </div>
+    `;
+
+    card.querySelector(".file-name").textContent = file.name;
+
+    fileList.appendChild(card);
+
+    return card;
+  }
+
+
+  /* =========================
+     CONVERT ONE FILE
+  ========================= */
+
+  async function convertFile(file, card) {
+
+    const status = card.querySelector(".file-status");
     const thumb = card.querySelector(".file-thumb");
 
-    thumb.innerHTML = "";
+    try {
 
-    const img = document.createElement("img");
-    img.src = url;
-    img.alt = "";
+      if (typeof heic2any !== "function") {
+        throw new Error("Conversion library is not loaded.");
+      }
 
-    thumb.appendChild(img);
+      const result = await heic2any({
+        blob: file,
+        toType: "image/jpeg",
+        quality: 0.92
+      });
 
+      const blob = Array.isArray(result)
+        ? result[0]
+        : result;
 
-    /* Status */
+      if (!(blob instanceof Blob)) {
+        throw new Error("Invalid conversion result.");
+      }
 
-    status.innerHTML = `
-      <div class="success">✓</div>
-      <span>Converted</span>
-    `;
+      const url = URL.createObjectURL(blob);
 
+      const outputName = getJpgName(file.name);
 
-    /* Download button */
-
-    const downloadButton = document.createElement("button");
-
-    downloadButton.type = "button";
-    downloadButton.className = "download-one";
-    downloadButton.title = "Download JPG";
-    downloadButton.innerHTML = `
-      <svg viewBox="0 0 24 24">
-        <path d="M12 3v12"></path>
-        <path d="m7 10 5 5 5-5"></path>
-        <path d="M5 21h14"></path>
-      </svg>
-    `;
+      convertedFiles.push({
+        name: outputName,
+        url: url,
+        blob: blob
+      });
 
 
-    downloadButton.addEventListener("click", function () {
+      /* Thumbnail */
 
-      const a = document.createElement("a");
+      const img = document.createElement("img");
 
-      a.href = url;
-      a.download = getJpgName(file.name);
+      img.src = url;
+      img.alt = "";
 
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      thumb.innerHTML = "";
+      thumb.appendChild(img);
+
+
+      /* Status */
+
+      status.innerHTML = `
+        <div class="success">✓</div>
+        <span>Converted</span>
+      `;
+
+
+      /* Download button */
+
+      const downloadButton = document.createElement("button");
+
+      downloadButton.type = "button";
+      downloadButton.className = "download-one";
+
+      downloadButton.innerHTML = `
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3v12"></path>
+          <path d="m7 10 5 5 5-5"></path>
+          <path d="M5 21h14"></path>
+        </svg>
+      `;
+
+      downloadButton.title = "Download JPG";
+      downloadButton.setAttribute("aria-label", "Download JPG");
+
+      downloadButton.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+        const a = document.createElement("a");
+
+        a.href = url;
+        a.download = outputName;
+
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+      });
+
+
+      card.appendChild(downloadButton);
+
+      return true;
+
+    } catch (error) {
+
+      console.error("HEIC conversion error:", error);
+
+      status.innerHTML = `
+        <div class="error">!</div>
+        <span>Failed</span>
+      `;
+
+      showToast(
+        "Could not convert " + file.name
+      );
+
+      return false;
+    }
+  }
+
+
+  /* =========================
+     PROCESS FILES
+  ========================= */
+
+  async function processFiles(files) {
+
+    if (!files || !files.length) {
+      return;
+    }
+
+    const selectedFiles = Array.from(files);
+
+    const heicFiles = selectedFiles.filter(isHEIC);
+
+    if (!heicFiles.length) {
+
+      showToast("Please select HEIC or HEIF files.");
+
+      return;
+    }
+
+
+    results.classList.add("visible");
+
+    fileList.innerHTML = "";
+
+    convertedFiles.forEach(function (item) {
+
+      try {
+        URL.revokeObjectURL(item.url);
+      } catch (e) {}
 
     });
 
+    convertedFiles = [];
 
-    card.appendChild(downloadButton);
+    resultsCount.textContent = "0";
+
+    downloadAll.style.display = "none";
 
 
-    convertedFiles.push({
-      blob: blob,
-      url: url,
-      name: getJpgName(file.name)
+    for (const file of heicFiles) {
+
+      const card = createFileCard(file);
+
+      await convertFile(file, card);
+
+      resultsCount.textContent =
+        String(convertedFiles.length);
+
+    }
+
+
+    if (convertedFiles.length > 0) {
+
+      downloadAll.style.display = "flex";
+
+      showToast(
+        convertedFiles.length +
+        " file" +
+        (convertedFiles.length === 1 ? "" : "s") +
+        " converted successfully."
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     FILE INPUT
+  ========================= */
+
+  fileInput.addEventListener("change", function (event) {
+
+    const files = event.target.files;
+
+    processFiles(files);
+
+    /*
+     * Reset the input so the same file
+     * can be selected again later.
+     */
+
+    event.target.value = "";
+
+  });
+
+
+  /* =========================
+     CLICK DROP ZONE
+  ========================= */
+
+  dropZone.addEventListener("click", function (event) {
+
+    /*
+     * Do not trigger another click when
+     * the user is clicking the label/button.
+     */
+
+    if (
+      event.target.closest(".choose-button") ||
+      event.target.closest("#fileInput")
+    ) {
+      return;
+    }
+
+    fileInput.click();
+
+  });
+
+
+  /* =========================
+     DRAG ENTER
+  ========================= */
+
+  ["dragenter", "dragover"].forEach(function (eventName) {
+
+    dropZone.addEventListener(eventName, function (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      dropZone.classList.add("dragging");
+
     });
 
-    return true;
-
-  } catch (error) {
-
-    console.error("Conversion error:", error);
-
-    status.innerHTML = `
-      <div class="error">×</div>
-      <span>Failed</span>
-    `;
-
-    return false;
-
-  }
-
-}
+  });
 
 
-/* =========================================================
-   HANDLE FILES
-========================================================= */
+  /* =========================
+     DRAG LEAVE
+  ========================= */
 
-async function handleFiles(fileListInput) {
+  ["dragleave", "dragend"].forEach(function (eventName) {
 
-  const files = Array.from(fileListInput || []);
+    dropZone.addEventListener(eventName, function (event) {
 
-  if (!files.length) {
-    return;
-  }
+      event.preventDefault();
+      event.stopPropagation();
 
+      dropZone.classList.remove("dragging");
 
-  const validFiles = files.filter(isHEIC);
-
-
-  if (!validFiles.length) {
-
-    showToast("Please select HEIC or HEIF files.");
-
-    return;
-
-  }
-
-
-  results.classList.add("visible");
-
-  fileList.innerHTML = "";
-
-  convertedFiles.forEach(function (item) {
-
-    if (item.url) {
-      URL.revokeObjectURL(item.url);
-    }
+    });
 
   });
 
-  convertedFiles = [];
 
-  resultsCount.textContent = "0";
+  /* =========================
+     DROP
+  ========================= */
 
-  downloadAll.style.display = "none";
-
-
-  let successful = 0;
-
-
-  for (const file of validFiles) {
-
-    const card = createFileCard(file);
-
-    const success = await convertFile(file, card);
-
-    if (success) {
-      successful++;
-    }
-
-    resultsCount.textContent = successful;
-
-  }
-
-
-  if (successful > 0) {
-
-    downloadAll.style.display = "flex";
-
-    showToast(
-      successful +
-      (successful === 1
-        ? " file converted successfully."
-        : " files converted successfully.")
-    );
-
-  } else {
-
-    showToast("Conversion failed. Please try another HEIC file.");
-
-  }
-
-}
-
-
-/* =========================================================
-   FILE INPUT
-========================================================= */
-
-fileInput.addEventListener("change", function (event) {
-
-  handleFiles(event.target.files);
-
-  /*
-   * Allow selecting the same file again.
-   */
-  event.target.value = "";
-
-});
-
-
-/* =========================================================
-   DRAG & DROP
-========================================================= */
-
-["dragenter", "dragover"].forEach(function (eventName) {
-
-  dropZone.addEventListener(eventName, function (event) {
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    dropZone.classList.add("dragging");
-
-  });
-
-});
-
-
-["dragleave", "drop"].forEach(function (eventName) {
-
-  dropZone.addEventListener(eventName, function (event) {
+  dropZone.addEventListener("drop", function (event) {
 
     event.preventDefault();
     event.stopPropagation();
 
     dropZone.classList.remove("dragging");
 
-  });
+    const files = event.dataTransfer
+      ? event.dataTransfer.files
+      : null;
 
-});
-
-
-dropZone.addEventListener("drop", function (event) {
-
-  const files = event.dataTransfer.files;
-
-  handleFiles(files);
-
-});
-
-
-/* =========================================================
-   CLICK DROP ZONE
-========================================================= */
-
-dropZone.addEventListener("click", function (event) {
-
-  /*
-   * The label already opens the file picker.
-   * Do not trigger it again when clicking the button.
-   */
-  if (event.target.closest(".choose-button")) {
-    return;
-  }
-
-  fileInput.click();
-
-});
-
-
-/* =========================================================
-   DOWNLOAD ALL
-========================================================= */
-
-downloadAll.addEventListener("click", function () {
-
-  if (!convertedFiles.length) {
-    return;
-  }
-
-
-  convertedFiles.forEach(function (item, index) {
-
-    setTimeout(function () {
-
-      const a = document.createElement("a");
-
-      a.href = item.url;
-      a.download = item.name;
-
-      document.body.appendChild(a);
-
-      a.click();
-
-      a.remove();
-
-    }, index * 150);
+    processFiles(files);
 
   });
 
-});
+
+  /* =========================
+     DOWNLOAD ALL
+  ========================= */
+
+  downloadAll.addEventListener("click", function () {
+
+    if (!convertedFiles.length) {
+
+      showToast("No converted files available.");
+
+      return;
+    }
 
 
-/* =========================================================
-   INITIAL STATE
-========================================================= */
+    convertedFiles.forEach(function (item, index) {
 
-if (typeof heic2any !== "function") {
+      setTimeout(function () {
 
-  console.warn(
-    "HEIC conversion library is not available yet."
-  );
+        const a = document.createElement("a");
 
-}
+        a.href = item.url;
+        a.download = item.name;
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+      }, index * 180);
+
+    });
+
+  });
+
+
+  /* =========================
+     LIBRARY CHECK
+  ========================= */
+
+  if (typeof heic2any !== "function") {
+
+    console.warn(
+      "HEIC conversion library is not available yet."
+    );
+
+  }
 
 })();
+      </script>
