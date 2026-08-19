@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Fexilo - HEIC to JPG Converter</title>
-  <meta name="description" content="Convert HEIC images to JPG online for free. Fast, private and easy to use.">
+
+  <meta
+    name="description"
+    content="Convert HEIC to JPG online for free. High-quality, fast and private. Your files are processed in your browser."
+  >
 
   <style>
     * {
@@ -22,7 +26,7 @@
     .container {
       max-width: 760px;
       margin: auto;
-      padding: 40px 20px;
+      padding: 35px 20px;
       text-align: center;
     }
 
@@ -30,7 +34,7 @@
       font-size: 32px;
       font-weight: 800;
       color: #4f46e5;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     h1 {
@@ -78,6 +82,28 @@
       display: none;
     }
 
+    .settings {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .settings label {
+      font-weight: 700;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+      background: white;
+    }
+
     #status {
       margin-top: 25px;
       font-weight: 600;
@@ -89,6 +115,21 @@
       margin-top: 25px;
       padding: 25px;
       border-radius: 16px;
+    }
+
+    .preview {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      border-radius: 12px;
+      margin: 15px 0;
+      background: #f3f4f6;
+    }
+
+    .file-info {
+      color: #6b7280;
+      font-size: 14px;
+      margin: 10px 0;
     }
 
     .download {
@@ -134,10 +175,6 @@
       .container {
         padding-top: 30px;
       }
-
-      .upload-box {
-        padding: 40px 15px;
-      }
     }
   </style>
 </head>
@@ -174,13 +211,51 @@
     accept="image/*,.heic,.heif"
   >
 
+  <div class="settings">
+
+    <label for="quality">
+      JPG Quality
+    </label>
+
+    <select id="quality">
+
+      <option value="0.95">
+        High quality — 95%
+      </option>
+
+      <option value="0.85">
+        Balanced — 85%
+      </option>
+
+      <option value="0.70">
+        Smaller file — 70%
+      </option>
+
+    </select>
+
+  </div>
+
   <div id="status"></div>
 
   <div id="result" class="result">
 
-    <div>✅ Your JPG is ready!</div>
+    <div class="success">
+      ✅ Conversion complete!
+    </div>
 
-    <a id="download" class="download" download="fexilo.jpg">
+    <img
+      id="preview"
+      class="preview"
+      alt="Converted JPG preview"
+    >
+
+    <div id="fileInfo" class="file-info"></div>
+
+    <a
+      id="download"
+      class="download"
+      download="fexilo.jpg"
+    >
       Download JPG
     </a>
 
@@ -198,13 +273,31 @@
 
 <script type="module">
 
-  import { heicTo, isHeic } from
-  "https://cdn.jsdelivr.net/npm/heic-to@1.5.2/+esm";
+  import {
+    heicTo,
+    isHeic
+  } from "https://cdn.jsdelivr.net/npm/heic-to@1.5.2/+esm";
 
   const input = document.getElementById("fileInput");
+  const qualitySelect = document.getElementById("quality");
   const status = document.getElementById("status");
   const result = document.getElementById("result");
+  const preview = document.getElementById("preview");
   const download = document.getElementById("download");
+  const fileInfo = document.getElementById("fileInfo");
+
+  function formatBytes(bytes) {
+
+    if (bytes < 1024) {
+      return bytes + " B";
+    }
+
+    if (bytes < 1024 * 1024) {
+      return (bytes / 1024).toFixed(1) + " KB";
+    }
+
+    return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+  }
 
   input.addEventListener("change", async () => {
 
@@ -213,6 +306,7 @@
     if (!file) return;
 
     result.style.display = "none";
+
     status.className = "";
     status.textContent = "Converting... ⏳";
 
@@ -221,23 +315,45 @@
       const heic = await isHeic(file);
 
       if (!heic) {
-        throw new Error("This file does not appear to be a HEIC image.");
+        throw new Error(
+          "This file does not appear to be a HEIC image."
+        );
       }
 
+      const quality =
+        Number(qualitySelect.value);
+
       const jpeg = await heicTo({
+
         blob: file,
+
         type: "image/jpeg",
-        quality: 0.9
+
+        quality: quality
+
       });
 
-      const url = URL.createObjectURL(jpeg);
+      const url =
+        URL.createObjectURL(jpeg);
+
+      preview.src = url;
 
       download.href = url;
 
-      status.textContent = "Conversion complete!";
-      status.className = "success";
+      fileInfo.textContent =
+        "Original: " +
+        formatBytes(file.size) +
+        " • JPG: " +
+        formatBytes(jpeg.size);
 
-      result.style.display = "block";
+      status.textContent =
+        "Conversion complete!";
+
+      status.className =
+        "success";
+
+      result.style.display =
+        "block";
 
     } catch (error) {
 
@@ -246,7 +362,8 @@
       status.textContent =
         "Sorry, we couldn't convert this file.";
 
-      status.className = "error";
+      status.className =
+        "error";
 
     }
 
