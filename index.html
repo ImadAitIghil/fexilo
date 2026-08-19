@@ -8,7 +8,7 @@
 
 <meta
   name="description"
-  content="Convert HEIC photos into high-quality JPG images instantly. Private, fast and completely in your browser."
+  content="Convert HEIC and HEIF photos into high-quality JPG images instantly. Private, fast and completely in your browser."
 >
 
 <meta name="theme-color" content="#06070b">
@@ -21,7 +21,10 @@
   rel="stylesheet"
 >
 
-<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+<!-- HEIC conversion engine -->
+<script
+  src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"
+></script>
 
 <style>
 
@@ -44,7 +47,7 @@ body {
   min-height: 100vh;
 
   background: #06070b;
-  color: #fff;
+  color: #ffffff;
 
   font-family: "Inter", Arial, sans-serif;
 
@@ -62,7 +65,7 @@ button {
 
 ::selection {
   background: #7c5cff;
-  color: #fff;
+  color: #ffffff;
 }
 
 
@@ -83,12 +86,12 @@ button {
   background:
     radial-gradient(
       circle at 15% 10%,
-      rgba(91,65,255,.14),
+      rgba(91, 65, 255, 0.14),
       transparent 28%
     ),
     radial-gradient(
       circle at 85% 20%,
-      rgba(0,205,255,.08),
+      rgba(0, 205, 255, 0.08),
       transparent 25%
     ),
     #06070b;
@@ -101,13 +104,13 @@ button {
   background-image:
     radial-gradient(
       circle,
-      rgba(255,255,255,.7) 1px,
+      rgba(255,255,255,0.7) 1px,
       transparent 1px
     );
 
   background-size: 90px 90px;
 
-  opacity: .22;
+  opacity: 0.22;
 }
 
 .glow {
@@ -125,7 +128,7 @@ button {
   left: -180px;
   top: -150px;
 
-  background: rgba(104,73,255,.13);
+  background: rgba(104, 73, 255, 0.13);
 
   filter: blur(70px);
 }
@@ -137,7 +140,7 @@ button {
   right: -170px;
   top: 180px;
 
-  background: rgba(0,190,255,.09);
+  background: rgba(0, 190, 255, 0.09);
 
   filter: blur(70px);
 }
@@ -149,7 +152,7 @@ button {
   left: 40%;
   bottom: -220px;
 
-  background: rgba(255,0,145,.07);
+  background: rgba(255, 0, 145, 0.07);
 
   filter: blur(70px);
 }
@@ -167,21 +170,17 @@ button {
   margin: 0 auto;
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 }
 
 .logo {
   display: flex;
-
   align-items: center;
 
   gap: 12px;
 
   color: white;
-
   text-decoration: none;
 }
 
@@ -190,7 +189,6 @@ button {
   height: 39px;
 
   display: grid;
-
   place-items: center;
 
   border-radius: 12px;
@@ -203,7 +201,7 @@ button {
     );
 
   box-shadow:
-    0 0 30px rgba(103,79,255,.25);
+    0 0 30px rgba(103, 79, 255, 0.25);
 }
 
 .logo-icon::before {
@@ -224,7 +222,7 @@ button {
 
   font-weight: 800;
 
-  letter-spacing: -.03em;
+  letter-spacing: -0.03em;
 }
 
 .logo-text span {
@@ -233,7 +231,6 @@ button {
 
 .online {
   display: flex;
-
   align-items: center;
 
   gap: 8px;
@@ -254,7 +251,7 @@ button {
 
   text-transform: uppercase;
 
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
 }
 
 .online-dot {
@@ -266,7 +263,7 @@ button {
   background: #32e49d;
 
   box-shadow:
-    0 0 10px rgba(50,228,157,.7);
+    0 0 10px rgba(50,228,157,0.7);
 }
 
 
@@ -318,7 +315,7 @@ button {
 
   text-transform: uppercase;
 
-  letter-spacing: .08em;
+  letter-spacing: 0.08em;
 }
 
 .hero-badge strong {
@@ -332,9 +329,9 @@ button {
 
   font-size: clamp(48px, 8vw, 88px);
 
-  line-height: .94;
+  line-height: 0.94;
 
-  letter-spacing: -.075em;
+  letter-spacing: -0.075em;
 
   font-weight: 900;
 }
@@ -343,21 +340,20 @@ button {
   background:
     linear-gradient(
       100deg,
-      #fff 0%,
+      #ffffff 0%,
       #a58dff 35%,
       #6be8ff 65%,
-      #fff 100%
+      #ffffff 100%
     );
 
   -webkit-background-clip: text;
-
   background-clip: text;
 
   color: transparent;
 }
 
 .hero-description {
-  max-width: 610px;
+  max-width: 650px;
 
   margin: 25px auto 0;
 
@@ -374,7 +370,7 @@ button {
 
 
 /* =========================================================
-   CONVERTER
+   CONVERTER OUTER
 ========================================================= */
 
 .converter-wrapper {
@@ -395,7 +391,7 @@ button {
     );
 
   box-shadow:
-    0 35px 100px rgba(0,0,0,.5);
+    0 35px 100px rgba(0,0,0,0.5);
 }
 
 .converter {
@@ -423,25 +419,23 @@ button {
   background:
     radial-gradient(
       circle at 50% 40%,
-      rgba(101,75,255,.10),
+      rgba(101,75,255,0.10),
       transparent 48%
     ),
     #0e0f15;
 
   display: flex;
-
   flex-direction: column;
 
   align-items: center;
-
   justify-content: center;
 
   text-align: center;
 
   transition:
-    border-color .2s ease,
-    background .2s ease,
-    transform .2s ease;
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .drop-zone:hover {
@@ -454,11 +448,11 @@ button {
   background:
     radial-gradient(
       circle at center,
-      rgba(103,77,255,.17),
+      rgba(103,77,255,0.17),
       #0e0f15 65%
     );
 
-  transform: scale(.995);
+  transform: scale(0.995);
 }
 
 
@@ -471,7 +465,6 @@ button {
   height: 92px;
 
   display: grid;
-
   place-items: center;
 
   margin-bottom: 24px;
@@ -488,7 +481,6 @@ button {
   height: 58px;
 
   display: grid;
-
   place-items: center;
 
   border-radius: 17px;
@@ -501,7 +493,7 @@ button {
     );
 
   box-shadow:
-    0 15px 35px rgba(91,68,235,.3);
+    0 15px 35px rgba(91,68,235,0.3);
 }
 
 .upload-square svg {
@@ -521,7 +513,7 @@ button {
 
 
 /* =========================================================
-   TEXT
+   DROP TEXT
 ========================================================= */
 
 .drop-title {
@@ -529,7 +521,7 @@ button {
 
   font-size: 22px;
 
-  letter-spacing: -.04em;
+  letter-spacing: -0.04em;
 
   font-weight: 800;
 }
@@ -548,14 +540,18 @@ button {
 
 
 /* =========================================================
-   UPLOAD BUTTON
+   BULLETPROOF UPLOAD BUTTON
 ========================================================= */
 
-.choose-button {
+.upload-button-wrap {
   position: relative;
 
-  z-index: 10;
+  display: inline-block;
 
+  width: auto;
+}
+
+.choose-button {
   height: 52px;
 
   padding: 0 25px;
@@ -571,38 +567,63 @@ button {
       #5948df
     );
 
-  color: #fff;
+  color: #ffffff;
 
   font-size: 12px;
 
   font-weight: 800;
 
   box-shadow:
-    0 12px 28px rgba(87,66,218,.28);
+    0 12px 28px rgba(87,66,218,0.28);
 
   transition:
-    transform .2s ease,
-    box-shadow .2s ease,
-    filter .2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+
+  /*
+    The visible button does not receive the click.
+    The transparent file input directly above it does.
+  */
+  pointer-events: none;
 }
 
-.choose-button:hover {
+.upload-button-wrap:hover .choose-button {
   transform: translateY(-2px);
 
   filter: brightness(1.08);
 
   box-shadow:
-    0 17px 35px rgba(87,66,218,.42);
+    0 17px 35px rgba(87,66,218,0.42);
 }
 
-.choose-button:active {
-  transform: translateY(0);
-}
 
-.choose-button:focus-visible {
-  outline: 2px solid #9b8bff;
+/*
+  THIS IS THE IMPORTANT PART.
 
-  outline-offset: 4px;
+  The real browser file input physically covers
+  the visible button.
+
+  Therefore clicking the button is actually
+  clicking <input type="file">.
+
+  No JavaScript is required to open the picker.
+*/
+
+#fileInput {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+
+  cursor: pointer;
+
+  z-index: 20;
 }
 
 .file-note {
@@ -616,31 +637,20 @@ button {
 
   text-transform: uppercase;
 
-  letter-spacing: .08em;
-}
-
-#fileInput {
-  position: absolute;
-
-  width: 1px;
-  height: 1px;
-
-  opacity: 0;
-
-  pointer-events: none;
+  letter-spacing: 0.08em;
 }
 
 
 /* =========================================================
-   QUALITY MESSAGE
+   BIG QUALITY MESSAGE
 ========================================================= */
 
 .quality-message {
-  width: min(760px, 100%);
+  width: min(800px, 100%);
 
   margin: 0 auto;
 
-  padding: 48px 20px 34px;
+  padding: 65px 20px 20px;
 
   text-align: center;
 }
@@ -651,7 +661,7 @@ button {
 
   margin: 0 auto 22px;
 
-  border-radius: 99px;
+  border-radius: 999px;
 
   background:
     linear-gradient(
@@ -661,7 +671,7 @@ button {
     );
 
   box-shadow:
-    0 0 20px rgba(116,92,255,.45);
+    0 0 20px rgba(116,92,255,0.45);
 }
 
 .quality-message h2 {
@@ -671,7 +681,7 @@ button {
 
   line-height: 1.02;
 
-  letter-spacing: -.06em;
+  letter-spacing: -0.06em;
 
   font-weight: 900;
 }
@@ -680,22 +690,21 @@ button {
   background:
     linear-gradient(
       100deg,
-      #fff,
+      #ffffff,
       #a991ff,
       #65e7ff
     );
 
   -webkit-background-clip: text;
-
   background-clip: text;
 
   color: transparent;
 }
 
 .quality-message p {
-  max-width: 650px;
+  max-width: 680px;
 
-  margin: 18px auto 0;
+  margin: 20px auto 0;
 
   color: #666874;
 
@@ -713,14 +722,36 @@ button {
    RESULTS
 ========================================================= */
 
-.results {
+.results-wrapper {
   display: none;
 
-  padding-top: 10px;
+  width: min(920px, 100%);
+
+  margin: 25px auto 0;
+
+  padding: 1px;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #282039,
+      #15131d 45%,
+      #172632
+    );
 }
 
-.results.visible {
+.results-wrapper.visible {
   display: block;
+}
+
+.results {
+  background: #0b0c11;
+
+  border-radius: 21px;
+
+  padding: 12px;
 }
 
 .results-header {
@@ -732,6 +763,8 @@ button {
 
   justify-content: space-between;
 
+  gap: 15px;
+
   padding: 0 4px 10px;
 }
 
@@ -742,7 +775,7 @@ button {
 }
 
 .results-count strong {
-  color: white;
+  color: #ffffff;
 }
 
 .download-all {
@@ -827,7 +860,6 @@ button {
   overflow: hidden;
 
   display: grid;
-
   place-items: center;
 
   border-radius: 9px;
@@ -889,6 +921,8 @@ button {
 
   align-items: center;
 
+  justify-content: flex-end;
+
   gap: 8px;
 
   color: #777986;
@@ -906,7 +940,7 @@ button {
 
   border-radius: 50%;
 
-  animation: spin .7s linear infinite;
+  animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
@@ -922,7 +956,6 @@ button {
   height: 21px;
 
   display: grid;
-
   place-items: center;
 
   border-radius: 50%;
@@ -941,14 +974,13 @@ button {
   height: 21px;
 
   display: grid;
-
   place-items: center;
 
   border-radius: 50%;
 
   background: #ed5579;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 11px;
 }
@@ -958,7 +990,6 @@ button {
   height: 35px;
 
   display: grid;
-
   place-items: center;
 
   border: 1px solid #292a33;
@@ -1020,7 +1051,6 @@ button {
   height: 35px;
 
   display: grid;
-
   place-items: center;
 
   margin-bottom: 17px;
@@ -1054,7 +1084,7 @@ button {
 
   font-size: 12px;
 
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
 }
 
 .feature p {
@@ -1094,7 +1124,7 @@ button {
 
   line-height: 1.05;
 
-  letter-spacing: -.06em;
+  letter-spacing: -0.06em;
 }
 
 .final-message p {
@@ -1135,7 +1165,7 @@ button {
 
   font-size: 8px;
 
-  letter-spacing: .06em;
+  letter-spacing: 0.06em;
 
   text-transform: uppercase;
 }
@@ -1171,8 +1201,8 @@ button {
   font-size: 10px;
 
   transition:
-    transform .25s ease,
-    opacity .25s ease;
+    transform 0.25s ease,
+    opacity 0.25s ease;
 
   pointer-events: none;
 }
@@ -1246,7 +1276,11 @@ button {
   }
 
   .quality-message {
-    padding-top: 38px;
+    padding-top: 45px;
+  }
+
+  .quality-message h2 {
+    font-size: 32px;
   }
 
   .features {
@@ -1260,6 +1294,12 @@ button {
   }
 
   .footer {
+    flex-direction: column;
+  }
+
+  .results-header {
+    align-items: flex-start;
+
     flex-direction: column;
   }
 
@@ -1303,6 +1343,7 @@ button {
 </style>
 </head>
 
+
 <body>
 
 
@@ -1310,7 +1351,10 @@ button {
      BACKGROUND
 ======================================================== -->
 
-<div class="page-background" aria-hidden="true">
+<div
+  class="page-background"
+  aria-hidden="true"
+>
 
   <div class="stars"></div>
 
@@ -1329,7 +1373,10 @@ button {
 
 <header class="header">
 
-  <a href="#" class="logo">
+  <a
+    href="#"
+    class="logo"
+  >
 
     <div class="logo-icon"></div>
 
@@ -1387,7 +1434,8 @@ button {
     <p class="hero-description">
 
       Convert your HEIC and HEIF photos into
-      universally compatible <strong>JPG images</strong>
+      universally compatible
+      <strong>JPG images</strong>
       without uploading them to a server.
 
     </p>
@@ -1404,8 +1452,6 @@ button {
 
     <div class="converter">
 
-
-      <!-- DROP ZONE -->
 
       <div
         class="drop-zone"
@@ -1441,59 +1487,6 @@ button {
 
         <p class="drop-subtitle">
 
-          or <strong>choose files from your device</strong>
-
-        </p>
-
-
-        <!-- IMPORTANT:
-             The upload button ONLY opens the file picker.
-        -->
-
-        <button
-          type="button"
-          class="choose-button"
-          id="chooseButton"
-        >
-          Choose HEIC files&nbsp; →
-        </button>
-
-
-        <div class="file-note">
-
-          HEIC · HEIF · Multiple files supported
-
-        </div>
-
-      </div>
-
-
-      <!-- REAL FILE INPUT -->
-
-      <input
-        id="fileInput"
-        type="file"
-        accept=".heic,.heif,image/heic,image/heif"
-        multiple
-      >
-
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       BIG QUALITY MESSAGE
-  ====================================================== -->
-
-  <section class="quality-message">
-
-    <div class="quality-message-line"></div>
-
-
-    <h2>
-
-      Turn your HEIC photos into
-      <span>high-quality 
+          or
+          <strong>
+ 
