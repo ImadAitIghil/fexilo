@@ -42,12 +42,9 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-
   background: #06070b;
   color: #fff;
-
   font-family: "Inter", Arial, sans-serif;
-
   overflow-x: hidden;
 }
 
@@ -73,84 +70,53 @@ button {
 .page-background {
   position: fixed;
   inset: 0;
-
   z-index: -10;
-
   pointer-events: none;
-
   overflow: hidden;
-
   background:
-    radial-gradient(
-      circle at 15% 10%,
-      rgba(91,65,255,.14),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(0,205,255,.08),
-      transparent 25%
-    ),
+    radial-gradient(circle at 15% 10%, rgba(91,65,255,.14), transparent 28%),
+    radial-gradient(circle at 85% 20%, rgba(0,205,255,.08), transparent 25%),
     #06070b;
 }
 
 .stars {
   position: absolute;
   inset: 0;
-
-  background-image:
-    radial-gradient(
-      circle,
-      rgba(255,255,255,.7) 1px,
-      transparent 1px
-    );
-
+  background-image: radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1px);
   background-size: 90px 90px;
-
   opacity: .22;
 }
 
 .glow {
   position: absolute;
-
   border-radius: 50%;
-
   pointer-events: none;
 }
 
 .glow-purple {
   width: 400px;
   height: 400px;
-
   left: -180px;
   top: -150px;
-
   background: rgba(104,73,255,.13);
-
   filter: blur(70px);
 }
 
 .glow-blue {
   width: 350px;
   height: 350px;
-
   right: -170px;
   top: 180px;
-
   background: rgba(0,190,255,.09);
-
   filter: blur(70px);
 }
 
 .glow-pink {
   width: 300px;
   height: 300px;
-
   left: 40%;
   bottom: -220px;
-
   background: rgba(255,0,145,.07);
-
   filter: blur(70px);
 }
 
@@ -161,69 +127,43 @@ button {
 
 .header {
   width: min(1180px, calc(100% - 40px));
-
   height: 80px;
-
   margin: 0 auto;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 }
 
 .logo {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
   color: white;
-
   text-decoration: none;
 }
 
 .logo-icon {
   width: 39px;
   height: 39px;
-
   display: grid;
-
   place-items: center;
-
   border-radius: 12px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #8a68ff,
-      #5143df
-    );
-
-  box-shadow:
-    0 0 30px rgba(103,79,255,.25);
+  background: linear-gradient(135deg, #8a68ff, #5143df);
+  box-shadow: 0 0 30px rgba(103,79,255,.25);
 }
 
 .logo-icon::before {
   content: "";
-
   width: 14px;
   height: 14px;
-
   border: 2px solid white;
-
   border-radius: 4px;
-
   transform: rotate(45deg);
 }
 
 .logo-text {
   font-size: 15px;
-
   font-weight: 800;
-
   letter-spacing: -.03em;
 }
 
@@ -233,40 +173,25 @@ button {
 
 .online {
   display: flex;
-
   align-items: center;
-
   gap: 8px;
-
   padding: 8px 12px;
-
   border: 1px solid #1d1e27;
-
   border-radius: 999px;
-
   background: #0b0c11;
-
   color: #777987;
-
   font-family: "DM Mono", monospace;
-
   font-size: 9px;
-
   text-transform: uppercase;
-
   letter-spacing: .08em;
 }
 
 .online-dot {
   width: 7px;
   height: 7px;
-
   border-radius: 50%;
-
   background: #32e49d;
-
-  box-shadow:
-    0 0 10px rgba(50,228,157,.7);
+  box-shadow: 0 0 10px rgba(50,228,157,.7);
 }
 
 
@@ -276,9 +201,7 @@ button {
 
 .main {
   width: min(1180px, calc(100% - 40px));
-
   margin: 0 auto;
-
   padding-bottom: 90px;
 }
 
@@ -289,35 +212,22 @@ button {
 
 .hero {
   padding-top: 75px;
-
   padding-bottom: 45px;
-
   text-align: center;
 }
 
 .hero-badge {
   display: inline-flex;
-
   align-items: center;
-
   gap: 8px;
-
   padding: 8px 13px;
-
   border: 1px solid #29243f;
-
   border-radius: 999px;
-
   background: #0d0b16;
-
   color: #a998ff;
-
   font-family: "DM Mono", monospace;
-
   font-size: 9px;
-
   text-transform: uppercase;
-
   letter-spacing: .08em;
 }
 
@@ -327,44 +237,25 @@ button {
 
 .hero h1 {
   margin: 25px auto 0;
-
   max-width: 900px;
-
   font-size: clamp(48px, 8vw, 88px);
-
   line-height: .94;
-
   letter-spacing: -.075em;
-
   font-weight: 900;
 }
 
 .gradient-text {
-  background:
-    linear-gradient(
-      100deg,
-      #fff 0%,
-      #a58dff 35%,
-      #6be8ff 65%,
-      #fff 100%
-    );
-
+  background: linear-gradient(100deg, #fff 0%, #a58dff 35%, #6be8ff 65%, #fff 100%);
   -webkit-background-clip: text;
-
   background-clip: text;
-
   color: transparent;
 }
 
 .hero-description {
   max-width: 610px;
-
   margin: 25px auto 0;
-
   color: #777986;
-
   font-size: 15px;
-
   line-height: 1.7;
 }
 
@@ -379,30 +270,16 @@ button {
 
 .converter-wrapper {
   width: min(920px, 100%);
-
   margin: 0 auto;
-
   padding: 1px;
-
   border-radius: 26px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #282039,
-      #15131d 45%,
-      #172632
-    );
-
-  box-shadow:
-    0 35px 100px rgba(0,0,0,.5);
+  background: linear-gradient(135deg, #282039, #15131d 45%, #172632);
+  box-shadow: 0 35px 100px rgba(0,0,0,.5);
 }
 
 .converter {
   background: #0b0c11;
-
   border-radius: 25px;
-
   padding: 12px;
 }
 
@@ -413,35 +290,19 @@ button {
 
 .drop-zone {
   min-height: 390px;
-
   position: relative;
-
   border: 1px dashed #303044;
-
   border-radius: 19px;
-
   background:
-    radial-gradient(
-      circle at 50% 40%,
-      rgba(101,75,255,.10),
-      transparent 48%
-    ),
+    radial-gradient(circle at 50% 40%, rgba(101,75,255,.10), transparent 48%),
     #0e0f15;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   justify-content: center;
-
   text-align: center;
-
-  transition:
-    border-color .2s ease,
-    background .2s ease,
-    transform .2s ease;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+  cursor: pointer;
 }
 
 .drop-zone:hover {
@@ -450,14 +311,8 @@ button {
 
 .drop-zone.dragging {
   border-color: #8068ff;
-
   background:
-    radial-gradient(
-      circle at center,
-      rgba(103,77,255,.17),
-      #0e0f15 65%
-    );
-
+    radial-gradient(circle at center, rgba(103,77,255,.17), #0e0f15 65%);
   transform: scale(.995);
 }
 
@@ -469,53 +324,31 @@ button {
 .upload-circle {
   width: 92px;
   height: 92px;
-
   display: grid;
-
   place-items: center;
-
   margin-bottom: 24px;
-
   border-radius: 50%;
-
   border: 1px solid #292541;
-
   background: #11101b;
 }
 
 .upload-square {
   width: 58px;
   height: 58px;
-
   display: grid;
-
   place-items: center;
-
   border-radius: 17px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #8064ff,
-      #5141d5
-    );
-
-  box-shadow:
-    0 15px 35px rgba(91,68,235,.3);
+  background: linear-gradient(145deg, #8064ff, #5141d5);
+  box-shadow: 0 15px 35px rgba(91,68,235,.3);
 }
 
 .upload-square svg {
   width: 27px;
   height: 27px;
-
   fill: none;
-
   stroke: white;
-
   stroke-width: 1.8;
-
   stroke-linecap: round;
-
   stroke-linejoin: round;
 }
 
@@ -526,19 +359,14 @@ button {
 
 .drop-title {
   margin: 0;
-
   font-size: 22px;
-
   letter-spacing: -.04em;
-
   font-weight: 800;
 }
 
 .drop-subtitle {
   margin: 10px 0 23px;
-
   color: #656774;
-
   font-size: 12px;
 }
 
@@ -548,7 +376,7 @@ button {
 
 
 /* =========================================================
-   UPLOAD BUTTON (اللي كان مخدامش)
+   UPLOAD BUTTON
 ========================================================= */
 
 .choose-button {
@@ -558,21 +386,12 @@ button {
   padding: 0 25px;
   border: 0;
   border-radius: 13px;
-  background:
-    linear-gradient(
-      135deg,
-      #8165ff,
-      #5948df
-    );
+  background: linear-gradient(135deg, #8165ff, #5948df);
   color: #fff;
   font-size: 12px;
   font-weight: 800;
-  box-shadow:
-    0 12px 28px rgba(87,66,218,.28);
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease,
-    filter .2s ease;
+  box-shadow: 0 12px 28px rgba(87,66,218,.28);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
 }
 
 .choose-button:hover {
@@ -601,75 +420,59 @@ button {
 
 
 /* =========================================================
+   HIDE NATIVE FILE INPUT (هذا هو الحل)
+========================================================= */
+
+#fileInput {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+
+/* =========================================================
    QUALITY MESSAGE
 ========================================================= */
 
 .quality-message {
   width: min(760px, 100%);
-
   margin: 0 auto;
-
   padding: 48px 20px 34px;
-
   text-align: center;
 }
 
 .quality-message-line {
   width: 42px;
   height: 2px;
-
   margin: 0 auto 22px;
-
   border-radius: 99px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #765cff,
-      #5bdfff
-    );
-
-  box-shadow:
-    0 0 20px rgba(116,92,255,.45);
+  background: linear-gradient(90deg, #765cff, #5bdfff);
+  box-shadow: 0 0 20px rgba(116,92,255,.45);
 }
 
 .quality-message h2 {
   margin: 0;
-
   font-size: clamp(28px, 5vw, 48px);
-
   line-height: 1.02;
-
   letter-spacing: -.06em;
-
   font-weight: 900;
 }
 
 .quality-message h2 span {
-  background:
-    linear-gradient(
-      100deg,
-      #fff,
-      #a991ff,
-      #65e7ff
-    );
-
+  background: linear-gradient(100deg, #fff, #a991ff, #65e7ff);
   -webkit-background-clip: text;
-
   background-clip: text;
-
   color: transparent;
 }
 
 .quality-message p {
   max-width: 650px;
-
   margin: 18px auto 0;
-
   color: #666874;
-
   font-size: 12px;
-
   line-height: 1.8;
 }
 
@@ -684,7 +487,6 @@ button {
 
 .results {
   display: none;
-
   padding-top: 10px;
 }
 
@@ -694,19 +496,14 @@ button {
 
 .results-header {
   min-height: 46px;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   padding: 0 4px 10px;
 }
 
 .results-count {
   color: #747582;
-
   font-size: 11px;
 }
 
@@ -716,42 +513,28 @@ button {
 
 .download-all {
   height: 36px;
-
   padding: 0 13px;
-
   display: flex;
-
   align-items: center;
-
   gap: 7px;
-
   border: 1px solid #292a35;
-
   border-radius: 9px;
-
   background: #111219;
-
   color: #aaa9b5;
-
   font-size: 10px;
-
   font-weight: 600;
 }
 
 .download-all:hover {
   border-color: #4b4271;
-
   color: white;
 }
 
 .download-all svg {
   width: 14px;
   height: 14px;
-
   fill: none;
-
   stroke: currentColor;
-
   stroke-width: 1.8;
 }
 
@@ -762,60 +545,38 @@ button {
 
 .file-list {
   display: grid;
-
   gap: 8px;
 }
 
 .file-card {
   min-height: 76px;
-
   display: grid;
-
-  grid-template-columns:
-    54px
-    minmax(0, 1fr)
-    auto;
-
+  grid-template-columns: 54px minmax(0, 1fr) auto;
   align-items: center;
-
   gap: 12px;
-
   padding: 10px;
-
   border: 1px solid #1d1e26;
-
   border-radius: 13px;
-
   background: #101117;
 }
 
 .file-thumb {
   width: 54px;
   height: 54px;
-
   overflow: hidden;
-
   display: grid;
-
   place-items: center;
-
   border-radius: 9px;
-
   background: #08090d;
-
   color: #585366;
-
   font-family: "DM Mono", monospace;
-
   font-size: 8px;
 }
 
 .file-thumb img {
   display: block;
-
   width: 100%;
   height: 100%;
-
   object-fit: cover;
 }
 
@@ -825,134 +586,88 @@ button {
 
 .file-name {
   overflow: hidden;
-
   text-overflow: ellipsis;
-
   white-space: nowrap;
-
   color: #d9d7df;
-
   font-size: 11px;
-
   font-weight: 600;
 }
 
 .file-meta {
   display: flex;
-
   align-items: center;
-
   gap: 6px;
-
   margin-top: 6px;
-
   color: #5d5e69;
-
   font-family: "DM Mono", monospace;
-
   font-size: 8px;
 }
 
 .file-status {
   display: flex;
-
   align-items: center;
-
   gap: 8px;
-
   color: #777986;
-
   font-size: 10px;
 }
 
 .spinner {
   width: 15px;
   height: 15px;
-
   border: 2px solid #252631;
-
   border-top-color: #8065ff;
-
   border-radius: 50%;
-
   animation: spin .7s linear infinite;
 }
 
 @keyframes spin {
-
-  to {
-    transform: rotate(360deg);
-  }
-
+  to { transform: rotate(360deg); }
 }
 
 .success {
   width: 21px;
   height: 21px;
-
   display: grid;
-
   place-items: center;
-
   border-radius: 50%;
-
   background: #32d99a;
-
   color: #07110c;
-
   font-size: 11px;
-
   font-weight: 900;
 }
 
 .error {
   width: 21px;
   height: 21px;
-
   display: grid;
-
   place-items: center;
-
   border-radius: 50%;
-
   background: #ed5579;
-
   color: white;
-
   font-size: 11px;
 }
 
 .download-one {
   width: 35px;
   height: 35px;
-
   display: grid;
-
   place-items: center;
-
   border: 1px solid #292a33;
-
   border-radius: 9px;
-
   background: #12131a;
-
   color: #8d8d9a;
 }
 
 .download-one:hover {
   border-color: #514579;
-
   color: white;
 }
 
 .download-one svg {
   width: 14px;
   height: 14px;
-
   fill: none;
-
   stroke: currentColor;
-
   stroke-width: 1.8;
 }
 
@@ -963,76 +678,51 @@ button {
 
 .features {
   width: min(920px, 100%);
-
   margin: 55px auto 0;
-
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
 .feature {
   padding: 22px;
-
   border: 1px solid #181920;
-
   border-radius: 16px;
-
   background: #0b0c10;
 }
 
 .feature-icon {
   width: 35px;
   height: 35px;
-
   display: grid;
-
   place-items: center;
-
   margin-bottom: 17px;
-
   border-radius: 9px;
-
   background: #12131c;
-
   color: #8872ff;
 }
 
 .feature-icon svg {
   width: 17px;
   height: 17px;
-
   fill: none;
-
   stroke: currentColor;
-
   stroke-width: 1.7;
-
   stroke-linecap: round;
-
   stroke-linejoin: round;
 }
 
 .feature h3 {
   margin: 0 0 7px;
-
   color: #d6d4dc;
-
   font-size: 12px;
-
   letter-spacing: -.02em;
 }
 
 .feature p {
   margin: 0;
-
   color: #62636d;
-
   font-size: 10px;
-
   line-height: 1.7;
 }
 
@@ -1043,38 +733,28 @@ button {
 
 .final-message {
   padding: 80px 20px 10px;
-
   text-align: center;
 }
 
 .final-line {
   width: 35px;
   height: 1px;
-
   margin: 0 auto 20px;
-
   background: #735cff;
 }
 
 .final-message h2 {
   margin: 0;
-
   font-size: clamp(26px, 4vw, 38px);
-
   line-height: 1.05;
-
   letter-spacing: -.06em;
 }
 
 .final-message p {
   max-width: 500px;
-
   margin: 15px auto 0;
-
   color: #60616c;
-
   font-size: 11px;
-
   line-height: 1.7;
 }
 
@@ -1085,27 +765,16 @@ button {
 
 .footer {
   width: min(1180px, calc(100% - 40px));
-
   margin: 0 auto;
-
   padding: 25px 0 35px;
-
   border-top: 1px solid #15161d;
-
   display: flex;
-
   justify-content: space-between;
-
   gap: 20px;
-
   color: #44454f;
-
   font-family: "DM Mono", monospace;
-
   font-size: 8px;
-
   letter-spacing: .06em;
-
   text-transform: uppercase;
 }
 
@@ -1116,53 +785,32 @@ button {
 
 .toast {
   position: fixed;
-
   z-index: 100;
-
   left: 50%;
   bottom: 25px;
-
-  transform:
-    translate(-50%, 100px);
-
+  transform: translate(-50%, 100px);
   opacity: 0;
-
   padding: 12px 16px;
-
   border: 1px solid #292a34;
-
   border-radius: 10px;
-
   background: #101117;
-
   color: #d7d5dd;
-
   font-size: 10px;
-
-  transition:
-    transform .25s ease,
-    opacity .25s ease;
-
+  transition: transform .25s ease, opacity .25s ease;
   pointer-events: none;
 }
 
 .toast.show {
-  transform:
-    translate(-50%, 0);
-
+  transform: translate(-50%, 0);
   opacity: 1;
 }
 
 .toast-dot {
   display: inline-block;
-
   width: 6px;
   height: 6px;
-
   margin-right: 8px;
-
   border-radius: 50%;
-
   background: #35dca0;
 }
 
@@ -1172,7 +820,6 @@ button {
 ========================================================= */
 
 @media (max-width: 720px) {
-
   .header,
   .main,
   .footer {
@@ -1192,12 +839,7 @@ button {
   }
 
   .hero h1 {
-    font-size:
-      clamp(
-        45px,
-        14vw,
-        68px
-      );
+    font-size: clamp(45px, 14vw, 68px);
   }
 
   .hero-description {
@@ -1210,7 +852,6 @@ button {
 
   .drop-zone {
     min-height: 340px;
-
     padding: 20px;
   }
 
@@ -1220,7 +861,6 @@ button {
 
   .features {
     grid-template-columns: 1fr;
-
     margin-top: 35px;
   }
 
@@ -1233,10 +873,7 @@ button {
   }
 
   .file-card {
-    grid-template-columns:
-      46px
-      minmax(0, 1fr)
-      auto;
+    grid-template-columns: 46px minmax(0, 1fr) auto;
   }
 
   .file-thumb {
@@ -1247,7 +884,6 @@ button {
   .file-status span {
     display: none;
   }
-
 }
 
 
@@ -1256,17 +892,13 @@ button {
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
     animation: none !important;
-
     transition: none !important;
-
     scroll-behavior: auto !important;
   }
-
 }
 
 </style>
@@ -1280,15 +912,10 @@ button {
 ======================================================== -->
 
 <div class="page-background" aria-hidden="true">
-
   <div class="stars"></div>
-
   <div class="glow glow-purple"></div>
-
   <div class="glow glow-blue"></div>
-
   <div class="glow glow-pink"></div>
-
 </div>
 
 
@@ -1297,26 +924,15 @@ button {
 ======================================================== -->
 
 <header class="header">
-
   <a href="#" class="logo">
-
     <div class="logo-icon"></div>
-
-    <div class="logo-text">
-      HEIC<span>X</span>
-    </div>
-
+    <div class="logo-text">HEIC<span>X</span></div>
   </a>
 
-
   <div class="online">
-
     <span class="online-dot"></span>
-
     Conversion engine ready
-
   </div>
-
 </header>
 
 
@@ -1326,117 +942,58 @@ button {
 
 <main class="main">
 
-
-  <!-- =====================================================
-       HERO
-  ====================================================== -->
-
+  <!-- HERO -->
   <section class="hero">
-
     <div class="hero-badge">
-
       <strong>✦</strong>
-
       Private browser conversion
-
     </div>
 
-
     <h1>
-
       HEIC in.<br>
-
-      <span class="gradient-text">
-        JPG out.
-      </span>
-
+      <span class="gradient-text">JPG out.</span>
     </h1>
 
-
     <p class="hero-description">
-
       Convert your HEIC and HEIF photos into
       universally compatible <strong>JPG images</strong>
       without uploading them to a server.
-
     </p>
-
   </section>
 
 
-
-  <!-- =====================================================
-       CONVERTER
-  ====================================================== -->
-
+  <!-- CONVERTER -->
   <section class="converter-wrapper">
-
     <div class="converter">
 
-
       <!-- DROP ZONE -->
-
-      <div
-        class="drop-zone"
-        id="dropZone"
-      >
-
-
+      <div class="drop-zone" id="dropZone">
         <div class="upload-circle">
-
           <div class="upload-square">
-
             <svg viewBox="0 0 24 24">
-
               <path d="M12 16V4"></path>
-
               <path d="m7 9 5-5 5 5"></path>
-
               <path d="M5 20h14"></path>
-
             </svg>
-
           </div>
-
         </div>
 
-
-        <h2 class="drop-title">
-
-          Drop HEIC files here
-
-        </h2>
-
+        <h2 class="drop-title">Drop HEIC files here</h2>
 
         <p class="drop-subtitle">
-
           or <strong>choose files from your device</strong>
-
         </p>
 
-
-        <!-- ZR الرفع (خدام 100% الآن) -->
-
-        <button
-          type="button"
-          class="choose-button"
-          id="chooseButton"
-        >
-          Choose HEIC files&nbsp; →
+        <button type="button" class="choose-button" id="chooseButton">
+          Choose HEIC files →
         </button>
 
-
         <div class="file-note">
-
           HEIC · HEIF · Multiple files supported
-
         </div>
-
       </div>
 
-
-      <!-- REAL FILE INPUT (مرتبط بالزر) -->
-
+      <!-- HIDDEN FILE INPUT -->
       <input
         id="fileInput"
         type="file"
@@ -1444,19 +1001,48 @@ button {
         multiple
       >
 
-
-      <!-- RESULTS (hidden by default) -->
+      <!-- RESULTS -->
       <div class="results" id="results">
         <div class="results-header">
           <div class="results-count">
             <strong id="resultsCount">0</strong> files converted
           </div>
-          <button type="button" class="download-all" id="downloadAll" style="display:none"></button>
+          <button type="button" class="download-all" id="downloadAll" style="display:none">
+            <svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            Download All
+          </button>
         </div>
-        <div class="file-list" id="fileList">
-          <!-- سيتم ملأها بالـ JS -->
-        </div>
+        <div class="file-list" id="fileList"></div>
       </div>
 
+    </div>
+  </section>
 
-      <!--
+
+  <!-- QUALITY MESSAGE -->
+  <section class="quality-message">
+    <div class="quality-message-line"></div>
+    <h2>High quality.<br><span>Zero uploads.</span></h2>
+    <p>
+      Everything happens privately inside your browser.
+      Your photos never leave your device.
+    </p>
+  </section>
+
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="feature">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>100% Private</h3>
+      <p>Files are converted locally. Nothing is sent to any server.</p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <h3>Lightning Fast</h3>
+      <p>Powered by modern browser APIs for quick conver
