@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Fexilo - HEIC to JPG Converter</title>
   <meta name="description" content="Convert HEIC images to JPG online for free. Fast, private and easy to use.">
 
@@ -20,7 +21,7 @@
 
     .container {
       max-width: 760px;
-      margin: 0 auto;
+      margin: auto;
       padding: 40px 20px;
       text-align: center;
     }
@@ -29,7 +30,7 @@
       font-size: 32px;
       font-weight: 800;
       color: #4f46e5;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     h1 {
@@ -40,10 +41,11 @@
     .subtitle {
       color: #6b7280;
       font-size: 17px;
-      margin-bottom: 35px;
+      margin-bottom: 30px;
     }
 
     .upload-box {
+      display: block;
       background: white;
       border: 2px dashed #c7d2fe;
       border-radius: 20px;
@@ -72,8 +74,36 @@
       margin-top: 8px;
     }
 
-    input[type="file"] {
+    input {
       display: none;
+    }
+
+    #status {
+      margin-top: 25px;
+      font-weight: 600;
+    }
+
+    .result {
+      display: none;
+      background: white;
+      margin-top: 25px;
+      padding: 25px;
+      border-radius: 16px;
+    }
+
+    .download {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 13px 22px;
+      background: #4f46e5;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .download:hover {
+      background: #4338ca;
     }
 
     .privacy {
@@ -86,6 +116,14 @@
       margin-top: 60px;
       color: #9ca3af;
       font-size: 13px;
+    }
+
+    .error {
+      color: #dc2626;
+    }
+
+    .success {
+      color: #16a34a;
     }
 
     @media (max-width: 600px) {
@@ -106,46 +144,115 @@
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="logo">Fexilo</div>
+  <div class="logo">Fexilo</div>
 
-    <h1>Convert HEIC to JPG</h1>
+  <h1>Convert HEIC to JPG</h1>
 
-    <p class="subtitle">
-      Free, fast and private HEIC to JPG converter.
-    </p>
+  <p class="subtitle">
+    Free, fast and private HEIC to JPG converter.
+  </p>
 
-    <label class="upload-box" for="fileInput">
+  <label class="upload-box" for="fileInput">
 
-      <div class="upload-icon">📷</div>
+    <div class="upload-icon">📷</div>
 
-      <div class="upload-text">
-        Choose HEIC files
-      </div>
-
-      <div class="upload-hint">
-        Tap here to select your images
-      </div>
-
-    </label>
-
-    <input
-      id="fileInput"
-      type="file"
-      accept=".heic,.heif,image/heic,image/heif"
-      multiple
-    >
-
-    <div class="privacy">
-      🔒 Your files are processed privately in your browser.
+    <div class="upload-text">
+      Choose HEIC file
     </div>
 
-    <div class="footer">
-      © 2026 Fexilo
+    <div class="upload-hint">
+      Tap here to select an image
     </div>
+
+  </label>
+
+  <input
+    id="fileInput"
+    type="file"
+    accept=".heic,.heif,image/heic,image/heif"
+  >
+
+  <div id="status"></div>
+
+  <div id="result" class="result">
+
+    <div>✅ Your JPG is ready!</div>
+
+    <a id="download" class="download" download="fexilo.jpg">
+      Download JPG
+    </a>
 
   </div>
+
+  <div class="privacy">
+    🔒 Your file is processed in your browser.
+  </div>
+
+  <div class="footer">
+    © 2026 Fexilo
+  </div>
+
+</div>
+
+<script type="module">
+
+  import { heicTo, isHeic } from
+  "https://cdn.jsdelivr.net/npm/heic-to@1.5.2/+esm";
+
+  const input = document.getElementById("fileInput");
+  const status = document.getElementById("status");
+  const result = document.getElementById("result");
+  const download = document.getElementById("download");
+
+  input.addEventListener("change", async () => {
+
+    const file = input.files[0];
+
+    if (!file) return;
+
+    result.style.display = "none";
+    status.className = "";
+    status.textContent = "Converting... ⏳";
+
+    try {
+
+      const heic = await isHeic(file);
+
+      if (!heic) {
+        throw new Error("This file does not appear to be a HEIC image.");
+      }
+
+      const jpeg = await heicTo({
+        blob: file,
+        type: "image/jpeg",
+        quality: 0.9
+      });
+
+      const url = URL.createObjectURL(jpeg);
+
+      download.href = url;
+
+      status.textContent = "Conversion complete!";
+      status.className = "success";
+
+      result.style.display = "block";
+
+    } catch (error) {
+
+      console.error(error);
+
+      status.textContent =
+        "Sorry, we couldn't convert this file.";
+
+      status.className = "error";
+
+    }
+
+  });
+
+</script>
 
 </body>
 </html>
