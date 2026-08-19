@@ -24,6 +24,7 @@
 <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 
 <style>
+
 * {
   box-sizing: border-box;
 }
@@ -56,8 +57,6 @@ button {
   background: #7c5cff;
   color: #fff;
 }
-
-/* BACKGROUND */
 
 .page-background {
   position: fixed;
@@ -111,8 +110,6 @@ button {
   background: rgba(255,0,145,.07);
   filter: blur(70px);
 }
-
-/* HEADER */
 
 .header {
   width: min(1180px, calc(100% - 40px));
@@ -183,15 +180,11 @@ button {
   box-shadow: 0 0 10px rgba(50,228,157,.7);
 }
 
-/* MAIN */
-
 .main {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
   padding-bottom: 90px;
 }
-
-/* HERO */
 
 .hero {
   padding-top: 75px;
@@ -228,13 +221,7 @@ button {
 }
 
 .gradient-text {
-  background: linear-gradient(
-    100deg,
-    #fff 0%,
-    #a58dff 35%,
-    #6be8ff 65%,
-    #fff 100%
-  );
+  background: linear-gradient(100deg, #fff 0%, #a58dff 35%, #6be8ff 65%, #fff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -252,19 +239,12 @@ button {
   color: #d4d2dc;
 }
 
-/* CONVERTER */
-
 .converter-wrapper {
   width: min(920px, 100%);
   margin: 0 auto;
   padding: 1px;
   border-radius: 26px;
-  background: linear-gradient(
-    135deg,
-    #282039,
-    #15131d 45%,
-    #172632
-  );
+  background: linear-gradient(135deg, #282039, #15131d 45%, #172632);
   box-shadow: 0 35px 100px rgba(0,0,0,.5);
 }
 
@@ -274,29 +254,20 @@ button {
   padding: 12px;
 }
 
-/* DROP ZONE */
-
 .drop-zone {
   min-height: 390px;
   position: relative;
   border: 1px dashed #303044;
   border-radius: 19px;
   background:
-    radial-gradient(
-      circle at 50% 40%,
-      rgba(101,75,255,.10),
-      transparent 48%
-    ),
+    radial-gradient(circle at 50% 40%, rgba(101,75,255,.10), transparent 48%),
     #0e0f15;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  transition:
-    border-color .2s ease,
-    background .2s ease,
-    transform .2s ease;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
   cursor: pointer;
 }
 
@@ -307,15 +278,9 @@ button {
 .drop-zone.dragging {
   border-color: #8068ff;
   background:
-    radial-gradient(
-      circle at center,
-      rgba(103,77,255,.17),
-      #0e0f15 65%
-    );
+    radial-gradient(circle at center, rgba(103,77,255,.17), #0e0f15 65%);
   transform: scale(.995);
 }
-
-/* UPLOAD ICON */
 
 .upload-circle {
   width: 92px;
@@ -348,8 +313,6 @@ button {
   stroke-linejoin: round;
 }
 
-/* TEXT */
-
 .drop-title {
   margin: 0;
   font-size: 22px;
@@ -367,8 +330,6 @@ button {
   color: #aaa7b3;
 }
 
-/* BUTTON */
-
 .choose-button {
   position: relative;
   z-index: 20;
@@ -381,16 +342,12 @@ button {
   font-size: 12px;
   font-weight: 800;
   box-shadow: 0 12px 28px rgba(87,66,218,.28);
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease,
-    filter .2s ease;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   cursor: pointer;
-  user-select: none;
 }
 
 .choose-button:hover {
@@ -417,18 +374,53 @@ button {
   letter-spacing: .08em;
 }
 
-/* FILE INPUT */
-
 #fileInput {
   position: fixed;
-  left: -10000px;
-  top: -10000px;
+  left: -9999px;
+  top: 0;
   width: 1px;
   height: 1px;
   opacity: 0;
 }
 
-/* RESULTS */
+.quality-message {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 48px 20px 34px;
+  text-align: center;
+}
+
+.quality-message-line {
+  width: 42px;
+  height: 2px;
+  margin: 0 auto 22px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #765cff, #5bdfff);
+  box-shadow: 0 0 20px rgba(116,92,255,.45);
+}
+
+.quality-message h2 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 48px);
+  line-height: 1.02;
+  letter-spacing: -.06em;
+  font-weight: 900;
+}
+
+.quality-message h2 span {
+  background: linear-gradient(100deg, #fff, #a991ff, #65e7ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.quality-message p {
+  max-width: 650px;
+  margin: 18px auto 0;
+  color: #666874;
+  font-size: 12px;
+  line-height: 1.8;
+}
 
 .results {
   display: none;
@@ -468,6 +460,7 @@ button {
   color: #aaa9b5;
   font-size: 10px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .download-all:hover {
@@ -482,8 +475,6 @@ button {
   stroke: currentColor;
   stroke-width: 1.8;
 }
-
-/* FILE LIST */
 
 .file-list {
   display: grid;
@@ -616,8 +607,6 @@ button {
   stroke-width: 1.8;
 }
 
-/* FEATURES */
-
 .features {
   width: min(920px, 100%);
   margin: 55px auto 0;
@@ -668,8 +657,6 @@ button {
   line-height: 1.7;
 }
 
-/* FINAL */
-
 .final-message {
   padding: 80px 20px 10px;
   text-align: center;
@@ -697,8 +684,6 @@ button {
   line-height: 1.7;
 }
 
-/* FOOTER */
-
 .footer {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
@@ -713,8 +698,6 @@ button {
   letter-spacing: .06em;
   text-transform: uppercase;
 }
-
-/* TOAST */
 
 .toast {
   position: fixed;
@@ -746,8 +729,6 @@ button {
   border-radius: 50%;
   background: #35dca0;
 }
-
-/* MOBILE */
 
 @media (max-width: 720px) {
 
@@ -826,8 +807,8 @@ button {
     transition: none !important;
     scroll-behavior: auto !important;
   }
-
 }
+
 </style>
 </head>
 
@@ -880,13 +861,9 @@ button {
 
   <div class="converter">
 
-    <div
-      class="drop-zone"
-      id="dropZone"
-    >
+    <div class="drop-zone" id="dropZone">
 
       <div class="upload-circle">
-
         <div class="upload-square">
 
           <svg viewBox="0 0 24 24">
@@ -896,7 +873,6 @@ button {
           </svg>
 
         </div>
-
       </div>
 
       <h2 class="drop-title">
@@ -907,11 +883,9 @@ button {
         or <strong>choose files from your device</strong>
       </p>
 
-      <!-- THE WORKING BUTTON -->
       <label
         for="fileInput"
         class="choose-button"
-        id="chooseButton"
       >
         Choose HEIC files →
       </label>
@@ -922,7 +896,6 @@ button {
 
     </div>
 
-    <!-- FILE INPUT -->
     <input
       id="fileInput"
       type="file"
@@ -930,10 +903,7 @@ button {
       multiple
     >
 
-    <div
-      class="results"
-      id="results"
-    >
+    <div class="results" id="results">
 
       <div class="results-header">
 
@@ -1054,12 +1024,12 @@ button {
   <div class="final-line"></div>
 
   <h2>
-    Simple.<br>
-    <span class="gradient-text">Private.</span>
+    Simple conversion.<br>
+    <span class="gradient-text">Nothing more.</span>
   </h2>
 
   <p>
-    Convert your HEIC images without uploading them anywhere.
+    Fast, private and designed to keep your photos on your device.
   </p>
 
 </section>
@@ -1073,21 +1043,23 @@ button {
   </div>
 
   <div>
-    100% BROWSER BASED
+    2026 · ALL RIGHTS RESERVED
   </div>
 
 </footer>
 
-<div
-  class="toast"
-  id="toast"
->
+<div class="toast" id="toast">
   <span class="toast-dot"></span>
   <span id="toastMessage">Ready</span>
 </div>
 
 
 <script>
+
+/* =========================================================
+   HEICX CONVERTER ENGINE
+========================================================= */
+
 (function () {
 
   "use strict";
@@ -1095,14 +1067,13 @@ button {
   const fileInput = document.getElementById("fileInput");
   const dropZone = document.getElementById("dropZone");
   const results = document.getElementById("results");
-  const resultsCount = document.getElementById("resultsCount");
   const fileList = document.getElementById("fileList");
+  const resultsCount = document.getElementById("resultsCount");
   const downloadAll = document.getElementById("downloadAll");
   const toast = document.getElementById("toast");
   const toastMessage = document.getElementById("toastMessage");
 
   let convertedFiles = [];
-  let toastTimer = null;
 
   function showToast(message) {
 
@@ -1110,48 +1081,52 @@ button {
 
     toast.classList.add("show");
 
-    clearTimeout(toastTimer);
+    clearTimeout(showToast.timer);
 
-    toastTimer = setTimeout(function () {
+    showToast.timer = setTimeout(function () {
       toast.classList.remove("show");
-    }, 3000);
+    }, 2500);
+
   }
 
-  function isHeicFile(file) {
 
-    if (!file) {
-      return false;
-    }
+  function isHEIC(file) {
 
-    const name = String(file.name || "").toLowerCase();
-
-    const type = String(file.type || "").toLowerCase();
+    const name = file.name.toLowerCase();
 
     return (
       name.endsWith(".heic") ||
       name.endsWith(".heif") ||
-      type === "image/heic" ||
-      type === "image/heif"
+      file.type === "image/heic" ||
+      file.type === "image/heif"
     );
+
   }
 
-  function formatBytes(bytes) {
 
-    if (!bytes) {
-      return "0 KB";
+  function formatSize(bytes) {
+
+    if (!bytes) return "0 KB";
+
+    const mb = bytes / 1024 / 1024;
+
+    if (mb >= 1) {
+      return mb.toFixed(2) + " MB";
     }
 
-    const units = ["B", "KB", "MB", "GB"];
+    return Math.max(1, Math.round(bytes / 1024)) + " KB";
 
-    const index = Math.min(
-      Math.floor(Math.log(bytes) / Math.log(1024)),
-      units.length - 1
-    );
-
-    const value = bytes / Math.pow(1024, index);
-
-    return value.toFixed(index === 0 ? 0 : 1) + " " + units[index];
   }
+
+
+  function getJpgName(name) {
+
+    return name
+      .replace(/\.(heic|heif)$/i, "")
+      + ".jpg";
+
+  }
+
 
   function createFileCard(file) {
 
@@ -1159,48 +1134,38 @@ button {
 
     card.className = "file-card";
 
-    const thumb = document.createElement("div");
+    card.innerHTML = `
+      <div class="file-thumb">
+        HEIC
+      </div>
 
-    thumb.className = "file-thumb";
+      <div class="file-info">
 
-    thumb.textContent = "HEIC";
+        <div class="file-name"></div>
 
-    const info = document.createElement("div");
+        <div class="file-meta">
+          ${formatSize(file.size)}
+          <span>·</span>
+          HEIC
+        </div>
 
-    info.className = "file-info";
+      </div>
 
-    const name = document.createElement("div");
+      <div class="file-status">
+        <div class="spinner"></div>
+        <span>Converting...</span>
+      </div>
+    `;
 
-    name.className = "file-name";
+    card.querySelector(".file-name").textContent = file.name;
 
-    name.textContent = file.name;
+    fileList.appendChild(card);
 
-    const meta = document.createElement("div");
+    return card;
 
-    meta.className = "file-meta";
+  }
 
-    meta.textContent = formatBytes(file.size);
 
-    info.appendChild(name);
+  async function convertFile(file, card) {
 
-    info.appendChild(meta);
-
-    const status = document.createElement("div");
-
-    status.className = "file-status";
-
-    const spinner = document.createElement("div");
-
-    spinner.className = "spinner";
-
-    const statusText = document.createElement("span");
-
-    statusText.textContent = "Converting";
-
-    status.appendChild(spinner);
-
-    status.appendChild(statusText);
-
-    card.appendChild(thumb);
-
-    card.ap
+    const status = card.querySelect
