@@ -24,7 +24,6 @@
 <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 
 <style>
-
 * {
   box-sizing: border-box;
 }
@@ -371,13 +370,12 @@ button {
 }
 
 #fileInput {
-  position: absolute;
-  width: 0.1px;
-  height: 0.1px;
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 1px;
+  height: 1px;
   opacity: 0;
-  overflow: hidden;
-  z-index: -1;
-  pointer-events: none;
 }
 
 .quality-message {
@@ -419,10 +417,6 @@ button {
   line-height: 1.8;
 }
 
-.quality-message p strong {
-  color: #c9c7d0;
-}
-
 .results {
   display: none;
   padding-top: 10px;
@@ -461,7 +455,6 @@ button {
   color: #aaa9b5;
   font-size: 10px;
   font-weight: 600;
-  cursor: pointer;
 }
 
 .download-all:hover {
@@ -590,7 +583,6 @@ button {
   border-radius: 9px;
   background: #12131a;
   color: #8d8d9a;
-  cursor: pointer;
 }
 
 .download-one:hover {
@@ -698,37 +690,6 @@ button {
   text-transform: uppercase;
 }
 
-.toast {
-  position: fixed;
-  z-index: 100;
-  left: 50%;
-  bottom: 25px;
-  transform: translate(-50%, 100px);
-  opacity: 0;
-  padding: 12px 16px;
-  border: 1px solid #292a34;
-  border-radius: 10px;
-  background: #101117;
-  color: #d7d5dd;
-  font-size: 10px;
-  transition: transform .25s ease, opacity .25s ease;
-  pointer-events: none;
-}
-
-.toast.show {
-  transform: translate(-50%, 0);
-  opacity: 1;
-}
-
-.toast-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 8px;
-  border-radius: 50%;
-  background: #35dca0;
-}
-
 @media (max-width: 720px) {
   .header,
   .main,
@@ -805,7 +766,6 @@ button {
     scroll-behavior: auto !important;
   }
 }
-
 </style>
 </head>
 
@@ -832,251 +792,331 @@ button {
 
 <main class="main">
 
-  <section class="hero">
-    <div class="hero-badge">
-      <strong>✦</strong>
-      Private browser conversion
-    </div>
+<section class="hero">
+  <div class="hero-badge">
+    <strong>✦</strong>
+    Private browser conversion
+  </div>
 
-    <h1>
-      HEIC in.<br>
-      <span class="gradient-text">JPG out.</span>
-    </h1>
+  <h1>
+    HEIC in.<br>
+    <span class="gradient-text">JPG out.</span>
+  </h1>
 
-    <p class="hero-description">
-      Convert your HEIC and HEIF photos into
-      universally compatible <strong>JPG images</strong>
-      without uploading them to a server.
-    </p>
-  </section>
+  <p class="hero-description">
+    Convert your HEIC and HEIF photos into
+    universally compatible <strong>JPG images</strong>
+    without uploading them to a server.
+  </p>
+</section>
 
-  <section class="converter-wrapper">
-    <div class="converter">
+<section class="converter-wrapper">
+<div class="converter">
 
-      <div class="drop-zone" id="dropZone">
+<div class="drop-zone" id="dropZone">
 
-        <div class="upload-circle">
-          <div class="upload-square">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 16V4"></path>
-              <path d="m7 9 5-5 5 5"></path>
-              <path d="M5 20h14"></path>
-            </svg>
-          </div>
-        </div>
+<div class="upload-circle">
+<div class="upload-square">
+<svg viewBox="0 0 24 24">
+<path d="M12 16V4"></path>
+<path d="m7 9 5-5 5 5"></path>
+<path d="M5 20h14"></path>
+</svg>
+</div>
+</div>
 
-        <h2 class="drop-title">Drop HEIC files here</h2>
+<h2 class="drop-title">Drop HEIC files here</h2>
 
-        <p class="drop-subtitle">
-          or <strong>choose files from your device</strong>
-        </p>
+<p class="drop-subtitle">
+or <strong>choose files from your device</strong>
+</p>
 
-        <button type="button" class="choose-button" id="chooseButton">
-          Choose HEIC files →
-        </button>
+<button type="button" class="choose-button" id="chooseButton">
+Choose HEIC files →
+</button>
 
-        <div class="file-note">
-          HEIC · HEIF · Multiple files supported
-        </div>
-      </div>
+<div class="file-note">
+HEIC · HEIF · Multiple files supported
+</div>
 
-      <input
-        id="fileInput"
-        type="file"
-        accept=".heic,.heif,image/heic,image/heif"
-        multiple
-      >
+</div>
 
-      <div class="results" id="results">
+<input
+id="fileInput"
+type="file"
+accept=".heic,.heif,image/heic,image/heif"
+multiple
+>
 
-        <div class="results-header">
+<div class="results" id="results">
 
-          <div class="results-count">
-            <strong id="resultsCount">0</strong> files converted
-          </div>
+<div class="results-header">
 
-          <button
-            type="button"
-            class="download-all"
-            id="downloadAll"
-            style="display:none"
-          >
-            <svg viewBox="0 0 24 24">
-              <path d="M12 3v12"></path>
-              <path d="m7 10 5 5 5-5"></path>
-              <path d="M5 21h14"></path>
-            </svg>
-            Download All
-          </button>
+<div class="results-count">
+<strong id="resultsCount">0</strong> files converted
+</div>
 
-        </div>
+<button type="button" class="download-all" id="downloadAll" style="display:none">
 
-        <div class="file-list" id="fileList"></div>
+<svg viewBox="0 0 24 24">
+<path d="M12 3v12"/>
+<path d="m7 10 5 5 5-5"/>
+<path d="M5 21h14"/>
+</svg>
 
-      </div>
+Download All
 
-    </div>
-  </section>
+</button>
 
-  <section class="quality-message">
-    <div class="quality-message-line"></div>
+</div>
 
-    <h2>
-      High quality.<br>
-      <span>Zero uploads.</span>
-    </h2>
+<div class="file-list" id="fileList"></div>
 
-    <p>
-      Everything happens privately inside your browser.
-      Your photos never leave your device.
-    </p>
-  </section>
+</div>
 
-  <section class="features">
+</div>
+</section>
 
-    <div class="feature">
-      <div class="feature-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-        </svg>
-      </div>
+<section class="quality-message">
+<div class="quality-message-line"></div>
 
-      <h3>100% Private</h3>
+<h2>
+High quality.<br>
+<span>Zero uploads.</span>
+</h2>
 
-      <p>
-        Files are converted locally. Nothing is sent to any server.
-      </p>
-    </div>
+<p>
+Everything happens privately inside your browser.
+Your photos never leave your device.
+</p>
+</section>
 
-    <div class="feature">
-      <div class="feature-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-        </svg>
-      </div>
+<section class="features">
 
-      <h3>Lightning Fast</h3>
+<div class="feature">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+</svg>
+</div>
 
-      <p>
-        Conversion happens directly inside your browser.
-      </p>
-    </div>
+<h3>100% Private</h3>
 
-    <div class="feature">
-      <div class="feature-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 3v18"></path>
-          <path d="M3 12h18"></path>
-          <path d="M5.6 5.6l12.8 12.8"></path>
-          <path d="M18.4 5.6L5.6 18.4"></path>
-        </svg>
-      </div>
+<p>
+Files are converted locally. Nothing is sent to any server.
+</p>
+</div>
 
-      <h3>No Uploads</h3>
+<div class="feature">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24">
+<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+</svg>
+</div>
 
-      <p>
-        Your original photos never leave your device.
-      </p>
-    </div>
+<h3>Lightning Fast</h3>
 
-  </section>
+<p>
+Conversion happens directly inside your browser.
+</p>
+</div>
 
-  <section class="final-message">
-    <div class="final-line"></div>
+<div class="feature">
+<div class="feature-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3v18"/>
+<path d="M3 12h18"/>
+<path d="M5.6 5.6l12.8 12.8"/>
+<path d="M18.4 5.6L5.6 18.4"/>
+</svg>
+</div>
 
-    <h2>
-      Your photos.<br>
-      Your device.
-    </h2>
+<h3>No Uploads</h3>
 
-    <p>
-      Simple, private and fast HEIC conversion.
-    </p>
-  </section>
+<p>
+Your original photos never leave your device.
+</p>
+</div>
+
+</section>
+
+<section class="final-message">
+<div class="final-line"></div>
+
+<h2>
+Your photos.<br>
+Your device.
+</h2>
+
+<p>
+Simple, private and fast HEIC conversion.
+</p>
+</section>
 
 </main>
 
 <footer class="footer">
-  <span>HEICX</span>
-  <span>Private browser conversion</span>
+<span>HEICX</span>
+<span>Private browser conversion</span>
 </footer>
 
-<div class="toast" id="toast">
-  <span class="toast-dot"></span>
-  <span id="toastMessage"></span>
-</div>
-
-
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+(function () {
 
-  const chooseButton = document.getElementById("chooseButton");
-  const fileInput = document.getElementById("fileInput");
-  const dropZone = document.getElementById("dropZone");
-  const results = document.getElementById("results");
-  const resultsCount = document.getElementById("resultsCount");
-  const fileList = document.getElementById("fileList");
-  const downloadAll = document.getElementById("downloadAll");
-  const toast = document.getElementById("toast");
-  const toastMessage = document.getElementById("toastMessage");
+  "use strict";
 
-  let convertedFiles = [];
+  function init() {
 
-  chooseButton.addEventListener("click", function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    fileInput.click();
-  });
+    const chooseButton = document.getElementById("chooseButton");
+    const fileInput = document.getElementById("fileInput");
+    const dropZone = document.getElementById("dropZone");
+    const results = document.getElementById("results");
+    const resultsCount = document.getElementById("resultsCount");
+    const fileList = document.getElementById("fileList");
+    const downloadAll = document.getElementById("downloadAll");
 
-  dropZone.addEventListener("click", function (event) {
-    if (event.target.closest("#chooseButton")) return;
-    fileInput.click();
-  });
-
-  fileInput.addEventListener("change", function () {
-    if (fileInput.files && fileInput.files.length) {
-      handleFiles(Array.from(fileInput.files));
+    if (!chooseButton || !fileInput) {
+      return;
     }
-  });
 
-  ["dragenter", "dragover"].forEach(function (eventName) {
-    dropZone.addEventListener(eventName, function (event) {
+    chooseButton.addEventListener("click", function (event) {
       event.preventDefault();
       event.stopPropagation();
-      dropZone.classList.add("dragging");
+
+      fileInput.removeAttribute("disabled");
+
+      try {
+        fileInput.click();
+      } catch (error) {
+        const event = new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+
+        fileInput.dispatchEvent(event);
+      }
     });
-  });
 
-  ["dragleave", "drop"].forEach(function (eventName) {
-    dropZone.addEventListener(eventName, function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      dropZone.classList.remove("dragging");
+    dropZone.addEventListener("click", function (event) {
+
+      if (event.target.closest("#chooseButton")) {
+        return;
+      }
+
+      fileInput.click();
     });
-  });
 
-  dropZone.addEventListener("drop", function (event) {
-    const files = Array.from(event.dataTransfer.files || []);
+    fileInput.addEventListener("change", function () {
 
-    if (files.length) {
-      handleFiles(files);
+      if (!fileInput.files || !fileInput.files.length) {
+        return;
+      }
+
+      processFiles(Array.from(fileInput.files));
+
+      fileInput.value = "";
+    });
+
+    ["dragenter", "dragover"].forEach(function (eventName) {
+
+      dropZone.addEventListener(eventName, function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        dropZone.classList.add("dragging");
+      });
+    });
+
+    ["dragleave", "drop"].forEach(function (eventName) {
+
+      dropZone.addEventListener(eventName, function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        dropZone.classList.remove("dragging");
+      });
+    });
+
+    dropZone.addEventListener("drop", function (event) {
+
+      const files = Array.from(
+        event.dataTransfer.files || []
+      );
+
+      if (files.length) {
+        processFiles(files);
+      }
+    });
+
+    async function processFiles(files) {
+
+      const validFiles = files.filter(function (file) {
+
+        const name = file.name.toLowerCase();
+
+        return (
+          name.endsWith(".heic") ||
+          name.endsWith(".heif") ||
+          file.type === "image/heic" ||
+          file.type === "image/heif"
+        );
+      });
+
+      if (!validFiles.length) {
+        return;
+      }
+
+      results.classList.add("visible");
+
+      for (const file of validFiles) {
+        await convertFile(file);
+      }
     }
-  });
 
-  function showToast(message) {
-    toastMessage.textContent = message;
-    toast.classList.add("show");
+    async function convertFile(file) {
 
-    clearTimeout(showToast.timer);
+      const card = document.createElement("div");
+      card.className = "file-card";
 
-    showToast.timer = setTimeout(function () {
-      toast.classList.remove("show");
-    }, 3000);
-  }
+      const thumb = document.createElement("div");
+      thumb.className = "file-thumb";
+      thumb.textContent = "HEIC";
 
-  function formatBytes(bytes) {
-    if (!bytes) return "0 KB";
+      const info = document.createElement("div");
+      info.className = "file-info";
 
-    const units = ["B", "KB", "MB", "GB"];
-    const index = Math.min(
-      Math.flo
+      const name = document.createElement("div");
+      name.className = "file-name";
+      name.textContent = file.name;
+
+      const meta = document.createElement("div");
+      meta.className = "file-meta";
+      meta.textContent = formatBytes(file.size);
+
+      info.appendChild(name);
+      info.appendChild(meta);
+
+      const status = document.createElement("div");
+      status.className = "file-status";
+
+      const spinner = document.createElement("div");
+      spinner.className = "spinner";
+
+      const statusText = document.createElement("span");
+      statusText.textContent = "Converting...";
+
+      status.appendChild(spinner);
+      status.appendChild(statusText);
+
+      card.appendChild(thumb);
+      card.appendChild(info);
+      card.appendChild(status);
+
+      fileList.appendChild(card);
+
+      try {
+
+        if (typeof window.heic2any !=
