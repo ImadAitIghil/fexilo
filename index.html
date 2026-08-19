@@ -58,11 +58,6 @@ button {
   color: #fff;
 }
 
-
-/* =========================================================
-   BACKGROUND
-========================================================= */
-
 .page-background {
   position: fixed;
   inset: 0;
@@ -115,11 +110,6 @@ button {
   background: rgba(255,0,145,.07);
   filter: blur(70px);
 }
-
-
-/* =========================================================
-   HEADER
-========================================================= */
 
 .header {
   width: min(1180px, calc(100% - 40px));
@@ -190,21 +180,11 @@ button {
   box-shadow: 0 0 10px rgba(50,228,157,.7);
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
-
 .main {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
   padding-bottom: 90px;
 }
-
-
-/* =========================================================
-   HERO
-========================================================= */
 
 .hero {
   padding-top: 75px;
@@ -259,11 +239,6 @@ button {
   color: #d4d2dc;
 }
 
-
-/* =========================================================
-   CONVERTER
-========================================================= */
-
 .converter-wrapper {
   width: min(920px, 100%);
   margin: 0 auto;
@@ -278,11 +253,6 @@ button {
   border-radius: 25px;
   padding: 12px;
 }
-
-
-/* =========================================================
-   DROP ZONE
-========================================================= */
 
 .drop-zone {
   min-height: 390px;
@@ -311,11 +281,6 @@ button {
     radial-gradient(circle at center, rgba(103,77,255,.17), #0e0f15 65%);
   transform: scale(.995);
 }
-
-
-/* =========================================================
-   UPLOAD ICON
-========================================================= */
 
 .upload-circle {
   width: 92px;
@@ -348,11 +313,6 @@ button {
   stroke-linejoin: round;
 }
 
-
-/* =========================================================
-   TEXT
-========================================================= */
-
 .drop-title {
   margin: 0;
   font-size: 22px;
@@ -369,11 +329,6 @@ button {
 .drop-subtitle strong {
   color: #aaa7b3;
 }
-
-
-/* =========================================================
-   UPLOAD BUTTON
-========================================================= */
 
 .choose-button {
   position: relative;
@@ -420,11 +375,6 @@ button {
   letter-spacing: .08em;
 }
 
-
-/* =========================================================
-   HIDDEN FILE INPUT
-========================================================= */
-
 #fileInput {
   position: fixed;
   left: -9999px;
@@ -433,11 +383,6 @@ button {
   height: 1px;
   opacity: 0;
 }
-
-
-/* =========================================================
-   QUALITY MESSAGE
-========================================================= */
 
 .quality-message {
   width: min(760px, 100%);
@@ -478,15 +423,6 @@ button {
   line-height: 1.8;
 }
 
-.quality-message p strong {
-  color: #c9c7d0;
-}
-
-
-/* =========================================================
-   RESULTS
-========================================================= */
-
 .results {
   display: none;
   padding-top: 10px;
@@ -516,7 +452,7 @@ button {
 .download-all {
   height: 36px;
   padding: 0 13px;
-  display: flex;
+  display: none;
   align-items: center;
   gap: 7px;
   border: 1px solid #292a35;
@@ -540,11 +476,6 @@ button {
   stroke: currentColor;
   stroke-width: 1.8;
 }
-
-
-/* =========================================================
-   FILE LIST
-========================================================= */
 
 .file-list {
   display: grid;
@@ -650,6 +581,7 @@ button {
   background: #ed5579;
   color: white;
   font-size: 11px;
+  flex-shrink: 0;
 }
 
 .download-one {
@@ -676,11 +608,6 @@ button {
   stroke: currentColor;
   stroke-width: 1.8;
 }
-
-
-/* =========================================================
-   FEATURES
-========================================================= */
 
 .features {
   width: min(920px, 100%);
@@ -732,11 +659,6 @@ button {
   line-height: 1.7;
 }
 
-
-/* =========================================================
-   FINAL MESSAGE
-========================================================= */
-
 .final-message {
   padding: 80px 20px 10px;
   text-align: center;
@@ -764,11 +686,6 @@ button {
   line-height: 1.7;
 }
 
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
 .footer {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
@@ -783,11 +700,6 @@ button {
   letter-spacing: .06em;
   text-transform: uppercase;
 }
-
-
-/* =========================================================
-   TOAST
-========================================================= */
 
 .toast {
   position: fixed;
@@ -819,11 +731,6 @@ button {
   border-radius: 50%;
   background: #35dca0;
 }
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media (max-width: 720px) {
 
@@ -891,7 +798,6 @@ button {
   .file-status span {
     display: none;
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -903,7 +809,6 @@ button {
     transition: none !important;
     scroll-behavior: auto !important;
   }
-
 }
 
 </style>
@@ -917,7 +822,6 @@ button {
   <div class="glow glow-blue"></div>
   <div class="glow glow-pink"></div>
 </div>
-
 
 <header class="header">
 
@@ -933,9 +837,7 @@ button {
 
 </header>
 
-
 <main class="main">
-
 
 <section class="hero">
 
@@ -957,11 +859,9 @@ button {
 
 </section>
 
-
 <section class="converter-wrapper">
 
   <div class="converter">
-
 
     <div class="drop-zone" id="dropZone">
 
@@ -979,28 +879,21 @@ button {
 
       </div>
 
-
       <h2 class="drop-title">
         Drop HEIC files here
       </h2>
-
 
       <p class="drop-subtitle">
         or <strong>choose files from your device</strong>
       </p>
 
-
-      <!-- IMPORTANT:
-           DO NOT CHANGE THIS TO button + fileInput.click()
-      -->
-
-      <label
-        for="fileInput"
+      <button
+        type="button"
         class="choose-button"
+        id="chooseButton"
       >
         Choose HEIC files →
-      </label>
-
+      </button>
 
       <div class="file-note">
         HEIC · HEIF · Multiple files supported
@@ -1008,14 +901,12 @@ button {
 
     </div>
 
-
     <input
       id="fileInput"
       type="file"
       accept=".heic,.heif,image/heic,image/heif"
       multiple
     >
-
 
     <div class="results" id="results">
 
@@ -1030,21 +921,16 @@ button {
           type="button"
           class="download-all"
           id="downloadAll"
-          style="display:none"
         >
-
           <svg viewBox="0 0 24 24">
             <path d="M12 3v12"/>
             <path d="m7 10 5 5 5-5"/>
             <path d="M5 21h14"/>
           </svg>
-
           Download All
-
         </button>
 
       </div>
-
 
       <div
         class="file-list"
@@ -1053,11 +939,9 @@ button {
 
     </div>
 
-
   </div>
 
 </section>
-
 
 <section class="quality-message">
 
@@ -1075,9 +959,7 @@ button {
 
 </section>
 
-
 <section class="features">
-
 
   <div class="feature">
 
@@ -1099,7 +981,6 @@ button {
 
   </div>
 
-
   <div class="feature">
 
     <div class="feature-icon">
@@ -1119,7 +1000,6 @@ button {
     </p>
 
   </div>
-
 
   <div class="feature">
 
@@ -1144,10 +1024,173 @@ button {
 
   </div>
 
-
 </section>
-
 
 <section class="final-message">
 
-  <div class="final-line"></di
+  <div class="final-line"></div>
+
+  <h2>
+    Simple conversion.<br>
+    <span class="gradient-text">No compromise.</span>
+  </h2>
+
+  <p>
+    Turn your HEIC photos into JPG images
+    directly in your browser.
+  </p>
+
+</section>
+
+</main>
+
+<footer class="footer">
+
+  <div>
+    HEICX — PRIVATE IMAGE CONVERSION
+  </div>
+
+  <div>
+    HEIC · HEIF → JPG
+  </div>
+
+</footer>
+
+<div class="toast" id="toast">
+  <span class="toast-dot"></span>
+  <span id="toastMessage">Ready</span>
+</div>
+
+<script>
+(function () {
+
+  "use strict";
+
+  const fileInput = document.getElementById("fileInput");
+  const chooseButton = document.getElementById("chooseButton");
+  const dropZone = document.getElementById("dropZone");
+
+  const results = document.getElementById("results");
+  const resultsCount = document.getElementById("resultsCount");
+  const fileList = document.getElementById("fileList");
+  const downloadAll = document.getElementById("downloadAll");
+
+  const toast = document.getElementById("toast");
+  const toastMessage = document.getElementById("toastMessage");
+
+  let convertedFiles = [];
+
+  /*
+   * OPEN FILE PICKER
+   */
+
+  chooseButton.addEventListener("click", function (event) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    fileInput.click();
+
+  });
+
+
+  /*
+   * DROP ZONE CLICK
+   */
+
+  dropZone.addEventListener("click", function (event) {
+
+    if (event.target.closest("#chooseButton")) {
+      return;
+    }
+
+    fileInput.click();
+
+  });
+
+
+  /*
+   * FILE INPUT
+   */
+
+  fileInput.addEventListener("change", function () {
+
+    const files = Array.from(fileInput.files || []);
+
+    if (!files.length) {
+      return;
+    }
+
+    processFiles(files);
+
+    fileInput.value = "";
+
+  });
+
+
+  /*
+   * DRAG ENTER
+   */
+
+  ["dragenter", "dragover"].forEach(function (eventName) {
+
+    dropZone.addEventListener(eventName, function (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      dropZone.classList.add("dragging");
+
+    });
+
+  });
+
+
+  /*
+   * DRAG LEAVE / DROP
+   */
+
+  ["dragleave", "drop"].forEach(function (eventName) {
+
+    dropZone.addEventListener(eventName, function (event) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      dropZone.classList.remove("dragging");
+
+    });
+
+  });
+
+
+  /*
+   * DROP
+   */
+
+  dropZone.addEventListener("drop", function (event) {
+
+    const files = Array.from(
+      event.dataTransfer.files || []
+    );
+
+    if (!files.length) {
+      return;
+    }
+
+    processFiles(files);
+
+  });
+
+
+  /*
+   * PROCESS FILES
+   */
+
+  async function processFiles(files) {
+
+    results.classList.add("visible");
+
+    fileList.innerHTML = "";
+
+    convertedFiles = 
