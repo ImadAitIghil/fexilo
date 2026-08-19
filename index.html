@@ -2,1328 +2,620 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Fexilo – Free HEIC to JPG Converter</title>
-
-  <meta
-    name="description"
-    content="Convert HEIC and HEIF photos to JPG directly in your browser. Free, private and secure. No uploads."
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Fexilo – Private HEIC to JPG Converter</title>
+  <meta name="description" content="Convert HEIC and HEIF photos to JPG privately in your browser. No uploads. Fast, free, and secure client-side conversion.">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#4f46e5">
-
-  <!-- HEIC / HEIF converter -->
-  <script src="https://cdn.jsdelivr.net/npm/heic-to@1.5.2/dist/iife/heic-to.js"></script>
-
-  <!-- ZIP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
+  <meta property="og:title" content="Fexilo – Private HEIC to JPG Converter">
+  <meta property="og:description" content="Convert HEIC and HEIF photos to JPG privately in your browser. No uploads. Fast, free, and secure client-side conversion.">
+  <meta property="og:type" content="website">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #111827;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --success: #059669;
-      --danger: #dc2626;
-      --radius: 14px;
+      --bg: #0f1115;
+      --surface: #1a1d24;
+      --surface2: #242830;
+      --border: #2e333d;
+      --text: #e8eaed;
+      --text-muted: #9aa0a6;
+      --accent: #4f8cff;
+      --accent-hover: #3a7af0;
+      --success: #34c759;
+      --error: #ff453a;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.35);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
     body {
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
-
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-
+      line-height: 1.5;
       display: flex;
       flex-direction: column;
     }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    header {
-      background: var(--card);
+    .header {
+      padding: 1.25rem 1rem;
+      text-align: center;
       border-bottom: 1px solid var(--border);
-      padding: 20px;
-      text-align: center;
+      background: var(--surface);
+    }
+    .logo {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .logo span {
+      background: linear-gradient(135deg, #4f8cff, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
     }
 
-    header h1 {
-      color: var(--primary);
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    header p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 5px;
-    }
-
-    main {
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 25px 16px 50px;
+    .main {
       flex: 1;
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
     }
 
-    .upload-box {
-      border: 2px dashed #c7d2fe;
-      background: #eef2ff;
+    .privacy-note {
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 50px 20px;
+      padding: 0.875rem 1rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
       text-align: center;
-      transition: 0.2s;
     }
+    .privacy-note strong { color: var(--success); }
 
-    .upload-box.dragover {
-      border-color: var(--primary);
-      background: #e0e7ff;
+    .upload-area {
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 1.25rem;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s;
     }
-
-    .upload-box h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
+    .upload-area.dragover {
+      border-color: var(--accent);
+      background: rgba(79,140,255,0.08);
     }
-
-    .upload-box p {
-      color: var(--muted);
-      font-size: 14px;
+    .upload-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+      opacity: 0.7;
     }
-
-    .select-button {
-      margin-top: 20px;
+    .upload-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
     }
-
-    input[type="file"] {
-      display: none;
+    .upload-hint {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
     }
 
     .btn {
-      border: 0;
-      border-radius: 9px;
-      padding: 12px 18px;
-
-      font-size: 15px;
-      font-weight: 700;
-
-      cursor: pointer;
-
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-
-      transition:
-        background 0.15s,
-        transform 0.1s;
+      gap: 0.4rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, opacity 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
     .btn-primary {
-      background: var(--primary);
-      color: white;
+      background: var(--accent);
+      color: #fff;
     }
-
-    .btn-primary:hover {
-      background: var(--primary-hover);
-    }
-
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
     .btn-secondary {
-      background: white;
+      background: var(--surface2);
       color: var(--text);
       border: 1px solid var(--border);
     }
-
-    .btn-secondary:hover {
-      background: #f3f4f6;
+    .btn-secondary:hover:not(:disabled) { background: #2c313a; }
+    .btn-success {
+      background: var(--success);
+      color: #fff;
     }
-
-    .results {
-      display: none;
-      margin-top: 25px;
+    .btn-sm {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.875rem;
     }
+    .btn-block { width: 100%; }
 
-    .results.visible {
-      display: block;
-    }
-
-    .results-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-
-    .results-header h2 {
-      font-size: 19px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .file-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .file-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px;
-
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .preview {
-      width: 82px;
-      height: 82px;
-      object-fit: cover;
-
-      border-radius: 10px;
-      background: #f3f4f6;
-
-      flex-shrink: 0;
-    }
-
-    .file-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .file-name {
-      font-size: 14px;
-      font-weight: 700;
-
-      white-space: nowrap;
+    #fileInput {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
       overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .file-size {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 4px;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .status {
-      font-size: 12px;
-      margin-top: 5px;
-    }
-
-    .status.success {
-      color: var(--success);
-    }
-
-    .status.error {
-      color: var(--danger);
-    }
-
-    .file-action {
-      flex-shrink: 0;
-    }
-
-    .privacy {
+      margin-top: 1.25rem;
       text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 28px;
-      line-height: 1.5;
+      font-size: 0.9375rem;
+      min-height: 1.5em;
     }
-
-    .privacy strong {
-      color: var(--text);
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      background: white;
-      color: var(--muted);
-      text-align: center;
-      padding: 16px;
-      font-size: 12px;
-    }
-
-    .loading {
-      text-align: center;
-    }
+    .status.loading { color: var(--accent); }
+    .status.error { color: var(--error); }
+    .status.success { color: var(--success); }
 
     .spinner {
-      width: 30px;
-      height: 30px;
-
-      margin: 18px auto 0;
-
-      border: 3px solid #c7d2fe;
-      border-top-color: var(--primary);
-
+      display: inline-block;
+      width: 1.1em;
+      height: 1.1em;
+      border: 2px solid rgba(79,140,255,0.3);
+      border-top-color: var(--accent);
       border-radius: 50%;
-
       animation: spin 0.7s linear infinite;
+      vertical-align: -0.15em;
+      margin-right: 0.4em;
     }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .error-box {
+    .results {
+      margin-top: 1.5rem;
       display: none;
+    }
+    .results.visible { display: block; }
 
-      margin-top: 18px;
-      padding: 12px;
-
-      border-radius: 10px;
-
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-
-      color: #991b1b;
-
-      font-size: 13px;
+    .results-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+      justify-content: center;
     }
 
-    .error-box.visible {
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow);
+    }
+    .card-preview {
+      width: 100%;
+      max-height: 280px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #000;
       display: block;
+      margin: 0 auto 0.85rem;
+    }
+    .card-meta {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+    .card-meta strong { color: var(--text); }
+    .card-meta div { margin-bottom: 0.2rem; }
+    .card-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .card.error-card { border-color: var(--error); }
+    .card.error-card .card-meta { color: var(--error); }
+
+    .footer {
+      text-align: center;
+      padding: 1.25rem 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
     }
 
-    .success-box {
-      display: none;
-
-      margin-top: 18px;
-      padding: 12px;
-
-      border-radius: 10px;
-
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-
-      color: #065f46;
-
-      font-size: 13px;
-    }
-
-    .success-box.visible {
-      display: block;
-    }
-
-    @media (max-width: 600px) {
-
-      main {
-        padding: 18px 12px 40px;
-      }
-
-      .upload-box {
-        padding: 40px 15px;
-      }
-
-      .file-card {
-        align-items: flex-start;
-      }
-
-      .preview {
-        width: 70px;
-        height: 70px;
-      }
-
-      .file-action .btn {
-        padding: 9px 12px;
-        font-size: 13px;
-      }
-
-      .actions {
-        width: 100%;
-      }
-
-      .actions .btn {
-        flex: 1;
-      }
+    @media (min-width: 480px) {
+      .logo { font-size: 2rem; }
+      .upload-area { padding: 3rem 2rem; }
     }
   </style>
 </head>
-
 <body>
+  <header class="header">
+    <div class="logo">Fex<span>ilo</span></div>
+    <div class="tagline">Private HEIC / HEIF → JPG Converter</div>
+  </header>
 
-<header>
-  <h1>Fexilo</h1>
-  <p>Free private HEIC → JPG converter</p>
-</header>
-
-
-<main>
-
-  <!-- UPLOAD -->
-
-  <div
-    class="upload-box"
-    id="uploadBox"
-  >
-
-    <h2>
-      Convert HEIC / HEIF to JPG
-    </h2>
-
-    <p>
-      Select one or multiple photos
-    </p>
-
-    <label
-      class="btn btn-primary select-button"
-      for="fileInput"
-    >
-      Select Files
-    </label>
-
-    <input
-      id="fileInput"
-      type="file"
-      accept=".heic,.heif,image/heic,image/heif"
-      multiple
-    >
-
-    <div
-      id="errorBox"
-      class="error-box"
-    ></div>
-
-  </div>
-
-
-  <!-- RESULTS -->
-
-  <section
-    class="results"
-    id="results"
-  >
-
-    <div class="results-header">
-
-      <h2 id="resultsTitle">
-        Converted
-      </h2>
-
-      <div
-        class="actions"
-        id="actions"
-      ></div>
-
+  <main class="main">
+    <div class="privacy-note">
+      <strong>100% private.</strong> Conversion happens entirely in your browser. Photos are never uploaded to any server.
     </div>
 
-
-    <div
-      class="file-list"
-      id="fileList"
-    ></div>
-
-
-    <div
-      style="
-        text-align:center;
-        margin-top:20px;
-      "
-    >
-
-      <button
-        type="button"
-        class="btn btn-secondary"
-        id="startOver"
-      >
-        Start Over
-      </button>
-
+    <div class="upload-area" id="uploadArea">
+      <div class="upload-icon">📷</div>
+      <div class="upload-title">Select HEIC or HEIF files</div>
+      <div class="upload-hint">Supports multiple files · Works offline after load</div>
+      <button type="button" class="btn btn-primary" id="selectBtn">Select Files</button>
     </div>
 
-  </section>
+    <!-- Stable file input – never removed or recreated -->
+    <input type="file" id="fileInput" accept=".heic,.heif,image/heic,image/heif" multiple>
 
+    <div class="status" id="status"></div>
 
-  <p class="privacy">
+    <div class="results" id="results">
+      <div class="results-header" id="resultsHeader"></div>
+      <div id="cards"></div>
+    </div>
+  </main>
 
-    <strong>100% private.</strong>
+  <footer class="footer">
+    Fexilo · Client-side only · No tracking · No uploads
+  </footer>
 
-    All conversion happens directly
-    in your browser.
+  <script src="https://cdn.jsdelivr.net/npm/heic-to@1.5.2/dist/iife/heic-to.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script>
+    (function () {
+      "use strict";
 
-    <br>
+      const fileInput = document.getElementById("fileInput");
+      const selectBtn = document.getElementById("selectBtn");
+      const uploadArea = document.getElementById("uploadArea");
+      const statusEl = document.getElementById("status");
+      const resultsEl = document.getElementById("results");
+      const resultsHeader = document.getElementById("resultsHeader");
+      const cardsEl = document.getElementById("cards");
 
-    Your photos never leave your device.
-    No uploads. No accounts.
+      let convertedItems = []; // { blob, url, name, origSize, jpgSize }
+      let isConverting = false;
 
-  </p>
-
-</main>
-
-
-<footer>
-  Fexilo • Free HEIC to JPG converter
-</footer>
-
-
-<script>
-
-  // ==================================================
-  // SETTINGS
-  // ==================================================
-
-  const QUALITY = 0.95;
-
-
-  // ==================================================
-  // ELEMENTS
-  // ==================================================
-
-  const uploadBox =
-    document.getElementById("uploadBox");
-
-  const fileInput =
-    document.getElementById("fileInput");
-
-  const results =
-    document.getElementById("results");
-
-  const resultsTitle =
-    document.getElementById("resultsTitle");
-
-  const actions =
-    document.getElementById("actions");
-
-  const fileList =
-    document.getElementById("fileList");
-
-  const startOver =
-    document.getElementById("startOver");
-
-  const errorBox =
-    document.getElementById("errorBox");
-
-
-  // ==================================================
-  // STATE
-  // ==================================================
-
-  let convertedFiles = [];
-
-
-  // ==================================================
-  // FORMAT SIZE
-  // ==================================================
-
-  function formatBytes(bytes) {
-
-    if (bytes < 1024) {
-      return bytes + " B";
-    }
-
-    if (bytes < 1024 * 1024) {
-
-      return (
-        (bytes / 1024).toFixed(1)
-        + " KB"
-      );
-
-    }
-
-    return (
-      (bytes / (1024 * 1024)).toFixed(2)
-      + " MB"
-    );
-  }
-
-
-  // ==================================================
-  // JPG NAME
-  // ==================================================
-
-  function getJpgName(name) {
-
-    return name.replace(
-      /\.(heic|heif)$/i,
-      ".jpg"
-    );
-
-  }
-
-
-  // ==================================================
-  // SHOW ERROR
-  // ==================================================
-
-  function showError(message) {
-
-    errorBox.textContent = message;
-
-    errorBox.classList.add(
-      "visible"
-    );
-
-  }
-
-
-  function hideError() {
-
-    errorBox.textContent = "";
-
-    errorBox.classList.remove(
-      "visible"
-    );
-
-  }
-
-
-  // ==================================================
-  // FILE INPUT
-  // ==================================================
-
-  fileInput.addEventListener(
-    "change",
-    async function () {
-
-      if (
-        this.files &&
-        this.files.length > 0
-      ) {
-
-        await processFiles(
-          Array.from(this.files)
-        );
-
+      // ---------- helpers ----------
+      function formatBytes(bytes) {
+        if (bytes === 0) return "0 B";
+        const k = 1024;
+        const sizes = ["B", "KB", "MB", "GB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
       }
 
-    }
-  );
-
-
-  // ==================================================
-  // DRAG & DROP
-  // ==================================================
-
-  uploadBox.addEventListener(
-    "dragover",
-    function (event) {
-
-      event.preventDefault();
-
-      uploadBox.classList.add(
-        "dragover"
-      );
-
-    }
-  );
-
-
-  uploadBox.addEventListener(
-    "dragleave",
-    function () {
-
-      uploadBox.classList.remove(
-        "dragover"
-      );
-
-    }
-  );
-
-
-  uploadBox.addEventListener(
-    "drop",
-    async function (event) {
-
-      event.preventDefault();
-
-      uploadBox.classList.remove(
-        "dragover"
-      );
-
-
-      if (
-        event.dataTransfer &&
-        event.dataTransfer.files.length
-      ) {
-
-        await processFiles(
-          Array.from(
-            event.dataTransfer.files
-          )
-        );
-
+      function isHeicByExtension(filename) {
+        if (!filename) return false;
+        const lower = filename.toLowerCase();
+        return lower.endsWith(".heic") || lower.endsWith(".heif");
       }
 
-    }
-  );
+      function safeJpgName(originalName) {
+        if (!originalName) return "converted.jpg";
+        return originalName.replace(/\.(heic|heif)$/i, ".jpg");
+      }
 
-
-  // ==================================================
-  // PROCESS FILES
-  // ==================================================
-
-  async function processFiles(files) {
-
-    hideError();
-
-
-    const heicFiles =
-      files.filter(
-        file => {
-
-          const name =
-            file.name.toLowerCase();
-
-          return (
-            name.endsWith(".heic") ||
-            name.endsWith(".heif")
-          );
-
+      function setStatus(msg, type) {
+        statusEl.textContent = "";
+        statusEl.className = "status";
+        if (!msg) return;
+        if (type === "loading") {
+          statusEl.classList.add("loading");
+          const spin = document.createElement("span");
+          spin.className = "spinner";
+          statusEl.appendChild(spin);
+          statusEl.appendChild(document.createTextNode(msg));
+        } else {
+          if (type) statusEl.classList.add(type);
+          statusEl.textContent = msg;
         }
-      );
+      }
 
-
-    if (heicFiles.length === 0) {
-
-      showError(
-        "No HEIC or HEIF files were selected."
-      );
-
-      return;
-
-    }
-
-
-    // Check library
-
-    if (
-      typeof window.HeicTo !== "function"
-    ) {
-
-      showError(
-        "The HEIC converter library did not load. Please check your internet connection and reload the page."
-      );
-
-      return;
-
-    }
-
-
-    // Loading screen
-
-    uploadBox.innerHTML = `
-
-      <div class="loading">
-
-        <h2>
-          Converting...
-        </h2>
-
-        <p>
-          Please wait while Fexilo converts your photos.
-        </p>
-
-        <div class="spinner"></div>
-
-      </div>
-
-    `;
-
-
-    convertedFiles = [];
-
-
-    // Convert one by one
-
-    for (
-      const file of heicFiles
-    ) {
-
-      const result =
-        await convertFile(file);
-
-      convertedFiles.push(result);
-
-    }
-
-
-    showResults();
-
-  }
-
-
-  // ==================================================
-  // CONVERT ONE FILE
-  // ==================================================
-
-  async function convertFile(file) {
-
-    console.log(
-      "Fexilo: converting",
-      file.name,
-      file.type,
-      file.size
-    );
-
-
-    try {
-
-      /*
-       * The official IIFE API exposes
-       * the converter as window.HeicTo.
-       */
-
-      const jpgBlob =
-        await window.HeicTo({
-
-          blob: file,
-
-          type: "image/jpeg",
-
-          quality: QUALITY
-
+      function revokeAllUrls() {
+        convertedItems.forEach(function (item) {
+          if (item.url) URL.revokeObjectURL(item.url);
         });
-
-
-      if (
-        !jpgBlob ||
-        jpgBlob.size === 0
-      ) {
-
-        throw new Error(
-          "The converter returned an empty JPG."
-        );
-
+        convertedItems = [];
       }
 
-
-      const url =
-        URL.createObjectURL(
-          jpgBlob
-        );
-
-
-      return {
-
-        originalName:
-          file.name,
-
-        jpgName:
-          getJpgName(file.name),
-
-        originalSize:
-          file.size,
-
-        convertedSize:
-          jpgBlob.size,
-
-        blob:
-          jpgBlob,
-
-        url:
-          url,
-
-        error:
-          null
-
-      };
-
-
-    } catch (error) {
-
-      console.error(
-        "Fexilo conversion error:",
-        error
-      );
-
-
-      return {
-
-        originalName:
-          file.name,
-
-        jpgName:
-          getJpgName(file.name),
-
-        originalSize:
-          file.size,
-
-        convertedSize:
-          0,
-
-        blob:
-          null,
-
-        url:
-          null,
-
-        error:
-          error &&
-          error.message
-            ? error.message
-            : "Conversion failed."
-
-      };
-
-    }
-
-  }
-
-
-  // ==================================================
-  // SHOW RESULTS
-  // ==================================================
-
-  function showResults() {
-
-    uploadBox.style.display =
-      "none";
-
-    results.classList.add(
-      "visible"
-    );
-
-
-    renderFileList();
-
-    renderActions();
-
-  }
-
-
-  // ==================================================
-  // FILE LIST
-  // ==================================================
-
-  function renderFileList() {
-
-    fileList.innerHTML = "";
-
-
-    convertedFiles.forEach(
-      (file, index) => {
-
-        const card =
-          document.createElement(
-            "div"
-          );
-
-        card.className =
-          "file-card";
-
-
-        // IMAGE
-
-        const img =
-          document.createElement(
-            "img"
-          );
-
-        img.className =
-          "preview";
-
-        img.alt =
-          file.jpgName;
-
-
-        if (file.url) {
-
-          img.src =
-            file.url;
-
-        }
-
-
-        // INFO
-
-        const info =
-          document.createElement(
-            "div"
-          );
-
-        info.className =
-          "file-info";
-
-
-        const name =
-          document.createElement(
-            "div"
-          );
-
-        name.className =
-          "file-name";
-
-        name.textContent =
-          file.jpgName;
-
-
-        const size =
-          document.createElement(
-            "div"
-          );
-
-        size.className =
-          "file-size";
-
-
-        if (file.blob) {
-
-          size.textContent =
-            formatBytes(
-              file.originalSize
-            )
-            +
-            " → "
-            +
-            formatBytes(
-              file.convertedSize
-            );
-
-        }
-
-
-        const status =
-          document.createElement(
-            "div"
-          );
-
-
-        status.className =
-          file.error
-            ? "status error"
-            : "status success";
-
-
-        status.textContent =
-          file.error
-            ? "Error: " + file.error
-            : "Conversion complete";
-
-
-        info.appendChild(name);
-
-        info.appendChild(size);
-
-        info.appendChild(status);
-
-
-        // BUTTON
-
-        const action =
-          document.createElement(
-            "div"
-          );
-
-        action.className =
-          "file-action";
-
-
-        if (file.blob) {
-
-          const button =
-            document.createElement(
-              "button"
-            );
-
-          button.type =
-            "button";
-
-          button.className =
-            "btn btn-primary";
-
-          button.textContent =
-            "Download JPG";
-
-
-          button.onclick =
-            function () {
-
-              downloadFile(
-                file.blob,
-                file.jpgName
-              );
-
-            };
-
-
-          action.appendChild(
-            button
-          );
-
-        }
-
-
-        card.appendChild(img);
-
-        card.appendChild(info);
-
-        card.appendChild(action);
-
-
-        fileList.appendChild(card);
-
+      function downloadBlob(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function () {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 150);
       }
-    );
 
+      // ---------- UI builders ----------
+      function renderResults() {
+        cardsEl.innerHTML = "";
+        resultsHeader.innerHTML = "";
 
-    const successful =
-      convertedFiles.filter(
-        file => file.blob
-      );
+        if (convertedItems.length === 0) {
+          resultsEl.classList.remove("visible");
+          return;
+        }
 
+        resultsEl.classList.add("visible");
 
-    resultsTitle.textContent =
-      successful.length === 1
-        ? "1 file converted"
-        : successful.length +
-          " files converted";
+        // Header buttons
+        if (convertedItems.length > 1) {
+          const btnAll = document.createElement("button");
+          btnAll.type = "button";
+          btnAll.className = "btn btn-success btn-sm";
+          btnAll.textContent = "Download All JPGs";
+          btnAll.addEventListener("click", downloadAll);
+          resultsHeader.appendChild(btnAll);
 
-  }
+          const btnZip = document.createElement("button");
+          btnZip.type = "button";
+          btnZip.className = "btn btn-secondary btn-sm";
+          btnZip.textContent = "Download as ZIP";
+          btnZip.addEventListener("click", downloadZip);
+          resultsHeader.appendChild(btnZip);
+        }
 
+        const btnRestart = document.createElement("button");
+        btnRestart.type = "button";
+        btnRestart.className = "btn btn-secondary btn-sm";
+        btnRestart.textContent = "Start Over";
+        btnRestart.addEventListener("click", startOver);
+        resultsHeader.appendChild(btnRestart);
 
-  // ==================================================
-  // TOP ACTIONS
-  // ==================================================
+        // Cards
+        convertedItems.forEach(function (item, idx) {
+          const card = document.createElement("div");
+          card.className = "card" + (item.error ? " error-card" : "");
 
-  function renderActions() {
+          if (item.error) {
+            const meta = document.createElement("div");
+            meta.className = "card-meta";
+            meta.innerHTML =
+              "<div><strong>" + escapeHtml(item.name) + "</strong></div>" +
+              "<div>" + escapeHtml(item.error) + "</div>";
+            card.appendChild(meta);
+          } else {
+            const img = document.createElement("img");
+            img.className = "card-preview";
+            img.src = item.url;
+            img.alt = "Converted preview";
+            img.loading = "lazy";
+            card.appendChild(img);
 
-    actions.innerHTML = "";
+            const meta = document.createElement("div");
+            meta.className = "card-meta";
+            meta.innerHTML =
+              "<div><strong>" + escapeHtml(item.name) + "</strong></div>" +
+              "<div>Original: " + formatBytes(item.origSize) + "</div>" +
+              "<div>JPG: " + formatBytes(item.jpgSize) + "</div>" +
+              "<div style=\"color:var(--success);margin-top:0.3rem\">Conversion complete</div>";
+            card.appendChild(meta);
 
+            const actions = document.createElement("div");
+            actions.className = "card-actions";
+            const dlBtn = document.createElement("button");
+            dlBtn.type = "button";
+            dlBtn.className = "btn btn-primary btn-sm";
+            dlBtn.textContent = "Download JPG";
+            dlBtn.addEventListener("click", function () {
+              downloadBlob(item.blob, item.name);
+            });
+            actions.appendChild(dlBtn);
+            card.appendChild(actions);
+          }
 
-    const successful =
-      convertedFiles.filter(
-        file => file.blob
-      );
+          cardsEl.appendChild(card);
+        });
+      }
 
+      function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
 
-    if (
-      successful.length === 0
-    ) {
-
-      return;
-
-    }
-
-
-    // ONE FILE
-
-    if (
-      successful.length === 1
-    ) {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-      button.type =
-        "button";
-
-      button.className =
-        "btn btn-primary";
-
-      button.textContent =
-        "Download JPG";
-
-
-      button.onclick =
-        function () {
-
-          downloadFile(
-            successful[0].blob,
-            successful[0].jpgName
-          );
-
+      // ---------- conversion ----------
+      async function convertFile(file) {
+        const result = {
+          name: safeJpgName(file.name),
+          origSize: file.size,
+          blob: null,
+          url: null,
+          jpgSize: 0,
+          error: null
         };
 
+        try {
+          if (typeof HeicTo === "undefined") {
+            throw new Error("Conversion library failed to load. Please refresh the page.");
+          }
 
-      actions.appendChild(
-        button
-      );
+          const jpegBlob = await HeicTo({
+            blob: file,
+            type: "image/jpeg",
+            quality: 0.95
+          });
 
-      return;
+          if (!jpegBlob || !(jpegBlob instanceof Blob)) {
+            throw new Error("Conversion returned an invalid result.");
+          }
 
-    }
+          result.blob = jpegBlob;
+          result.jpgSize = jpegBlob.size;
+          result.url = URL.createObjectURL(jpegBlob);
+        } catch (err) {
+          console.error("Conversion error for", file.name, err);
+          result.error = err && err.message ? err.message : "Conversion failed.";
+        }
 
+        return result;
+      }
 
-    // MULTIPLE FILES
+      async function processFiles(fileList) {
+        if (isConverting) return;
+        if (!fileList || fileList.length === 0) {
+          setStatus("No files detected. Please try selecting again.", "error");
+          return;
+        }
 
-    const allButton =
-      document.createElement(
-        "button"
-      );
+        const files = Array.from(fileList).filter(function (f) {
+          return isHeicByExtension(f.name);
+        });
 
-    allButton.type =
-      "button";
+        if (files.length === 0) {
+          setStatus("No HEIC/HEIF files found. Please select .heic or .heif files.", "error");
+          console.warn("Selected files were not HEIC/HEIF by extension:", Array.from(fileList).map(function (f) { return f.name + " (" + f.type + ")"; }));
+          return;
+        }
 
-    allButton.className =
-      "btn btn-primary";
+        isConverting = true;
+        selectBtn.disabled = true;
+        revokeAllUrls();
+        resultsEl.classList.remove("visible");
+        cardsEl.innerHTML = "";
+        resultsHeader.innerHTML = "";
 
-    allButton.textContent =
-      "Download All JPGs (" +
-      successful.length +
-      ")";
+        setStatus("Converting… (" + files.length + " file" + (files.length > 1 ? "s" : "") + ")", "loading");
 
+        const results = [];
+        for (let i = 0; i < files.length; i++) {
+          setStatus("Converting… " + (i + 1) + " / " + files.length, "loading");
+          const res = await convertFile(files[i]);
+          results.push(res);
+        }
 
-    allButton.onclick =
-      function () {
+        convertedItems = results;
+        isConverting = false;
+        selectBtn.disabled = false;
 
-        downloadAll(
-          successful
-        );
+        const successCount = results.filter(function (r) { return !r.error; }).length;
+        if (successCount === 0) {
+          setStatus("All conversions failed. See details below.", "error");
+        } else if (successCount < results.length) {
+          setStatus("Converted " + successCount + " of " + results.length + " files.", "success");
+        } else {
+          setStatus("Conversion complete!", "success");
+        }
 
-      };
+        renderResults();
+      }
 
+      // ---------- downloads ----------
+      function downloadAll() {
+        convertedItems.forEach(function (item) {
+          if (item.blob && !item.error) {
+            downloadBlob(item.blob, item.name);
+          }
+        });
+      }
 
-    actions.appendChild(
-      allButton
-    );
+      async function downloadZip() {
+        if (typeof JSZip === "undefined") {
+          setStatus("ZIP library failed to load.", "error");
+          return;
+        }
+        try {
+          setStatus("Creating ZIP…", "loading");
+          const zip = new JSZip();
+          convertedItems.forEach(function (item) {
+            if (item.blob && !item.error) {
+              zip.file(item.name, item.blob);
+            }
+          });
+          const content = await zip.generateAsync({ type: "blob" });
+          downloadBlob(content, "fexilo-converted.zip");
+          setStatus("ZIP ready!", "success");
+        } catch (err) {
+          console.error("ZIP error:", err);
+          setStatus("Failed to create ZIP.", "error");
+        }
+      }
 
+      function startOver() {
+        revokeAllUrls();
+        resultsEl.classList.remove("visible");
+        cardsEl.innerHTML = "";
+        resultsHeader.innerHTML = "";
+        setStatus("");
+        // Critical: clear value so the same file can be selected again
+        fileInput.value = "";
+        selectBtn.disabled = false;
+        isConverting = false;
+      }
 
-    // ZIP
+      // ---------- robust file selection ----------
+      function handleFilesFromInput() {
+        console.log("file input change/input fired, files:", fileInput.files ? fileInput.files.length : 0);
+        if (fileInput.files && fileInput.files.length > 0) {
+          processFiles(fileInput.files);
+        } else {
+          // Android sometimes fires change with empty list – show feedback
+          setStatus("No files were detected. Please try again.", "error");
+          console.warn("Change event fired but input.files is empty.");
+        }
+      }
 
-    const zipButton =
-      document.createElement(
-        "button"
-      );
+      // Attach listeners ONCE – never re-attach
+      fileInput.addEventListener("change", handleFilesFromInput);
+      // Extra fallback for some Android browsers
+      fileInput.addEventListener("input", handleFilesFromInput);
 
-    zipButton.type =
-      "button";
+      selectBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isConverting) return;
+        // Reset value so selecting the same file again still triggers change
+        fileInput.value = "";
+        fileInput.click();
+      });
 
-    zipButton.className =
-      "btn btn-secondary";
+      // Optional drag-and-drop (desktop)
+      uploadArea.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+      });
+      uploadArea.addEventListener("dragleave", function () {
+        uploadArea.classList.remove("dragover");
+      });
+      uploadArea.addEventListener("drop", function (e) {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        if (isConverting) return;
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+          processFiles(e.dataTransfer.files);
+        }
+      });
 
-    zipButton.textContent =
-      "Download as ZIP";
+      // Prevent accidental form submission if ever wrapped
+      document.addEventListener("submit", function (e) {
+        e.preventDefault();
+      });
 
-
-    zipButton.onclick =
-      function () {
-
-        downloadZip(
-          successful
-        );
-
-      };
-
-
-    actions.appendChild(
-      zipButton
-    );
-
-  }
-
-
-  // ==================================================
-  // DOWNLOAD SINGLE
-  // ==================================================
-
-  function downloadFile(
-    blob,
-    filename
-  ) {
-
-    if (!blob) {
-      return;
-    }
-
-
-    const url =
-      URL.createObjectURL(
-        blob
-      );
-
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.href =
-      url;
-
-    link.download =
-      filename;
-
-    link.style.display =
-      "none";
-
-
-    document.body.appendChild(
-      link
-    );
-
-
-    link.click();
-
-
-    setTimeout(
-      function () {
-
-        link.remove();
-
-        URL.revokeObjectURL(
-          url
-        );
-
-      },
-      1500
-    );
-
-  }
-
-
-  // ==================================================
-  // DOWNLOAD ALL
-  // ==================================================
-
-  async function downloadAll(
-    files
-  ) {
-
-    for (
-      let i = 0;
-      i < files.length;
-      i++
-    ) {
-
-      downloadFile(
-        files[i].blob,
-        files[i].jpgName
-      );
-
-
-      if (
-        i < files.length - 1
-      ) {
-
-        await new Promise(
-          resolve =>
-            setTimeout(
-              resolve,
-              800
-            )
-        )
+      console.log("Fexilo ready. HeicTo available:", typeof HeicTo !== "undefined", "JSZip available:", typeof JSZip !== "undefined");
+    })();
+  </script>
+</body>
+</html>
