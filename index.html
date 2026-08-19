@@ -25,10 +25,6 @@
 
 <style>
 
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
   box-sizing: border-box;
 }
@@ -61,11 +57,6 @@ button {
   background: #7c5cff;
   color: #fff;
 }
-
-
-/* =========================================================
-   BACKGROUND
-========================================================= */
 
 .page-background {
   position: fixed;
@@ -119,11 +110,6 @@ button {
   background: rgba(255,0,145,.07);
   filter: blur(70px);
 }
-
-
-/* =========================================================
-   HEADER
-========================================================= */
 
 .header {
   width: min(1180px, calc(100% - 40px));
@@ -194,21 +180,11 @@ button {
   box-shadow: 0 0 10px rgba(50,228,157,.7);
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
-
 .main {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
   padding-bottom: 90px;
 }
-
-
-/* =========================================================
-   HERO
-========================================================= */
 
 .hero {
   padding-top: 75px;
@@ -263,11 +239,6 @@ button {
   color: #d4d2dc;
 }
 
-
-/* =========================================================
-   CONVERTER
-========================================================= */
-
 .converter-wrapper {
   width: min(920px, 100%);
   margin: 0 auto;
@@ -282,11 +253,6 @@ button {
   border-radius: 25px;
   padding: 12px;
 }
-
-
-/* =========================================================
-   DROP ZONE
-========================================================= */
 
 .drop-zone {
   min-height: 390px;
@@ -315,11 +281,6 @@ button {
     radial-gradient(circle at center, rgba(103,77,255,.17), #0e0f15 65%);
   transform: scale(.995);
 }
-
-
-/* =========================================================
-   UPLOAD ICON
-========================================================= */
 
 .upload-circle {
   width: 92px;
@@ -352,11 +313,6 @@ button {
   stroke-linejoin: round;
 }
 
-
-/* =========================================================
-   TEXT
-========================================================= */
-
 .drop-title {
   margin: 0;
   font-size: 22px;
@@ -373,11 +329,6 @@ button {
 .drop-subtitle strong {
   color: #aaa7b3;
 }
-
-
-/* =========================================================
-   UPLOAD BUTTON
-========================================================= */
 
 .choose-button {
   position: relative;
@@ -419,11 +370,6 @@ button {
   letter-spacing: .08em;
 }
 
-
-/* =========================================================
-   HIDE NATIVE FILE INPUT
-========================================================= */
-
 #fileInput {
   position: absolute;
   width: 0.1px;
@@ -433,11 +379,6 @@ button {
   z-index: -1;
   pointer-events: none;
 }
-
-
-/* =========================================================
-   QUALITY MESSAGE
-========================================================= */
 
 .quality-message {
   width: min(760px, 100%);
@@ -481,11 +422,6 @@ button {
 .quality-message p strong {
   color: #c9c7d0;
 }
-
-
-/* =========================================================
-   RESULTS
-========================================================= */
 
 .results {
   display: none;
@@ -540,11 +476,6 @@ button {
   stroke: currentColor;
   stroke-width: 1.8;
 }
-
-
-/* =========================================================
-   FILE LIST
-========================================================= */
 
 .file-list {
   display: grid;
@@ -675,11 +606,6 @@ button {
   stroke-width: 1.8;
 }
 
-
-/* =========================================================
-   FEATURES
-========================================================= */
-
 .features {
   width: min(920px, 100%);
   margin: 55px auto 0;
@@ -730,11 +656,6 @@ button {
   line-height: 1.7;
 }
 
-
-/* =========================================================
-   FINAL MESSAGE
-========================================================= */
-
 .final-message {
   padding: 80px 20px 10px;
   text-align: center;
@@ -762,11 +683,6 @@ button {
   line-height: 1.7;
 }
 
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
 .footer {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
@@ -781,11 +697,6 @@ button {
   letter-spacing: .06em;
   text-transform: uppercase;
 }
-
-
-/* =========================================================
-   TOAST
-========================================================= */
 
 .toast {
   position: fixed;
@@ -817,11 +728,6 @@ button {
   border-radius: 50%;
   background: #35dca0;
 }
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media (max-width: 720px) {
   .header,
@@ -890,11 +796,6 @@ button {
   }
 }
 
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -910,22 +811,12 @@ button {
 
 <body>
 
-
-<!-- =======================================================
-     BACKGROUND
-======================================================== -->
-
 <div class="page-background" aria-hidden="true">
   <div class="stars"></div>
   <div class="glow glow-purple"></div>
   <div class="glow glow-blue"></div>
   <div class="glow glow-pink"></div>
 </div>
-
-
-<!-- =======================================================
-     HEADER
-======================================================== -->
 
 <header class="header">
   <a href="#" class="logo">
@@ -939,14 +830,8 @@ button {
   </div>
 </header>
 
-
-<!-- =======================================================
-     MAIN
-======================================================== -->
-
 <main class="main">
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-badge">
       <strong>✦</strong>
@@ -965,13 +850,11 @@ button {
     </p>
   </section>
 
-
-  <!-- CONVERTER -->
   <section class="converter-wrapper">
     <div class="converter">
 
-      <!-- DROP ZONE -->
       <div class="drop-zone" id="dropZone">
+
         <div class="upload-circle">
           <div class="upload-square">
             <svg viewBox="0 0 24 24">
@@ -988,7 +871,6 @@ button {
           or <strong>choose files from your device</strong>
         </p>
 
-        <!-- الزر -->
         <button type="button" class="choose-button" id="chooseButton">
           Choose HEIC files →
         </button>
@@ -998,7 +880,6 @@ button {
         </div>
       </div>
 
-      <!-- HIDDEN FILE INPUT -->
       <input
         id="fileInput"
         type="file"
@@ -1006,46 +887,196 @@ button {
         multiple
       >
 
-      <!-- RESULTS -->
       <div class="results" id="results">
+
         <div class="results-header">
+
           <div class="results-count">
             <strong id="resultsCount">0</strong> files converted
           </div>
-          <button type="button" class="download-all" id="downloadAll" style="display:none">
-            <svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+
+          <button
+            type="button"
+            class="download-all"
+            id="downloadAll"
+            style="display:none"
+          >
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3v12"></path>
+              <path d="m7 10 5 5 5-5"></path>
+              <path d="M5 21h14"></path>
+            </svg>
             Download All
           </button>
+
         </div>
+
         <div class="file-list" id="fileList"></div>
+
       </div>
 
     </div>
   </section>
 
-
-  <!-- QUALITY MESSAGE -->
   <section class="quality-message">
     <div class="quality-message-line"></div>
-    <h2>High quality.<br><span>Zero uploads.</span></h2>
+
+    <h2>
+      High quality.<br>
+      <span>Zero uploads.</span>
+    </h2>
+
     <p>
       Everything happens privately inside your browser.
       Your photos never leave your device.
     </p>
   </section>
 
-
-  <!-- FEATURES -->
   <section class="features">
+
     <div class="feature">
       <div class="feature-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <svg viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
       </div>
+
       <h3>100% Private</h3>
-      <p>Files are converted locally. Nothing is sent to any server.</p>
+
+      <p>
+        Files are converted locally. Nothing is sent to any server.
+      </p>
     </div>
 
     <div class="feature">
       <div class="feature-icon">
-        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-     
+        <svg viewBox="0 0 24 24">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+        </svg>
+      </div>
+
+      <h3>Lightning Fast</h3>
+
+      <p>
+        Conversion happens directly inside your browser.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3v18"></path>
+          <path d="M3 12h18"></path>
+          <path d="M5.6 5.6l12.8 12.8"></path>
+          <path d="M18.4 5.6L5.6 18.4"></path>
+        </svg>
+      </div>
+
+      <h3>No Uploads</h3>
+
+      <p>
+        Your original photos never leave your device.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="final-message">
+    <div class="final-line"></div>
+
+    <h2>
+      Your photos.<br>
+      Your device.
+    </h2>
+
+    <p>
+      Simple, private and fast HEIC conversion.
+    </p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span>HEICX</span>
+  <span>Private browser conversion</span>
+</footer>
+
+<div class="toast" id="toast">
+  <span class="toast-dot"></span>
+  <span id="toastMessage"></span>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const chooseButton = document.getElementById("chooseButton");
+  const fileInput = document.getElementById("fileInput");
+  const dropZone = document.getElementById("dropZone");
+  const results = document.getElementById("results");
+  const resultsCount = document.getElementById("resultsCount");
+  const fileList = document.getElementById("fileList");
+  const downloadAll = document.getElementById("downloadAll");
+  const toast = document.getElementById("toast");
+  const toastMessage = document.getElementById("toastMessage");
+
+  let convertedFiles = [];
+
+  chooseButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    fileInput.click();
+  });
+
+  dropZone.addEventListener("click", function (event) {
+    if (event.target.closest("#chooseButton")) return;
+    fileInput.click();
+  });
+
+  fileInput.addEventListener("change", function () {
+    if (fileInput.files && fileInput.files.length) {
+      handleFiles(Array.from(fileInput.files));
+    }
+  });
+
+  ["dragenter", "dragover"].forEach(function (eventName) {
+    dropZone.addEventListener(eventName, function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      dropZone.classList.add("dragging");
+    });
+  });
+
+  ["dragleave", "drop"].forEach(function (eventName) {
+    dropZone.addEventListener(eventName, function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      dropZone.classList.remove("dragging");
+    });
+  });
+
+  dropZone.addEventListener("drop", function (event) {
+    const files = Array.from(event.dataTransfer.files || []);
+
+    if (files.length) {
+      handleFiles(files);
+    }
+  });
+
+  function showToast(message) {
+    toastMessage.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(showToast.timer);
+
+    showToast.timer = setTimeout(function () {
+      toast.classList.remove("show");
+    }, 3000);
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes) return "0 KB";
+
+    const units = ["B", "KB", "MB", "GB"];
+    const index = Math.min(
+      Math.flo
