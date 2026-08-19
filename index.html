@@ -2,23 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
-/>
-
-<title>HEICX — HEIC to JPG Converter</title>
+<title>HEICX — HEIC to JPG</title>
 
 <meta
   name="description"
-  content="Convert HEIC and HEIF photos to maximum-quality JPG images instantly. Private browser-based conversion with no uploads."
+  content="Convert HEIC and HEIF images to high-quality JPG directly in your browser."
 >
-
-<meta
-  name="theme-color"
-  content="#05060a"
-/>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,68 +19,62 @@
   rel="stylesheet"
 >
 
-<!-- HEIC conversion engine -->
 <script
   src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"
   defer
 ></script>
 
-
 <style>
 
 /* =========================================================
-   CORE
+   ZERO-BLUR DESIGN SYSTEM
 ========================================================= */
 
 :root {
   --bg: #05060a;
-  --panel: #0b0d13;
+  --panel: #0a0c11;
   --panel-2: #0e1017;
-  --panel-3: #11131b;
 
-  --line: #1b1e29;
-  --line-bright: #2b2d3d;
+  --white: #ffffff;
+  --text: #e9e7ef;
 
-  --text: #ffffff;
-  --muted: #727582;
-  --muted-2: #50525d;
+  --muted: #737682;
+  --muted-2: #4c4f5b;
+
+  --line: #1b1e28;
+  --line-2: #292d3a;
 
   --purple: #8267ff;
-  --purple-2: #6049ed;
+  --purple-dark: #5943df;
 
-  --cyan: #61e4ff;
-  --green: #36dfa2;
-  --red: #ff587d;
+  --cyan: #62e5ff;
+  --green: #39dfa5;
+  --red: #ff5478;
 
-  --radius: 22px;
+  --radius: 20px;
 }
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
   box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
 
-  background:
-    radial-gradient(
-      circle at 10% 0%,
-      rgba(91, 66, 255, 0.12),
-      transparent 27%
-    ),
-    radial-gradient(
-      circle at 92% 16%,
-      rgba(0, 206, 255, 0.07),
-      transparent 24%
-    ),
-    var(--bg);
+  color: var(--white);
 
-  color: var(--text);
+  background:
+    #05060a;
 
   font-family:
     Inter,
@@ -109,131 +94,150 @@ button {
 }
 
 ::selection {
-  background: #7960ff;
+  background: #765cff;
   color: white;
 }
 
 
 /* =========================================================
-   BACKGROUND WORLD
+   SHARP BACKGROUND
+   NO FILTER
+   NO BLUR
 ========================================================= */
 
-.world {
+.background {
   position: fixed;
   inset: 0;
-
   z-index: -10;
 
   pointer-events: none;
 
   overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      #06070c 0%,
+      #05060a 50%,
+      #06070b 100%
+    );
 }
 
-.world-grid {
+
+/* Sharp perspective grid */
+
+.grid {
   position: absolute;
 
-  width: 160%;
+  left: -20%;
+  right: -20%;
+  bottom: -18%;
+
   height: 55%;
 
-  left: -30%;
-  bottom: -30%;
-
-  opacity: 0.09;
+  opacity: 0.18;
 
   transform:
-    perspective(500px)
+    perspective(650px)
     rotateX(62deg);
+
+  transform-origin:
+    center bottom;
 
   background-image:
     linear-gradient(
-      rgba(125, 99, 255, 0.6) 1px,
+      rgba(121, 94, 255, 0.32) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(125, 99, 255, 0.6) 1px,
+      rgba(121, 94, 255, 0.32) 1px,
       transparent 1px
     );
 
-  background-size: 60px 60px;
+  background-size:
+    70px 70px;
 
-  animation:
-    gridMove 14s linear infinite;
+  mask-image:
+    linear-gradient(
+      to top,
+      black,
+      transparent
+    );
 }
 
-@keyframes gridMove {
-  from {
-    background-position: 0 0, 0 0;
-  }
 
-  to {
-    background-position: 0 60px, 60px 0;
-  }
-}
-
+/* Tiny stars */
 
 .stars {
   position: absolute;
   inset: 0;
 
-  opacity: 0.25;
+  opacity: 0.35;
 
   background-image:
     radial-gradient(
-      circle,
-      rgba(255,255,255,0.75) 1px,
-      transparent 1px
+      circle at 10% 20%,
+      #ffffff 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 30% 65%,
+      #7f72ff 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 70% 25%,
+      #ffffff 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 84% 70%,
+      #62e5ff 1px,
+      transparent 1.5px
+    ),
+    radial-gradient(
+      circle at 52% 45%,
+      #ffffff 1px,
+      transparent 1.5px
     );
 
-  background-size: 110px 110px;
+  background-size:
+    230px 230px,
+    310px 310px,
+    270px 270px,
+    350px 350px,
+    420px 420px;
 }
 
 
-.orb {
+/* Sharp decorative corners */
+
+.corner {
   position: absolute;
 
-  border-radius: 50%;
+  width: 240px;
+  height: 240px;
 
-  pointer-events: none;
+  border: 1px solid
+    rgba(120, 95, 255, 0.10);
+
+  transform: rotate(45deg);
 }
 
-.orb-purple {
-  width: 430px;
-  height: 430px;
-
-  left: -230px;
-  top: -190px;
-
-  background:
-    rgba(108, 77, 255, 0.10);
-
-  filter: blur(80px);
+.corner.one {
+  left: -180px;
+  top: 100px;
 }
 
-.orb-cyan {
-  width: 360px;
-  height: 360px;
-
-  right: -200px;
-  top: 160px;
-
-  background:
-    rgba(0, 210, 255, 0.07);
-
-  filter: blur(80px);
+.corner.two {
+  right: -180px;
+  top: 330px;
 }
 
-.orb-pink {
-  width: 300px;
-  height: 300px;
-
+.corner.three {
   left: 45%;
-  bottom: -250px;
-
-  background:
-    rgba(255, 0, 151, 0.06);
-
-  filter: blur(80px);
+  bottom: -190px;
 }
 
 
@@ -259,6 +263,7 @@ button {
   justify-content: space-between;
 }
 
+
 .logo {
   display: flex;
 
@@ -271,9 +276,8 @@ button {
   text-decoration: none;
 }
 
-.logo-mark {
-  position: relative;
 
+.logo-mark {
   width: 40px;
   height: 40px;
 
@@ -281,48 +285,54 @@ button {
 
   place-items: center;
 
-  border-radius: 13px;
+  border-radius: 12px;
 
   background:
     linear-gradient(
       135deg,
-      #9278ff,
-      #5643e4
+      #8c72ff,
+      #5743e1
     );
 
   box-shadow:
-    0 0 35px
-    rgba(113, 83, 255, 0.28);
+    0 0 30px
+    rgba(108, 82, 255, 0.22);
 }
+
 
 .logo-mark::before {
   content: "";
 
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
 
   border:
     2px solid white;
 
   border-radius: 4px;
 
-  transform: rotate(45deg);
+  transform:
+    rotate(45deg);
 }
+
 
 .logo-name {
   font-size: 15px;
 
   font-weight: 900;
 
-  letter-spacing: -0.04em;
+  letter-spacing:
+    -0.05em;
 }
+
 
 .logo-name span {
-  color: var(--purple);
+  color:
+    var(--purple);
 }
 
 
-.engine-status {
+.engine {
   display: flex;
 
   align-items: center;
@@ -333,27 +343,32 @@ button {
     8px 12px;
 
   border:
-    1px solid #20232d;
+    1px solid var(--line-2);
 
   border-radius: 999px;
 
   background:
-    #0a0c11;
+    #080a0f;
 
-  color: #777a87;
+  color:
+    #777a86;
 
   font-family:
     "DM Mono",
     monospace;
 
-  font-size: 9px;
+  font-size:
+    9px;
 
-  text-transform: uppercase;
+  text-transform:
+    uppercase;
 
-  letter-spacing: 0.08em;
+  letter-spacing:
+    .08em;
 }
 
-.status-light {
+
+.engine-dot {
   width: 7px;
   height: 7px;
 
@@ -364,7 +379,7 @@ button {
 
   box-shadow:
     0 0 12px
-    rgba(54,223,162,0.75);
+    rgba(57,223,165,.7);
 }
 
 
@@ -381,7 +396,8 @@ button {
 
   margin: 0 auto;
 
-  padding-bottom: 110px;
+  padding-bottom:
+    100px;
 }
 
 
@@ -393,11 +409,12 @@ button {
   text-align: center;
 
   padding:
-    78px 0
+    75px 0
     45px;
 }
 
-.hero-chip {
+
+.hero-tag {
   display: inline-flex;
 
   align-items: center;
@@ -408,69 +425,76 @@ button {
     8px 13px;
 
   border:
-    1px solid #292541;
+    1px solid
+    #292541;
 
-  border-radius: 999px;
+  border-radius:
+    999px;
 
   background:
-    #0d0b16;
+    #0c0a14;
 
   color:
-    #a79aff;
+    #a89bff;
 
   font-family:
     "DM Mono",
     monospace;
 
-  font-size: 9px;
+  font-size:
+    9px;
 
   text-transform:
     uppercase;
 
   letter-spacing:
-    0.08em;
+    .08em;
 }
 
-.hero-chip .spark {
-  color: var(--cyan);
+
+.hero-tag span {
+  color:
+    var(--cyan);
 }
+
 
 .hero h1 {
-  max-width: 950px;
+  max-width:
+    1000px;
 
   margin:
-    26px auto
+    25px auto
     0;
 
   font-size:
     clamp(
-      50px,
+      52px,
       8vw,
       92px
     );
 
   line-height:
-    0.92;
+    .9;
 
   letter-spacing:
-    -0.08em;
+    -.085em;
 
   font-weight:
     900;
 }
 
-.hero-gradient {
+
+.hero-title-gradient {
+  color:
+    var(--purple);
+
   background:
     linear-gradient(
-      105deg,
-      #ffffff 5%,
-      #9d87ff 35%,
-      #69e7ff 65%,
-      #ffffff 92%
+      100deg,
+      #927aff,
+      #6b5cff,
+      #67e4ff
     );
-
-  background-size:
-    220% auto;
 
   -webkit-background-clip:
     text;
@@ -478,27 +502,17 @@ button {
   background-clip:
     text;
 
-  color:
+  -webkit-text-fill-color:
     transparent;
-
-  animation:
-    gradientMove 8s
-    linear infinite;
 }
 
-@keyframes gradientMove {
-  to {
-    background-position:
-      220% center;
-  }
-}
 
-.hero-description {
-  max-width: 620px;
+.hero p {
+  max-width:
+    630px;
 
   margin:
-    26px auto
-    0;
+    27px auto 0;
 
   color:
     var(--muted);
@@ -510,17 +524,18 @@ button {
     1.75;
 }
 
-.hero-description strong {
+
+.hero p strong {
   color:
-    #d9d6e1;
+    #d8d5df;
 }
 
 
 /* =========================================================
-   CONVERTER FRAME
+   MAIN CONVERTER
 ========================================================= */
 
-.converter-frame {
+.converter-shell {
   width:
     min(
       940px,
@@ -534,27 +549,28 @@ button {
     1px;
 
   border-radius:
-    28px;
+    26px;
 
   background:
     linear-gradient(
       135deg,
-      #332a50,
-      #151721 42%,
-      #18323d
+      #3b3062,
+      #171923 40%,
+      #243b45
     );
 
   box-shadow:
-    0 50px 120px
-    rgba(0,0,0,0.55);
+    0 40px 90px
+    rgba(0,0,0,.48);
 }
+
 
 .converter {
   padding:
-    12px;
+    11px;
 
   border-radius:
-    27px;
+    25px;
 
   background:
     #090b10;
@@ -562,18 +578,18 @@ button {
 
 
 /* =========================================================
-   UPLOAD AREA
+   UPLOAD
 ========================================================= */
 
-.upload-zone {
-  position: relative;
+.upload {
+  position:
+    relative;
 
   min-height:
     410px;
 
-  overflow: hidden;
-
-  display: flex;
+  display:
+    flex;
 
   flex-direction:
     column;
@@ -587,190 +603,142 @@ button {
   text-align:
     center;
 
+  padding:
+    25px;
+
   border:
     1px dashed
-    #323449;
-
-  border-radius:
-    21px;
-
-  background:
-    #0e1016;
-
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-.upload-zone::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at 50% 35%,
-      rgba(111, 80, 255, 0.11),
-      transparent 42%
-    );
-}
-
-.upload-zone.dragging {
-  border-color:
-    #8065ff;
-
-  background:
-    #10101a;
-
-  transform:
-    scale(0.995);
-}
-
-
-/* =========================================================
-   UPLOAD CORE
-========================================================= */
-
-.upload-core {
-  position: relative;
-
-  width:
-    104px;
-
-  height:
-    104px;
-
-  display:
-    grid;
-
-  place-items:
-    center;
-
-  margin-bottom:
-    24px;
-}
-
-.upload-ring {
-  position: absolute;
-
-  inset: 0;
-
-  border:
-    1px solid
-    rgba(128,101,255,0.25);
-
-  border-radius:
-    50%;
-
-  animation:
-    ringRotate 9s
-    linear infinite;
-}
-
-.upload-ring::before {
-  content: "";
-
-  position: absolute;
-
-  top:
-    -3px;
-
-  left:
-    50%;
-
-  width:
-    6px;
-
-  height:
-    6px;
-
-  border-radius:
-    50%;
-
-  background:
-    #8d76ff;
-
-  box-shadow:
-    0 0 15px
-    #8065ff;
-}
-
-.upload-ring::after {
-  content: "";
-
-  position: absolute;
-
-  right:
-    -3px;
-
-  bottom:
-    22px;
-
-  width:
-    6px;
-
-  height:
-    6px;
-
-  border-radius:
-    50%;
-
-  background:
-    var(--cyan);
-
-  box-shadow:
-    0 0 15px
-    var(--cyan);
-}
-
-@keyframes ringRotate {
-  to {
-    transform:
-      rotate(360deg);
-  }
-}
-
-.upload-icon {
-  position: relative;
-
-  width:
-    64px;
-
-  height:
-    64px;
-
-  display:
-    grid;
-
-  place-items:
-    center;
+    #363a4b;
 
   border-radius:
     19px;
 
   background:
+    #0e1016;
+
+  transition:
+    .18s ease;
+}
+
+
+.upload:hover {
+  border-color:
+    #50496f;
+}
+
+
+.upload.dragging {
+  border-color:
+    var(--purple);
+
+  background:
+    #11101b;
+
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(130,103,255,.2),
+    0 0 45px
+    rgba(100,75,230,.12);
+}
+
+
+/* =========================================================
+   UPLOAD ICON
+========================================================= */
+
+.upload-visual {
+  position:
+    relative;
+
+  width:
+    108px;
+
+  height:
+    108px;
+
+  margin-bottom:
+    24px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+}
+
+
+.upload-orbit {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  border:
+    1px solid
+    rgba(130,103,255,.35);
+
+  border-radius:
+    50%;
+
+  border-top-color:
+    var(--purple);
+
+  transform:
+    rotate(20deg);
+}
+
+
+.upload-orbit.two {
+  inset:
+    10px;
+
+  border-color:
+    rgba(98,229,255,.25);
+
+  border-right-color:
+    var(--cyan);
+
+  transform:
+    rotate(-35deg);
+}
+
+
+.upload-icon {
+  width:
+    64px;
+
+  height:
+    64px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  border-radius:
+    18px;
+
+  background:
     linear-gradient(
-      145deg,
-      #866cff,
-      #5541d8
+      135deg,
+      #8971ff,
+      #5743df
     );
 
   box-shadow:
-    0 18px 45px
-    rgba(91,68,230,0.32);
+    0 16px 40px
+    rgba(87,67,223,.35);
 }
+
 
 .upload-icon svg {
   width:
-    29px;
+    30px;
 
   height:
-    29px;
+    30px;
 
   fill:
     none;
@@ -790,11 +758,12 @@ button {
 
 
 /* =========================================================
-   UPLOAD COPY
+   UPLOAD TEXT
 ========================================================= */
 
-.upload-zone h2 {
-  position: relative;
+.upload h2 {
+  position:
+    relative;
 
   margin:
     0;
@@ -802,47 +771,52 @@ button {
   font-size:
     23px;
 
+  letter-spacing:
+    -.045em;
+
   font-weight:
     800;
-
-  letter-spacing:
-    -0.045em;
 }
 
+
 .upload-subtitle {
-  position: relative;
+  position:
+    relative;
 
   margin:
     10px 0
     23px;
 
   color:
-    #696b77;
+    #686b77;
 
   font-size:
     12px;
 }
 
+
 .upload-subtitle strong {
   color:
-    #b5b2bd;
+    #b7b3bf;
 }
 
 
 /* =========================================================
-   REAL UPLOAD BUTTON
+   BUTTON
 ========================================================= */
 
-#chooseButton {
-  position: relative;
+.choose-button {
+  position:
+    relative;
 
-  z-index: 5;
-
-  height:
-    50px;
+  z-index:
+    10;
 
   min-width:
-    182px;
+    190px;
+
+  height:
+    51px;
 
   padding:
     0 22px;
@@ -856,8 +830,8 @@ button {
   background:
     linear-gradient(
       135deg,
-      #856aff,
-      #5946e0
+      #896fff,
+      #5945e0
     );
 
   color:
@@ -871,44 +845,46 @@ button {
 
   box-shadow:
     0 14px 35px
-    rgba(88,67,218,0.32);
+    rgba(89,69,224,.32);
 
   transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
+    transform .15s ease,
+    box-shadow .15s ease;
 }
 
-#chooseButton:hover {
+
+.choose-button:hover {
   transform:
     translateY(-2px);
 
   box-shadow:
     0 20px 45px
-    rgba(88,67,218,0.42);
+    rgba(89,69,224,.45);
 }
 
-#chooseButton:active {
+
+.choose-button:active {
   transform:
     translateY(0);
 }
 
-#chooseButton:focus-visible {
+
+.choose-button:focus-visible {
   outline:
     3px solid
-    rgba(105,228,255,0.5);
+    rgba(98,229,255,.45);
 
   outline-offset:
     4px;
 }
 
-.upload-note {
-  position: relative;
 
+.upload-note {
   margin-top:
     15px;
 
   color:
-    #464853;
+    #454852;
 
   font-family:
     "DM Mono",
@@ -921,8 +897,13 @@ button {
     uppercase;
 
   letter-spacing:
-    0.08em;
+    .08em;
 }
+
+
+/* =========================================================
+   HIDDEN INPUT
+========================================================= */
 
 #fileInput {
   position:
@@ -946,13 +927,9 @@ button {
    OPTIONS
 ========================================================= */
 
-.converter-options {
+.options {
   min-height:
-    60px;
-
-  padding:
-    8px 5px
-    0;
+    62px;
 
   display:
     flex;
@@ -965,9 +942,13 @@ button {
 
   gap:
     20px;
+
+  padding:
+    8px 5px 0;
 }
 
-.private-message {
+
+.private {
   display:
     flex;
 
@@ -978,13 +959,14 @@ button {
     8px;
 
   color:
-    #60626d;
+    #626570;
 
   font-size:
     10px;
 }
 
-.private-message svg {
+
+.private svg {
   width:
     15px;
 
@@ -1001,7 +983,8 @@ button {
     1.7;
 }
 
-.quality-control {
+
+.quality {
   display:
     flex;
 
@@ -1012,7 +995,7 @@ button {
     10px;
 
   color:
-    #666874;
+    #696c78;
 
   font-family:
     "DM Mono",
@@ -1025,23 +1008,22 @@ button {
     uppercase;
 }
 
-.quality-control input {
+
+.quality input {
   width:
-    100px;
+    110px;
 
   accent-color:
     var(--purple);
 }
 
+
 .quality-value {
   width:
-    36px;
+    40px;
 
   color:
-    #d0ccd7;
-
-  font-weight:
-    500;
+    #dedbe4;
 }
 
 
@@ -1057,15 +1039,14 @@ button {
     10px;
 }
 
-.results.show {
+
+.results.visible {
   display:
     block;
 }
 
-.results-heading {
-  min-height:
-    48px;
 
+.results-head {
   display:
     flex;
 
@@ -1075,28 +1056,31 @@ button {
   justify-content:
     space-between;
 
+  min-height:
+    48px;
+
   padding:
     0 4px
     10px;
 }
 
-.result-count {
+
+.count {
   color:
-    #747682;
+    #70737f;
 
   font-size:
     11px;
 }
 
-.result-count strong {
+
+.count strong {
   color:
     white;
 }
 
-.download-all {
-  height:
-    37px;
 
+.download-all {
   display:
     inline-flex;
 
@@ -1106,12 +1090,15 @@ button {
   gap:
     7px;
 
+  height:
+    37px;
+
   padding:
     0 14px;
 
   border:
     1px solid
-    #292c38;
+    #2a2d39;
 
   border-radius:
     10px;
@@ -1120,7 +1107,7 @@ button {
     #11131a;
 
   color:
-    #aaa9b5;
+    #aaa9b4;
 
   font-size:
     10px;
@@ -1129,13 +1116,15 @@ button {
     700;
 }
 
-.download-all:hover {
-  border-color:
-    #51477a;
 
+.download-all:hover {
   color:
     white;
+
+  border-color:
+    #584d82;
 }
+
 
 .download-all svg {
   width:
@@ -1156,7 +1145,7 @@ button {
 
 
 /* =========================================================
-   FILE CARDS
+   FILE LIST
 ========================================================= */
 
 .file-list {
@@ -1166,6 +1155,7 @@ button {
   gap:
     8px;
 }
+
 
 .file-card {
   min-height:
@@ -1199,7 +1189,8 @@ button {
     #101218;
 }
 
-.file-thumb {
+
+.thumbnail {
   width:
     56px;
 
@@ -1222,7 +1213,7 @@ button {
     #080a0e;
 
   color:
-    #555968;
+    #575b69;
 
   font-family:
     "DM Mono",
@@ -1232,7 +1223,8 @@ button {
     8px;
 }
 
-.file-thumb img {
+
+.thumbnail img {
   display:
     block;
 
@@ -1246,10 +1238,12 @@ button {
     cover;
 }
 
+
 .file-info {
   min-width:
     0;
 }
+
 
 .file-name {
   overflow:
@@ -1271,9 +1265,13 @@ button {
     700;
 }
 
+
 .file-meta {
   display:
     flex;
+
+  flex-wrap:
+    wrap;
 
   align-items:
     center;
@@ -1285,7 +1283,7 @@ button {
     6px;
 
   color:
-    #5f626d;
+    #626570;
 
   font-family:
     "DM Mono",
@@ -1294,6 +1292,7 @@ button {
   font-size:
     8px;
 }
+
 
 .file-status {
   display:
@@ -1306,11 +1305,12 @@ button {
     8px;
 
   color:
-    #777986;
+    #7b7e89;
 
   font-size:
     10px;
 }
+
 
 .spinner {
   width:
@@ -1321,7 +1321,7 @@ button {
 
   border:
     2px solid
-    #292b36;
+    #292c37;
 
   border-top-color:
     var(--purple);
@@ -1330,9 +1330,9 @@ button {
     50%;
 
   animation:
-    spin 0.7s
-    linear infinite;
+    spin .7s linear infinite;
 }
+
 
 @keyframes spin {
   to {
@@ -1341,7 +1341,8 @@ button {
   }
 }
 
-.success-icon {
+
+.success {
   width:
     21px;
 
@@ -1361,7 +1362,7 @@ button {
     var(--green);
 
   color:
-    #06110c;
+    #06120d;
 
   font-size:
     11px;
@@ -1370,7 +1371,8 @@ button {
     900;
 }
 
-.error-icon {
+
+.error {
   width:
     21px;
 
@@ -1396,6 +1398,7 @@ button {
     11px;
 }
 
+
 .download-one {
   width:
     36px;
@@ -1411,7 +1414,7 @@ button {
 
   border:
     1px solid
-    #292c36;
+    #292c37;
 
   border-radius:
     9px;
@@ -1420,16 +1423,18 @@ button {
     #12141b;
 
   color:
-    #9294a0;
+    #999ba6;
 }
+
 
 .download-one:hover {
   color:
     white;
 
   border-color:
-    #574c80;
+    #5b4f85;
 }
+
 
 .download-one svg {
   width:
@@ -1450,7 +1455,48 @@ button {
 
 
 /* =========================================================
-   FEATURE SYSTEM
+   ENGINE ERROR
+========================================================= */
+
+.engine-error {
+  display:
+    none;
+
+  margin-top:
+    10px;
+
+  padding:
+    13px;
+
+  border:
+    1px solid
+    rgba(255,84,120,.25);
+
+  border-radius:
+    10px;
+
+  background:
+    #140b10;
+
+  color:
+    #ff8ca4;
+
+  font-size:
+    10px;
+
+  text-align:
+    center;
+}
+
+
+.engine-error.show {
+  display:
+    block;
+}
+
+
+/* =========================================================
+   FEATURES
 ========================================================= */
 
 .features {
@@ -1461,31 +1507,25 @@ button {
     );
 
   margin:
-    60px auto
-    0;
+    60px auto 0;
 
   display:
     grid;
 
   grid-template-columns:
-    repeat(3, 1fr);
+    repeat(3,1fr);
 
   gap:
     10px;
 }
 
-.feature {
-  position:
-    relative;
 
+.feature {
   min-height:
     175px;
 
   padding:
     23px;
-
-  overflow:
-    hidden;
 
   border:
     1px solid
@@ -1498,34 +1538,15 @@ button {
     #090b10;
 }
 
-.feature::after {
-  content:
-    "";
 
-  position:
-    absolute;
-
-  right:
-    -50px;
-
-  top:
-    -50px;
-
-  width:
-    110px;
-
-  height:
-    110px;
-
-  border-radius:
-    50%;
+.feature:hover {
+  border-color:
+    #292d3a;
 
   background:
-    rgba(115,88,255,0.08);
-
-  filter:
-    blur(35px);
+    #0b0d13;
 }
+
 
 .feature-icon {
   width:
@@ -1543,15 +1564,20 @@ button {
   margin-bottom:
     17px;
 
+  border:
+    1px solid
+    #242834;
+
   border-radius:
     10px;
 
   background:
-    #12141c;
+    #11131a;
 
   color:
     var(--purple);
 }
+
 
 .feature-icon svg {
   width:
@@ -1576,6 +1602,7 @@ button {
     round;
 }
 
+
 .feature h3 {
   margin:
     0 0 7px;
@@ -1587,12 +1614,13 @@ button {
     12px;
 }
 
+
 .feature p {
   margin:
     0;
 
   color:
-    #62646f;
+    #626570;
 
   font-size:
     10px;
@@ -1609,11 +1637,12 @@ button {
 .final {
   padding:
     90px 20px
-    15px;
+    10px;
 
   text-align:
     center;
 }
+
 
 .final-line {
   width:
@@ -1623,12 +1652,16 @@ button {
     1px;
 
   margin:
-    0 auto
-    22px;
+    0 auto 22px;
 
   background:
     var(--purple);
+
+  box-shadow:
+    0 0 18px
+    rgba(130,103,255,.6);
 }
+
 
 .final h2 {
   margin:
@@ -1636,28 +1669,28 @@ button {
 
   font-size:
     clamp(
-      27px,
+      28px,
       4vw,
-      39px
+      40px
     );
 
   line-height:
     1.05;
 
   letter-spacing:
-    -0.06em;
+    -.06em;
 }
+
 
 .final p {
   max-width:
     520px;
 
   margin:
-    15px auto
-    0;
+    15px auto 0;
 
   color:
-    #60626c;
+    #60636e;
 
   font-size:
     11px;
@@ -1682,7 +1715,7 @@ button {
     0 auto;
 
   padding:
-    26px 0
+    27px 0
     35px;
 
   border-top:
@@ -1699,7 +1732,7 @@ button {
     20px;
 
   color:
-    #444750;
+    #454852;
 
   font-family:
     "DM Mono",
@@ -1712,7 +1745,7 @@ button {
     uppercase;
 
   letter-spacing:
-    0.06em;
+    .06em;
 }
 
 
@@ -1725,16 +1758,16 @@ button {
     fixed;
 
   z-index:
-    1000;
+    100;
 
   left:
     50%;
 
   bottom:
-    25px;
+    24px;
 
   transform:
-    translate(-50%, 100px);
+    translate(-50%,80px);
 
   opacity:
     0;
@@ -1759,30 +1792,21 @@ button {
     10px;
 
   transition:
-    transform .25s ease,
-    opacity .25s ease;
+    .22s ease;
 
   pointer-events:
     none;
 }
 
-.toast.show {
+
+.toast.visible {
   transform:
-    translate(-50%, 0);
+    translate(-50%,0);
 
   opacity:
     1;
 }
 
-.toast.success .toast-dot {
-  background:
-    var(--green);
-}
-
-.toast.error .toast-dot {
-  background:
-    var(--red);
-}
 
 .toast-dot {
   display:
@@ -1801,48 +1825,11 @@ button {
     50%;
 
   background:
-    var(--purple);
-}
+    var(--green);
 
-
-/* =========================================================
-   ENGINE ERROR
-========================================================= */
-
-.engine-error {
-  display:
-    none;
-
-  margin:
-    10px 0
-    0;
-
-  padding:
-    12px;
-
-  border:
-    1px solid
-    rgba(255,88,125,0.25);
-
-  border-radius:
-    10px;
-
-  background:
-    rgba(255,88,125,0.05);
-
-  color:
-    #ff91aa;
-
-  font-size:
-    10px;
-
-  text-align:
-    center;
-}
-
-.engine-error.show {
-  display:
-    block;
+  box-shadow:
+    0 0 10px
+    rgba(57,223,165,.7);
 }
 
 
@@ -1856,4 +1843,75 @@ button {
   .main,
   .footer {
     width:
-      ca
+      calc(100% - 24px);
+  }
+
+  .engine {
+    display:
+      none;
+  }
+
+  .hero {
+    padding:
+      55px 0
+      38px;
+  }
+
+  .hero h1 {
+    font-size:
+      clamp(
+        47px,
+        14vw,
+        70px
+      );
+  }
+
+  .hero p {
+    font-size:
+      13px;
+  }
+
+  .converter {
+    padding:
+      8px;
+  }
+
+  .upload {
+    min-height:
+      350px;
+
+    padding:
+      20px;
+  }
+
+  .options {
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    padding:
+      16px 4px 5px;
+  }
+
+  .features {
+    grid-template-columns:
+      1fr;
+
+    margin-top:
+      40px;
+  }
+
+  .feature {
+    min-height:
+      auto;
+  }
+
+  .footer {
+    flex-direction:
+      column;
+  }
+
+  .file-card {
+    grid-t
