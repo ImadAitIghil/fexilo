@@ -8,7 +8,7 @@
 
 <meta
   name="description"
-  content="Convert HEIC images to JPG instantly. Private, fast and completely in your browser."
+  content="Convert HEIC photos into high-quality JPG images instantly. Private, fast and completely in your browser."
 >
 
 <meta name="theme-color" content="#06070b">
@@ -21,10 +21,7 @@
   rel="stylesheet"
 >
 
-<!-- HEIC decoder -->
-<script
-  src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 
 <style>
 
@@ -44,11 +41,10 @@ html {
 
 body {
   margin: 0;
-  padding: 0;
   min-height: 100vh;
 
   background: #06070b;
-  color: #ffffff;
+  color: #fff;
 
   font-family: "Inter", Arial, sans-serif;
 
@@ -66,7 +62,7 @@ button {
 
 ::selection {
   background: #7c5cff;
-  color: white;
+  color: #fff;
 }
 
 
@@ -77,19 +73,22 @@ button {
 .page-background {
   position: fixed;
   inset: 0;
+
   z-index: -10;
+
   pointer-events: none;
+
   overflow: hidden;
 
   background:
     radial-gradient(
       circle at 15% 10%,
-      rgba(91, 65, 255, 0.14),
+      rgba(91,65,255,.14),
       transparent 28%
     ),
     radial-gradient(
       circle at 85% 20%,
-      rgba(0, 205, 255, 0.08),
+      rgba(0,205,255,.08),
       transparent 25%
     ),
     #06070b;
@@ -102,17 +101,20 @@ button {
   background-image:
     radial-gradient(
       circle,
-      rgba(255,255,255,0.7) 1px,
+      rgba(255,255,255,.7) 1px,
       transparent 1px
     );
 
   background-size: 90px 90px;
-  opacity: 0.22;
+
+  opacity: .22;
 }
 
 .glow {
   position: absolute;
+
   border-radius: 50%;
+
   pointer-events: none;
 }
 
@@ -123,7 +125,8 @@ button {
   left: -180px;
   top: -150px;
 
-  background: rgba(104, 73, 255, 0.13);
+  background: rgba(104,73,255,.13);
+
   filter: blur(70px);
 }
 
@@ -134,7 +137,8 @@ button {
   right: -170px;
   top: 180px;
 
-  background: rgba(0, 190, 255, 0.09);
+  background: rgba(0,190,255,.09);
+
   filter: blur(70px);
 }
 
@@ -145,7 +149,8 @@ button {
   left: 40%;
   bottom: -220px;
 
-  background: rgba(255, 0, 145, 0.07);
+  background: rgba(255,0,145,.07);
+
   filter: blur(70px);
 }
 
@@ -157,21 +162,26 @@ button {
 .header {
   width: min(1180px, calc(100% - 40px));
 
-  margin: 0 auto;
-
   height: 80px;
 
+  margin: 0 auto;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 }
 
 .logo {
   display: flex;
+
   align-items: center;
+
   gap: 12px;
 
   color: white;
+
   text-decoration: none;
 }
 
@@ -180,6 +190,7 @@ button {
   height: 39px;
 
   display: grid;
+
   place-items: center;
 
   border-radius: 12px;
@@ -192,7 +203,7 @@ button {
     );
 
   box-shadow:
-    0 0 30px rgba(103, 79, 255, 0.25);
+    0 0 30px rgba(103,79,255,.25);
 }
 
 .logo-icon::before {
@@ -202,6 +213,7 @@ button {
   height: 14px;
 
   border: 2px solid white;
+
   border-radius: 4px;
 
   transform: rotate(45deg);
@@ -209,9 +221,10 @@ button {
 
 .logo-text {
   font-size: 15px;
+
   font-weight: 800;
 
-  letter-spacing: -0.03em;
+  letter-spacing: -.03em;
 }
 
 .logo-text span {
@@ -220,12 +233,15 @@ button {
 
 .online {
   display: flex;
+
   align-items: center;
+
   gap: 8px;
 
   padding: 8px 12px;
 
   border: 1px solid #1d1e27;
+
   border-radius: 999px;
 
   background: #0b0c11;
@@ -233,10 +249,12 @@ button {
   color: #777987;
 
   font-family: "DM Mono", monospace;
+
   font-size: 9px;
 
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+
+  letter-spacing: .08em;
 }
 
 .online-dot {
@@ -248,7 +266,7 @@ button {
   background: #32e49d;
 
   box-shadow:
-    0 0 10px rgba(50,228,157,0.7);
+    0 0 10px rgba(50,228,157,.7);
 }
 
 
@@ -271,6 +289,7 @@ button {
 
 .hero {
   padding-top: 75px;
+
   padding-bottom: 45px;
 
   text-align: center;
@@ -278,12 +297,15 @@ button {
 
 .hero-badge {
   display: inline-flex;
+
   align-items: center;
+
   gap: 8px;
 
   padding: 8px 13px;
 
   border: 1px solid #29243f;
+
   border-radius: 999px;
 
   background: #0d0b16;
@@ -291,10 +313,12 @@ button {
   color: #a998ff;
 
   font-family: "DM Mono", monospace;
+
   font-size: 9px;
 
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+
+  letter-spacing: .08em;
 }
 
 .hero-badge strong {
@@ -308,9 +332,9 @@ button {
 
   font-size: clamp(48px, 8vw, 88px);
 
-  line-height: 0.94;
+  line-height: .94;
 
-  letter-spacing: -0.075em;
+  letter-spacing: -.075em;
 
   font-weight: 900;
 }
@@ -319,13 +343,14 @@ button {
   background:
     linear-gradient(
       100deg,
-      #ffffff 0%,
+      #fff 0%,
       #a58dff 35%,
       #6be8ff 65%,
-      #ffffff 100%
+      #fff 100%
     );
 
   -webkit-background-clip: text;
+
   background-clip: text;
 
   color: transparent;
@@ -370,7 +395,7 @@ button {
     );
 
   box-shadow:
-    0 35px 100px rgba(0,0,0,0.5);
+    0 35px 100px rgba(0,0,0,.5);
 }
 
 .converter {
@@ -383,11 +408,13 @@ button {
 
 
 /* =========================================================
-   DROP AREA
+   DROP ZONE
 ========================================================= */
 
 .drop-zone {
   min-height: 390px;
+
+  position: relative;
 
   border: 1px dashed #303044;
 
@@ -396,23 +423,25 @@ button {
   background:
     radial-gradient(
       circle at 50% 40%,
-      rgba(101, 75, 255, 0.10),
+      rgba(101,75,255,.10),
       transparent 48%
     ),
     #0e0f15;
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
+
   justify-content: center;
 
   text-align: center;
 
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    transform 0.2s ease;
+    border-color .2s ease,
+    background .2s ease,
+    transform .2s ease;
 }
 
 .drop-zone:hover {
@@ -425,11 +454,11 @@ button {
   background:
     radial-gradient(
       circle at center,
-      rgba(103, 77, 255, 0.17),
+      rgba(103,77,255,.17),
       #0e0f15 65%
     );
 
-  transform: scale(0.995);
+  transform: scale(.995);
 }
 
 
@@ -442,6 +471,7 @@ button {
   height: 92px;
 
   display: grid;
+
   place-items: center;
 
   margin-bottom: 24px;
@@ -458,6 +488,7 @@ button {
   height: 58px;
 
   display: grid;
+
   place-items: center;
 
   border-radius: 17px;
@@ -470,7 +501,7 @@ button {
     );
 
   box-shadow:
-    0 15px 35px rgba(91, 68, 235, 0.3);
+    0 15px 35px rgba(91,68,235,.3);
 }
 
 .upload-square svg {
@@ -478,17 +509,19 @@ button {
   height: 27px;
 
   fill: none;
+
   stroke: white;
 
   stroke-width: 1.8;
 
   stroke-linecap: round;
+
   stroke-linejoin: round;
 }
 
 
 /* =========================================================
-   DROP TEXT
+   TEXT
 ========================================================= */
 
 .drop-title {
@@ -496,7 +529,7 @@ button {
 
   font-size: 22px;
 
-  letter-spacing: -0.04em;
+  letter-spacing: -.04em;
 
   font-weight: 800;
 }
@@ -515,17 +548,21 @@ button {
 
 
 /* =========================================================
-   BUTTON
+   UPLOAD BUTTON
 ========================================================= */
 
 .choose-button {
-  height: 48px;
+  position: relative;
 
-  padding: 0 21px;
+  z-index: 10;
+
+  height: 52px;
+
+  padding: 0 25px;
 
   border: 0;
 
-  border-radius: 12px;
+  border-radius: 13px;
 
   background:
     linear-gradient(
@@ -534,29 +571,38 @@ button {
       #5948df
     );
 
-  color: white;
+  color: #fff;
 
   font-size: 12px;
 
-  font-weight: 700;
+  font-weight: 800;
 
   box-shadow:
-    0 12px 28px rgba(87, 66, 218, 0.28);
+    0 12px 28px rgba(87,66,218,.28);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform .2s ease,
+    box-shadow .2s ease,
+    filter .2s ease;
 }
 
 .choose-button:hover {
   transform: translateY(-2px);
 
+  filter: brightness(1.08);
+
   box-shadow:
-    0 17px 35px rgba(87, 66, 218, 0.38);
+    0 17px 35px rgba(87,66,218,.42);
 }
 
 .choose-button:active {
   transform: translateY(0);
+}
+
+.choose-button:focus-visible {
+  outline: 2px solid #9b8bff;
+
+  outline-offset: 4px;
 }
 
 .file-note {
@@ -570,77 +616,96 @@ button {
 
   text-transform: uppercase;
 
-  letter-spacing: 0.08em;
+  letter-spacing: .08em;
 }
 
 #fileInput {
-  display: none;
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+
+  pointer-events: none;
 }
 
 
 /* =========================================================
-   OPTIONS
+   QUALITY MESSAGE
 ========================================================= */
 
-.options {
-  min-height: 58px;
+.quality-message {
+  width: min(760px, 100%);
 
-  padding: 7px 5px 0;
+  margin: 0 auto;
 
-  display: flex;
+  padding: 48px 20px 34px;
 
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 20px;
+  text-align: center;
 }
 
-.private-note {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.quality-message-line {
+  width: 42px;
+  height: 2px;
 
-  color: #5e606d;
+  margin: 0 auto 22px;
 
-  font-size: 10px;
+  border-radius: 99px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #765cff,
+      #5bdfff
+    );
+
+  box-shadow:
+    0 0 20px rgba(116,92,255,.45);
 }
 
-.private-note svg {
-  width: 15px;
-  height: 15px;
+.quality-message h2 {
+  margin: 0;
 
-  fill: none;
+  font-size: clamp(28px, 5vw, 48px);
 
-  stroke: #35dda0;
+  line-height: 1.02;
 
-  stroke-width: 1.7;
+  letter-spacing: -.06em;
+
+  font-weight: 900;
 }
 
-.quality {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.quality-message h2 span {
+  background:
+    linear-gradient(
+      100deg,
+      #fff,
+      #a991ff,
+      #65e7ff
+    );
 
-  color: #60616d;
+  -webkit-background-clip: text;
 
-  font-family: "DM Mono", monospace;
+  background-clip: text;
 
-  font-size: 9px;
-
-  text-transform: uppercase;
+  color: transparent;
 }
 
-.quality input {
-  width: 90px;
+.quality-message p {
+  max-width: 650px;
 
-  accent-color: #8065ff;
+  margin: 18px auto 0;
+
+  color: #666874;
+
+  font-size: 12px;
+
+  line-height: 1.8;
 }
 
-.quality-value {
-  width: 30px;
-
-  color: #aaa6b4;
+.quality-message p strong {
+  color: #c9c7d0;
 }
 
 
@@ -662,7 +727,9 @@ button {
   min-height: 46px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
   padding: 0 4px 10px;
@@ -684,7 +751,9 @@ button {
   padding: 0 13px;
 
   display: flex;
+
   align-items: center;
+
   gap: 7px;
 
   border: 1px solid #292a35;
@@ -711,6 +780,7 @@ button {
   height: 14px;
 
   fill: none;
+
   stroke: currentColor;
 
   stroke-width: 1.8;
@@ -723,6 +793,7 @@ button {
 
 .file-list {
   display: grid;
+
   gap: 8px;
 }
 
@@ -731,7 +802,10 @@ button {
 
   display: grid;
 
-  grid-template-columns: 54px minmax(0, 1fr) auto;
+  grid-template-columns:
+    54px
+    minmax(0, 1fr)
+    auto;
 
   align-items: center;
 
@@ -753,6 +827,7 @@ button {
   overflow: hidden;
 
   display: grid;
+
   place-items: center;
 
   border-radius: 9px;
@@ -795,7 +870,9 @@ button {
 
 .file-meta {
   display: flex;
+
   align-items: center;
+
   gap: 6px;
 
   margin-top: 6px;
@@ -809,7 +886,9 @@ button {
 
 .file-status {
   display: flex;
+
   align-items: center;
+
   gap: 8px;
 
   color: #777986;
@@ -827,13 +906,15 @@ button {
 
   border-radius: 50%;
 
-  animation: spin 0.7s linear infinite;
+  animation: spin .7s linear infinite;
 }
 
 @keyframes spin {
+
   to {
     transform: rotate(360deg);
   }
+
 }
 
 .success {
@@ -841,6 +922,7 @@ button {
   height: 21px;
 
   display: grid;
+
   place-items: center;
 
   border-radius: 50%;
@@ -859,6 +941,7 @@ button {
   height: 21px;
 
   display: grid;
+
   place-items: center;
 
   border-radius: 50%;
@@ -875,6 +958,7 @@ button {
   height: 35px;
 
   display: grid;
+
   place-items: center;
 
   border: 1px solid #292a33;
@@ -897,6 +981,7 @@ button {
   height: 14px;
 
   fill: none;
+
   stroke: currentColor;
 
   stroke-width: 1.8;
@@ -914,7 +999,8 @@ button {
 
   display: grid;
 
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns:
+    repeat(3, 1fr);
 
   gap: 10px;
 }
@@ -934,6 +1020,7 @@ button {
   height: 35px;
 
   display: grid;
+
   place-items: center;
 
   margin-bottom: 17px;
@@ -950,11 +1037,13 @@ button {
   height: 17px;
 
   fill: none;
+
   stroke: currentColor;
 
   stroke-width: 1.7;
 
   stroke-linecap: round;
+
   stroke-linejoin: round;
 }
 
@@ -965,7 +1054,7 @@ button {
 
   font-size: 12px;
 
-  letter-spacing: -0.02em;
+  letter-spacing: -.02em;
 }
 
 .feature p {
@@ -1005,7 +1094,7 @@ button {
 
   line-height: 1.05;
 
-  letter-spacing: -0.06em;
+  letter-spacing: -.06em;
 }
 
 .final-message p {
@@ -1046,7 +1135,7 @@ button {
 
   font-size: 8px;
 
-  letter-spacing: 0.06em;
+  letter-spacing: .06em;
 
   text-transform: uppercase;
 }
@@ -1064,7 +1153,8 @@ button {
   left: 50%;
   bottom: 25px;
 
-  transform: translate(-50%, 100px);
+  transform:
+    translate(-50%, 100px);
 
   opacity: 0;
 
@@ -1081,14 +1171,15 @@ button {
   font-size: 10px;
 
   transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
+    transform .25s ease,
+    opacity .25s ease;
 
   pointer-events: none;
 }
 
 .toast.show {
-  transform: translate(-50%, 0);
+  transform:
+    translate(-50%, 0);
 
   opacity: 1;
 }
@@ -1132,7 +1223,12 @@ button {
   }
 
   .hero h1 {
-    font-size: clamp(45px, 14vw, 68px);
+    font-size:
+      clamp(
+        45px,
+        14vw,
+        68px
+      );
   }
 
   .hero-description {
@@ -1145,15 +1241,12 @@ button {
 
   .drop-zone {
     min-height: 340px;
+
     padding: 20px;
   }
 
-  .options {
-    flex-direction: column;
-    align-items: flex-start;
-
-    padding-top: 15px;
-    padding-bottom: 5px;
+  .quality-message {
+    padding-top: 38px;
   }
 
   .features {
@@ -1171,7 +1264,10 @@ button {
   }
 
   .file-card {
-    grid-template-columns: 46px minmax(0, 1fr) auto;
+    grid-template-columns:
+      46px
+      minmax(0, 1fr)
+      auto;
   }
 
   .file-thumb {
@@ -1185,13 +1281,20 @@ button {
 
 }
 
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
 @media (prefers-reduced-motion: reduce) {
 
   *,
   *::before,
   *::after {
     animation: none !important;
+
     transition: none !important;
+
     scroll-behavior: auto !important;
   }
 
@@ -1201,6 +1304,7 @@ button {
 </head>
 
 <body>
+
 
 <!-- =======================================================
      BACKGROUND
@@ -1235,6 +1339,7 @@ button {
 
   </a>
 
+
   <div class="online">
 
     <span class="online-dot"></span>
@@ -1248,25 +1353,36 @@ button {
 
 <!-- =======================================================
      MAIN
-========================================================= -->
+======================================================== -->
 
 <main class="main">
 
-  <!-- HERO -->
+
+  <!-- =====================================================
+       HERO
+  ====================================================== -->
 
   <section class="hero">
 
     <div class="hero-badge">
+
       <strong>✦</strong>
+
       Private browser conversion
+
     </div>
 
+
     <h1>
+
       HEIC in.<br>
+
       <span class="gradient-text">
         JPG out.
       </span>
+
     </h1>
+
 
     <p class="hero-description">
 
@@ -1279,6 +1395,7 @@ button {
   </section>
 
 
+
   <!-- =====================================================
        CONVERTER
   ====================================================== -->
@@ -1287,52 +1404,71 @@ button {
 
     <div class="converter">
 
+
       <!-- DROP ZONE -->
 
       <div
         class="drop-zone"
         id="dropZone"
-        tabindex="0"
-        role="button"
-        aria-label="Choose HEIC files"
       >
+
 
         <div class="upload-circle">
 
           <div class="upload-square">
 
             <svg viewBox="0 0 24 24">
+
               <path d="M12 16V4"></path>
+
               <path d="m7 9 5-5 5 5"></path>
+
               <path d="M5 20h14"></path>
+
             </svg>
 
           </div>
 
         </div>
 
+
         <h2 class="drop-title">
+
           Drop HEIC files here
+
         </h2>
 
+
         <p class="drop-subtitle">
+
           or <strong>choose files from your device</strong>
+
         </p>
 
+
+        <!-- IMPORTANT:
+             The upload button ONLY opens the file picker.
+        -->
+
         <button
+          type="button"
           class="choose-button"
           id="chooseButton"
-          type="button"
         >
           Choose HEIC files&nbsp; →
         </button>
 
+
         <div class="file-note">
+
           HEIC · HEIF · Multiple files supported
+
         </div>
 
       </div>
 
+
+      <!-- REAL FILE INPUT -->
 
       <input
         id="fileInput"
@@ -1342,65 +1478,22 @@ button {
       >
 
 
-      <!-- OPTIONS -->
+    </div>
 
-      <div class="options">
-
-        <div class="private-note">
-
-          <svg viewBox="0 0 24 24">
-            <path d="M12 3 5 6v5c0 4.6 2.9 8.5 7 10 4.1-1.5 7-5.4 7-10V6l-7-3Z"></path>
-            <path d="m9 12 2 2 4-4"></path>
-          </svg>
-
-          Your photos stay on your device
-
-        </div>
+  </section>
 
 
-        <label class="quality">
 
-          JPG Quality
+  <!-- =====================================================
+       BIG QUALITY MESSAGE
+  ====================================================== -->
 
-          <input
-            id="quality"
-            type="range"
-            min="0.5"
-            max="1"
-            step="0.01"
-            value="0.92"
-          >
+  <section class="quality-message">
 
-          <span
-            class="quality-value"
-            id="qualityValue"
-          >
-            92%
-          </span>
-
-        </label>
-
-      </div>
+    <div class="quality-message-line"></div>
 
 
-      <!-- RESULTS -->
+    <h2>
 
-      <div
-        class="results"
-        id="results"
-      >
-
-        <div class="results-header">
-
-          <div class="results-count" id="resultsCount">
-            <strong>0</strong> files
-          </div>
-
-          <button
-            class="download-all"
-            id="downloadAll"
-            type="button"
-          >
-
-            <svg viewBox="0 0 24 24">
-              <path d="M12 4v11"><
+      Turn your HEIC photos into
+      <span>high-quality 
